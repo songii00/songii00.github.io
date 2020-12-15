@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="OCP : 개방 폐쇄 원칙   소프트웨어 개체는 확장에는 열려 있어야 하고, 변경에는 닫혀 있어야 한다.">
 <meta property="og:type" content="article">
@@ -96,6 +96,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -167,9 +168,9 @@
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OCP-%EA%B0%9C%EB%B0%A9-%ED%8F%90%EC%87%84-%EC%9B%90%EC%B9%99"><span class="nav-number">1.</span> <span class="nav-text">OCP : 개방 폐쇄 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-lng1982-tistory-com-124"><span class="nav-number">1.0.1.</span> <span class="nav-text">더 알아보기 : https:&#x2F;&#x2F;lng1982.tistory.com&#x2F;124 
-</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSP-%EB%A6%AC%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B9%98%ED%99%98-%EC%9B%90%EC%B9%99"><span class="nav-number">2.</span> <span class="nav-text">LSP : 리스코프 치환 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%83%81%EC%86%8D%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8F%84%EB%A1%9D-%EA%B0%80%EC%9D%B4%EB%93%9C-%ED%95%98%EA%B8%B0"><span class="nav-number">2.1.</span> <span class="nav-text">상속을 사용하도록 가이드 하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EC%82%AC%EA%B0%81%ED%98%95-%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95-%EB%AC%B8%EC%A0%9C"><span class="nav-number">2.2.</span> <span class="nav-text">정사각형&#x2F;직사각형 문제</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LSP-%EC%99%80-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">2.3.</span> <span class="nav-text">LSP 와 아키텍처</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ISP-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EB%B6%84%EB%A6%AC-%EC%9B%90%EC%B9%99"><span class="nav-number">3.</span> <span class="nav-text">ISP : 인터페이스 분리 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%98%88%EC%A0%9C%EB%A1%9C-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0"><span class="nav-number">3.1.</span> <span class="nav-text">예제로 살펴보기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ISP-%EB%9E%80"><span class="nav-number">3.2.</span> <span class="nav-text">ISP 란</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">3.2.0.1.</span> <span class="nav-text">출처 
+</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#LSP-%EB%A6%AC%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B9%98%ED%99%98-%EC%9B%90%EC%B9%99"><span class="nav-number">2.</span> <span class="nav-text">LSP : 리스코프 치환 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%83%81%EC%86%8D%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8F%84%EB%A1%9D-%EA%B0%80%EC%9D%B4%EB%93%9C-%ED%95%98%EA%B8%B0"><span class="nav-number">2.1.</span> <span class="nav-text">상속을 사용하도록 가이드 하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EC%82%AC%EA%B0%81%ED%98%95-%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95-%EB%AC%B8%EC%A0%9C"><span class="nav-number">2.2.</span> <span class="nav-text">정사각형&#x2F;직사각형 문제</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LSP-%EC%99%80-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">2.3.</span> <span class="nav-text">LSP 와 아키텍처</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ISP-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EB%B6%84%EB%A6%AC-%EC%9B%90%EC%B9%99"><span class="nav-number">3.</span> <span class="nav-text">ISP : 인터페이스 분리 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%98%88%EC%A0%9C%EB%A1%9C-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0"><span class="nav-number">3.1.</span> <span class="nav-text">예제로 살펴보기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ISP-%EB%9E%80"><span class="nav-number">3.2.</span> <span class="nav-text">ISP 란</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">3.2.0.1.</span> <span class="nav-text">출처 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-gahee0416-tistory-com-8"><span class="nav-number">3.2.0.2.</span> <span class="nav-text">https:&#x2F;&#x2F;gahee0416.tistory.com&#x2F;8 
-</span></a></li></ol></li></ol></li></ol></li></ol></div>
+</span></a></li></ol></li></ol></li></div>
         </section>
         <!--/noindex-->
 
@@ -203,14 +204,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -321,7 +322,7 @@
 
 <p>즉, 기존의 코드를 변경하지 않으면서 기능을 추가할 수 있도록 설계가 되어야 한다는 의미이다. OPC는 시스템의 아키텍처를 떠받치는 원동력 중 하나다.</p>
 <p>OCP 의 목표를 달성하기 위해서는 시스템을 컴포넌트 단위로 분리하고, 저수준 컴포넌트에서 발생한 변경으로부터 고수준 컴포넌트를 보호 할 수 있는 형태의 의존성 계층 구조가 만들어지도록 해야한다.</p>
-<h5 id="더-알아보기-https-lng1982-tistory-com-124"><a href="#더-알아보기-https-lng1982-tistory-com-124" class="headerlink" title="더 알아보기 : https://lng1982.tistory.com/124 "></a>더 알아보기 : <a target="_blank" rel="noopener" href="https://lng1982.tistory.com/124">https://lng1982.tistory.com/124</a> <br/></h5><br>
+<h5 id="더-알아보기-https-lng1982-tistory-com-124"><a href="#더-알아보기-https-lng1982-tistory-com-124" class="headerlink" title="더 알아보기 : https://lng1982.tistory.com/124 "></a>더 알아보기 : <a target="_blank" rel="external nofollow noopener noreferrer" href="https://lng1982.tistory.com/124">https://lng1982.tistory.com/124</a> <br></h5><br>
 
 <h3 id="LSP-리스코프-치환-원칙"><a href="#LSP-리스코프-치환-원칙" class="headerlink" title="LSP : 리스코프 치환 원칙"></a>LSP : 리스코프 치환 원칙</h3><p><img src="/assets/images/post/191012/(14).jpg" alt="factory method pattern"> </p>
 <p>바바라 리스코프는 하위타입을 아래와 같이 정의했다. 이 개념은 리스코프 치환 원칙으로 잘 알려져 있다. </p>
@@ -371,7 +372,7 @@
 </ul>
 <br>
 
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="https-gahee0416-tistory-com-8"><a href="#https-gahee0416-tistory-com-8" class="headerlink" title="https://gahee0416.tistory.com/8 "></a><a target="_blank" rel="noopener" href="https://gahee0416.tistory.com/8">https://gahee0416.tistory.com/8</a> <br/></h6>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><h6 id="https-gahee0416-tistory-com-8"><a href="#https-gahee0416-tistory-com-8" class="headerlink" title="https://gahee0416.tistory.com/8 "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://gahee0416.tistory.com/8">https://gahee0416.tistory.com/8</a> <br></h6>
     </div>
 
     
@@ -391,26 +392,9 @@
       <a href="https://songii00.github.io/2019/10/13/2019-10-12-CleanArchitecture%20Item%208/" title="OCP &amp; LSP &amp;  ISP">https://songii00.github.io/2019/10/13/2019-10-12-CleanArchitecture Item 8/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -484,7 +468,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

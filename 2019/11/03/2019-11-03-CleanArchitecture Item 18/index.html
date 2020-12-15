@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="시스템 아키텍처는 일련의 소프트웨어 컴포넌트와 그 컴포넌트들을 분리하는 경계에 의해 정의된다. 가장 흔한 경계의 예들을 살펴보자.">
 <meta property="og:type" content="article">
@@ -99,6 +99,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -170,9 +171,9 @@
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%9F%B0%ED%83%80%EC%9E%84%EC%97%90-%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8%ED%95%98%EA%B8%B0"><span class="nav-number">1.</span> <span class="nav-text">런타임에 경계 횡단하기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%91%90%EB%A0%A4%EC%9A%B4-%EB%8B%A8%EC%9D%BC%EC%B2%B4"><span class="nav-number">2.</span> <span class="nav-text">두려운 단일체</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8F%99%EC%A0%81-%EB%8B%A4%ED%98%95%EC%84%B1-vs-%EC%A0%95%EC%A0%81-%EB%8B%A4%ED%98%95%EC%84%B1"><span class="nav-number">2.1.</span> <span class="nav-text">동적 다형성 vs 정적 다형성</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%ED%85%9C%ED%94%8C%EB%A6%BF-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-thrillfighter-tistory-com-408"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">템플릿 더 알아보기 : https:&#x2F;&#x2F;thrillfighter.tistory.com&#x2F;408 
-</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8"><span class="nav-number">2.2.</span> <span class="nav-text">경계 횡단</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EB%A6%AC"><span class="nav-number">2.3.</span> <span class="nav-text">정리</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%B0%B0%ED%8F%AC%ED%98%95-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8"><span class="nav-number">3.</span> <span class="nav-text">배포형 컴포넌트</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8F%99%EC%A0%81-%EB%A7%81%ED%81%AC-vs-%EC%A0%95%EC%A0%81-%EB%A7%81%ED%81%AC"><span class="nav-number">3.1.</span> <span class="nav-text">동적 링크 vs 정적 링크</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%A0%95%EC%A0%81-%EB%8F%99%EC%A0%81-%EB%A7%81%ED%81%AC-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-jhnyang-tistory-com-42"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">정적&#x2F; 동적 링크 더 알아보기 :  [https:&#x2F;&#x2F;jhnyang.tistory.com&#x2F;42] 
-</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%8A%A4%EB%A0%88%EB%93%9C"><span class="nav-number">4.</span> <span class="nav-text">스레드</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%A1%9C%EC%BB%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4"><span class="nav-number">5.</span> <span class="nav-text">로컬 프로세스</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%84%EB%A6%AC-%EC%A0%84%EB%9E%B5"><span class="nav-number">5.1.</span> <span class="nav-text">분리 전략</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%86%B5%EC%8B%A0"><span class="nav-number">5.2.</span> <span class="nav-text">통신</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B9%84%EC%8A%A4"><span class="nav-number">6.</span> <span class="nav-text">서비스</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%86%B5%EC%8B%A0-1"><span class="nav-number">6.1.</span> <span class="nav-text">통신</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%84%EB%A6%AC-%EC%A0%84%EB%9E%B5-1"><span class="nav-number">6.2.</span> <span class="nav-text">분리 전략</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">7.</span> <span class="nav-text">결론</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">7.1.</span> <span class="nav-text">출처 
-</span></a></li></ol></li></ol></div>
+</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8"><span class="nav-number">2.2.</span> <span class="nav-text">경계 횡단</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EB%A6%AC"><span class="nav-number">2.3.</span> <span class="nav-text">정리</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%B0%B0%ED%8F%AC%ED%98%95-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8"><span class="nav-number">3.</span> <span class="nav-text">배포형 컴포넌트</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8F%99%EC%A0%81-%EB%A7%81%ED%81%AC-vs-%EC%A0%95%EC%A0%81-%EB%A7%81%ED%81%AC"><span class="nav-number">3.1.</span> <span class="nav-text">동적 링크 vs 정적 링크</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%A0%95%EC%A0%81-%EB%8F%99%EC%A0%81-%EB%A7%81%ED%81%AC-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-jhnyang-tistory-com-42"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">정적&#x2F; 동적 링크 더 알아보기 :  [https:&#x2F;&#x2F;jhnyang.tistory.com&#x2F;42] 
+</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%8A%A4%EB%A0%88%EB%93%9C"><span class="nav-number">4.</span> <span class="nav-text">스레드</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%A1%9C%EC%BB%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4"><span class="nav-number">5.</span> <span class="nav-text">로컬 프로세스</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%84%EB%A6%AC-%EC%A0%84%EB%9E%B5"><span class="nav-number">5.1.</span> <span class="nav-text">분리 전략</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%86%B5%EC%8B%A0"><span class="nav-number">5.2.</span> <span class="nav-text">통신</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B9%84%EC%8A%A4"><span class="nav-number">6.</span> <span class="nav-text">서비스</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%86%B5%EC%8B%A0-1"><span class="nav-number">6.1.</span> <span class="nav-text">통신</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%84%EB%A6%AC-%EC%A0%84%EB%9E%B5-1"><span class="nav-number">6.2.</span> <span class="nav-text">분리 전략</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">7.</span> <span class="nav-text">결론</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">7.1.</span> <span class="nav-text">출처 
+</span></a></li></ol></li></div>
         </section>
         <!--/noindex-->
 
@@ -206,14 +207,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -361,7 +362,7 @@
 <li><p>컴파일 타임에 이루어짐</p>
 </li>
 </ul>
-<h6 id="템플릿-더-알아보기-https-thrillfighter-tistory-com-408"><a href="#템플릿-더-알아보기-https-thrillfighter-tistory-com-408" class="headerlink" title="템플릿 더 알아보기 : https://thrillfighter.tistory.com/408 "></a>템플릿 더 알아보기 : <a target="_blank" rel="noopener" href="https://thrillfighter.tistory.com/408">https://thrillfighter.tistory.com/408</a> <br/></h6><br>
+<h6 id="템플릿-더-알아보기-https-thrillfighter-tistory-com-408"><a href="#템플릿-더-알아보기-https-thrillfighter-tistory-com-408" class="headerlink" title="템플릿 더 알아보기 : https://thrillfighter.tistory.com/408 "></a>템플릿 더 알아보기 : <a target="_blank" rel="external nofollow noopener noreferrer" href="https://thrillfighter.tistory.com/408">https://thrillfighter.tistory.com/408</a> <br></h6><br>
 
 <h4 id="경계-횡단"><a href="#경계-횡단" class="headerlink" title="경계 횡단"></a>경계 횡단</h4><p>가장 단순한 형태의 경계 횡단은 저수준 클라이언트에서 고수준 서비스로 향하는 함수 호출이다. </p>
 <p><img src="/assets/images/post/191103/(1).png" alt="factory method pattern"></p>
@@ -407,7 +408,7 @@
 <p>ex) cout 이 존재하는 라이브러리를 하나만 메모리에 올린 후,  프로그램이 cout 를 호출할 때 라이브러리로 점프 한 후 실행, 다시 되돌아옴. cout 이 60개 존재하는것이 아닌 하나의 shared libraries로 존재.</p>
 </li>
 </ul>
-<h6 id="정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42"><a href="#정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42" class="headerlink" title="정적/ 동적 링크 더 알아보기 :  [https://jhnyang.tistory.com/42] "></a>정적/ 동적 링크 더 알아보기 :  [<a target="_blank" rel="noopener" href="https://jhnyang.tistory.com/42]">https://jhnyang.tistory.com/42]</a> <br/></h6><br>
+<h6 id="정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42"><a href="#정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42" class="headerlink" title="정적/ 동적 링크 더 알아보기 :  [https://jhnyang.tistory.com/42] "></a>정적/ 동적 링크 더 알아보기 :  [<a target="_blank" rel="external nofollow noopener noreferrer" href="https://jhnyang.tistory.com/42]">https://jhnyang.tistory.com/42]</a> <br></h6><br>
 
 <h3 id="스레드"><a href="#스레드" class="headerlink" title="스레드"></a>스레드</h3><p><img src="/assets/images/post/191103/(12).jpg" alt="factory method pattern"></p>
 <p>단일체와 배포형 컴포넌트는 모두 스레드를 활용할 수 있다. 스레드는 아키텍처 경계도 아니며 배포 단위도 아니다. 스레드는 실행 계획과 순서를 체계화하는 방법에 가깝다. 모든 스레드가 단 하나의 컴포넌트에 포함될 수도 있고, 많은 컴포넌트에 분산될 수 있다. </p>
@@ -460,7 +461,7 @@
 </blockquote>
 <br>
 
-<h4 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h4><p><a target="_blank" rel="noopener" href="https://www.ikpil.com/957">https://www.ikpil.com/957</a></p>
+<h4 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h4><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.ikpil.com/957">https://www.ikpil.com/957</a></p>
 
     </div>
 
@@ -481,26 +482,9 @@
       <a href="https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/" title="경계 해부학">https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture Item 18/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -574,7 +558,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

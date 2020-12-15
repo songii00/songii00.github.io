@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="컴포넌트 결합컴포넌트 결합은 컴포넌트 사이의 관계를 설명 한다.   ADP : 의존성 비순환 원칙 컴포넌트 의존성 그래프에 순환(cycle)이 있어서는 안된다.    숙취 증후군(the morning after syndrome)  많은 개발자가 동일한 소스파일을 수정하는 환경에서 발생한다. 소스 코드가 의존하고 있던 무엇인가가 수정되는게 주된 이유이다.">
 <meta property="og:type" content="article">
@@ -102,6 +102,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -172,8 +173,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EA%B2%B0%ED%95%A9"><span class="nav-number">1.</span> <span class="nav-text">컴포넌트 결합</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADP-%EC%9D%98%EC%A1%B4%EC%84%B1-%EB%B9%84%EC%88%9C%ED%99%98-%EC%9B%90%EC%B9%99"><span class="nav-number">2.</span> <span class="nav-text">ADP : 의존성 비순환 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%88%99%EC%B7%A8-%EC%A6%9D%ED%9B%84%EA%B5%B0-the-morning-after-syndrome"><span class="nav-number">2.1.</span> <span class="nav-text">숙취 증후군(the morning after syndrome)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%95%B4%EA%B2%B0%EC%B1%85"><span class="nav-number">2.2.</span> <span class="nav-text">해결책</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EB%B9%84%EC%88%9C%ED%99%98-%EB%B0%A9%ED%96%A5-%EA%B7%B8%EB%9E%98%ED%94%84"><span class="nav-number">2.2.0.1.</span> <span class="nav-text"> 비순환 방향 그래프 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%88%9C%ED%99%98-%EB%B0%A9%ED%96%A5-%EA%B7%B8%EB%9E%98%ED%94%84"><span class="nav-number">2.2.0.2.</span> <span class="nav-text"> 순환 방향 그래프 </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%88%9C%ED%99%98-%EB%81%8A%EA%B8%B0"><span class="nav-number">2.3.</span> <span class="nav-text">순환 끊기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%95%98%ED%96%A5%EC%8B%9D-%EC%84%A4%EA%B3%84-top-down"><span class="nav-number">2.4.</span> <span class="nav-text">하향식 설계(top -down)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDP-%EC%95%88%EC%A0%95%EB%90%9C-%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%9B%90%EC%B9%99"><span class="nav-number">3.</span> <span class="nav-text">SDP : 안정된 의존성 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%95%88%EC%A0%95%EC%84%B1"><span class="nav-number">3.1.</span> <span class="nav-text">안정성</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%95%88%EC%A0%95%EC%84%B1-%EC%A7%80%ED%91%9C"><span class="nav-number">3.2.</span> <span class="nav-text">안정성 지표</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AA%A8%EB%93%A0-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EA%B0%80-%EC%95%88%EC%A0%95%EC%A0%81%EC%9D%B4%EC%96%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%80-%EC%95%84%EB%8B%88%EB%8B%A4"><span class="nav-number">3.3.</span> <span class="nav-text">모든 컴포넌트가 안정적이어야 하는 것은 아니다.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%ED%95%B4%EA%B2%B0%EC%B1%85-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">해결책</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%94%EC%83%81-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8"><span class="nav-number">3.4.</span> <span class="nav-text">추상 컴포넌트</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SAP-%EC%95%88%EC%A0%95%EB%90%9C-%EC%B6%94%EC%83%81%ED%99%94-%EC%9B%90%EC%B9%99"><span class="nav-number">4.</span> <span class="nav-text">SAP : 안정된 추상화 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B3%A0%EC%88%98%EC%A4%80-%EC%A0%95%EC%B1%85%EC%9D%84-%EC%96%B4%EB%94%94%EC%97%90-%EC%9C%84%EC%B9%98%EC%8B%9C%EC%BC%9C%EC%95%BC-%ED%95%98%EB%8A%94%EA%B0%80"><span class="nav-number">4.1.</span> <span class="nav-text">고수준 정책을 어디에 위치시켜야 하는가?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%94%EC%83%81%ED%99%94-%EC%A0%95%EB%8F%84-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0"><span class="nav-number">4.2.</span> <span class="nav-text">추상화 정도 측정하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A3%BC%EA%B3%84%EC%97%B4%EA%B3%BC%EC%9D%98-%EA%B1%B0%EB%A6%AC"><span class="nav-number">4.3.</span> <span class="nav-text">주계열과의 거리</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">5.</span> <span class="nav-text">결론</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">5.1.</span> <span class="nav-text">출처 
-</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EA%B2%B0%ED%95%A9"><span class="nav-number">1.</span> <span class="nav-text">컴포넌트 결합</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADP-%EC%9D%98%EC%A1%B4%EC%84%B1-%EB%B9%84%EC%88%9C%ED%99%98-%EC%9B%90%EC%B9%99"><span class="nav-number">2.</span> <span class="nav-text">ADP : 의존성 비순환 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%88%99%EC%B7%A8-%EC%A6%9D%ED%9B%84%EA%B5%B0-the-morning-after-syndrome"><span class="nav-number">2.1.</span> <span class="nav-text">숙취 증후군(the morning after syndrome)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%95%B4%EA%B2%B0%EC%B1%85"><span class="nav-number">2.2.</span> <span class="nav-text">해결책</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EB%B9%84%EC%88%9C%ED%99%98-%EB%B0%A9%ED%96%A5-%EA%B7%B8%EB%9E%98%ED%94%84"><span class="nav-number">2.2.0.1.</span> <span class="nav-text"> 비순환 방향 그래프 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%88%9C%ED%99%98-%EB%B0%A9%ED%96%A5-%EA%B7%B8%EB%9E%98%ED%94%84"><span class="nav-number">2.2.0.2.</span> <span class="nav-text"> 순환 방향 그래프 </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%88%9C%ED%99%98-%EB%81%8A%EA%B8%B0"><span class="nav-number">2.3.</span> <span class="nav-text">순환 끊기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%95%98%ED%96%A5%EC%8B%9D-%EC%84%A4%EA%B3%84-top-down"><span class="nav-number">2.4.</span> <span class="nav-text">하향식 설계(top -down)</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#SDP-%EC%95%88%EC%A0%95%EB%90%9C-%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%9B%90%EC%B9%99"><span class="nav-number">3.</span> <span class="nav-text">SDP : 안정된 의존성 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%95%88%EC%A0%95%EC%84%B1"><span class="nav-number">3.1.</span> <span class="nav-text">안정성</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%95%88%EC%A0%95%EC%84%B1-%EC%A7%80%ED%91%9C"><span class="nav-number">3.2.</span> <span class="nav-text">안정성 지표</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AA%A8%EB%93%A0-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EA%B0%80-%EC%95%88%EC%A0%95%EC%A0%81%EC%9D%B4%EC%96%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%80-%EC%95%84%EB%8B%88%EB%8B%A4"><span class="nav-number">3.3.</span> <span class="nav-text">모든 컴포넌트가 안정적이어야 하는 것은 아니다.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%ED%95%B4%EA%B2%B0%EC%B1%85-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">해결책</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%94%EC%83%81-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8"><span class="nav-number">3.4.</span> <span class="nav-text">추상 컴포넌트</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SAP-%EC%95%88%EC%A0%95%EB%90%9C-%EC%B6%94%EC%83%81%ED%99%94-%EC%9B%90%EC%B9%99"><span class="nav-number">4.</span> <span class="nav-text">SAP : 안정된 추상화 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B3%A0%EC%88%98%EC%A4%80-%EC%A0%95%EC%B1%85%EC%9D%84-%EC%96%B4%EB%94%94%EC%97%90-%EC%9C%84%EC%B9%98%EC%8B%9C%EC%BC%9C%EC%95%BC-%ED%95%98%EB%8A%94%EA%B0%80"><span class="nav-number">4.1.</span> <span class="nav-text">고수준 정책을 어디에 위치시켜야 하는가?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%94%EC%83%81%ED%99%94-%EC%A0%95%EB%8F%84-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0"><span class="nav-number">4.2.</span> <span class="nav-text">추상화 정도 측정하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A3%BC%EA%B3%84%EC%97%B4%EA%B3%BC%EC%9D%98-%EA%B1%B0%EB%A6%AC"><span class="nav-number">4.3.</span> <span class="nav-text">주계열과의 거리</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">5.</span> <span class="nav-text">결론</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">5.1.</span> <span class="nav-text">출처 
+</span></a></li></ol></li></div>
         </section>
         <!--/noindex-->
 
@@ -207,14 +208,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -463,7 +464,7 @@
 
 
 <h4 id="모든-컴포넌트가-안정적이어야-하는-것은-아니다"><a href="#모든-컴포넌트가-안정적이어야-하는-것은-아니다" class="headerlink" title="모든 컴포넌트가 안정적이어야 하는 것은 아니다."></a>모든 컴포넌트가 안정적이어야 하는 것은 아니다.</h4><p>모든 컴포넌트가 최고로 안정적인 시스템이라면 변경이 불가능하다.</p>
-<p>절대 바람직한 상황이 아니다.<br><Br></p>
+<p>절대 바람직한 상황이 아니다.<br><br></p>
 <p><img src="/assets/images/post/191020/(17).png" alt="factory method pattern"></p>
 <p>위 다이어그램은 세 컴포넌트로 구성된 시스템이 가질 수 있는 이상적인 구조다.</p>
 <br>
@@ -565,8 +566,8 @@
 <br>
 
 
-<h4 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h4><p><a target="_blank" rel="noopener" href="https://adriancitu.com/tag/the-common-closure-principle/">https://adriancitu.com/tag/the-common-closure-principle/</a></p>
-<p><a target="_blank" rel="noopener" href="https://slideplayer.com/slide/5231111/">https://slideplayer.com/slide/5231111/</a></p>
+<h4 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h4><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://adriancitu.com/tag/the-common-closure-principle/">https://adriancitu.com/tag/the-common-closure-principle/</a></p>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://slideplayer.com/slide/5231111/">https://slideplayer.com/slide/5231111/</a></p>
 
     </div>
 
@@ -587,26 +588,9 @@
       <a href="https://songii00.github.io/2019/10/20/2019-10-20-CleanArchitecture%20Item%2014/" title="컴포넌트 결합">https://songii00.github.io/2019/10/20/2019-10-20-CleanArchitecture Item 14/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -680,7 +664,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

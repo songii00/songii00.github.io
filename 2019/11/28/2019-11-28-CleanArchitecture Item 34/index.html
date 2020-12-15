@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="“CleanArchitecture 34장” 사례 설정 온라인 서점 고객이 주문 상태를 조회할 수 있는 유스케이스 구현">
 <meta property="og:type" content="article">
@@ -102,6 +102,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -174,8 +175,8 @@
         <section class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9CCleanArchitecture-34%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“CleanArchitecture 34장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%82%AC%EB%A1%80-%EC%84%A4%EC%A0%95"><span class="nav-number">2.</span> <span class="nav-text">사례 설정</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B3%84%EC%B8%B5-%EA%B8%B0%EB%B0%98-%ED%8C%A8%ED%82%A4%EC%A7%80"><span class="nav-number">3.</span> <span class="nav-text">계층 기반 패키지</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%88%98%ED%8F%89-%EA%B3%84%EC%B8%B5%ED%98%95-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">3.1.</span> <span class="nav-text">수평 계층형 아키텍처</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B8%B0%EB%8A%A5-%EA%B8%B0%EB%B0%98-%ED%8C%A8%ED%82%A4%EC%A7%80"><span class="nav-number">4.</span> <span class="nav-text">기능 기반 패키지</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#aggregate-root"><span class="nav-number">4.1.</span> <span class="nav-text">aggregate root</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#aggregate-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-gt-https-medium-com-SlackBeck-EC-95-A0-EA-B7-B8-EB-A6-AC-EA-B2-8C-EC-9E-87-ED-95-98-EB%E2%80%A6"><span class="nav-number">4.1.1.</span> <span class="nav-text">aggregate 더 알아보기 &gt; https:&#x2F;&#x2F;medium.com&#x2F;@SlackBeck&#x2F;%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB… 
 </span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%96%B4%EB%8C%91%ED%84%B0"><span class="nav-number">5.</span> <span class="nav-text">포트와 어댑터</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%96%B4%EB%8C%91%ED%84%B0-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-gt-http-getoutsidedoor-com-2018-09-03-ports-adapters-architecture"><span class="nav-number">5.0.1.</span> <span class="nav-text">포트와 어댑터 더 알아보기 &gt; http:&#x2F;&#x2F;getoutsidedoor.com&#x2F;2018&#x2F;09&#x2F;03&#x2F;ports-adapters-architecture&#x2F; 
-</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EA%B8%B0%EB%B0%98-%ED%8C%A8%ED%82%A4%EC%A7%80"><span class="nav-number">6.</span> <span class="nav-text">컴포넌트 기반 패키지</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%99%84%ED%99%94%EB%90%9C-%EA%B3%84%EC%B8%B5%ED%98%95-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">6.1.</span> <span class="nav-text">완화된 계층형 아키텍처</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CQRS-%ED%8C%A8%ED%84%B4-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-gt-https-www-popit-kr-cqrs-eventsourcing"><span class="nav-number">6.1.1.</span> <span class="nav-text">CQRS 패턴 더 알아보기 &gt; https:&#x2F;&#x2F;www.popit.kr&#x2F;cqrs-eventsourcing&#x2F; 
-</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%98%88%EB%B0%A9%EC%B1%85"><span class="nav-number">6.2.</span> <span class="nav-text">예방책</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C4-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EB%AA%A8%EB%8D%B8"><span class="nav-number">6.3.</span> <span class="nav-text">C4 소프트웨어 아키텍처 모델</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B5%AC%ED%98%84-%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD%EC%97%94-%ED%95%AD%EC%83%81-%EB%AC%B8%EC%A0%9C%EA%B0%80-%EC%9E%88%EB%8B%A4"><span class="nav-number">7.</span> <span class="nav-text">구현 세부사항엔 항상 문제가 있다.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#public-%EC%A0%91%EA%B7%BC-%EC%A7%80%EC%8B%9C%EC%9E%90"><span class="nav-number">7.1.</span> <span class="nav-text">public 접근 지시자</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%A1%B0%EC%A7%81%ED%99%94-vs-%EC%BA%A1%EC%8A%90%ED%99%94"><span class="nav-number">8.</span> <span class="nav-text">조직화 vs 캡슐화</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8B%A4%EB%A5%B8-%EA%B2%B0%ED%95%A9-%EB%B6%84%EB%A6%AC-%EB%AA%A8%EB%93%9C"><span class="nav-number">9.</span> <span class="nav-text">다른 결합 분리 모드</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">10.</span> <span class="nav-text">결론</span></a></li></ol></div>
+</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EA%B8%B0%EB%B0%98-%ED%8C%A8%ED%82%A4%EC%A7%80"><span class="nav-number">6.</span> <span class="nav-text">컴포넌트 기반 패키지</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%99%84%ED%99%94%EB%90%9C-%EA%B3%84%EC%B8%B5%ED%98%95-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">6.1.</span> <span class="nav-text">완화된 계층형 아키텍처</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CQRS-%ED%8C%A8%ED%84%B4-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-gt-https-www-popit-kr-cqrs-eventsourcing"><span class="nav-number">6.1.1.</span> <span class="nav-text">CQRS 패턴 더 알아보기 &gt; https:&#x2F;&#x2F;www.popit.kr&#x2F;cqrs-eventsourcing&#x2F; 
+</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%98%88%EB%B0%A9%EC%B1%85"><span class="nav-number">6.2.</span> <span class="nav-text">예방책</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C4-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EB%AA%A8%EB%8D%B8"><span class="nav-number">6.3.</span> <span class="nav-text">C4 소프트웨어 아키텍처 모델</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B5%AC%ED%98%84-%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD%EC%97%94-%ED%95%AD%EC%83%81-%EB%AC%B8%EC%A0%9C%EA%B0%80-%EC%9E%88%EB%8B%A4"><span class="nav-number">7.</span> <span class="nav-text">구현 세부사항엔 항상 문제가 있다.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#public-%EC%A0%91%EA%B7%BC-%EC%A7%80%EC%8B%9C%EC%9E%90"><span class="nav-number">7.1.</span> <span class="nav-text">public 접근 지시자</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%A1%B0%EC%A7%81%ED%99%94-vs-%EC%BA%A1%EC%8A%90%ED%99%94"><span class="nav-number">8.</span> <span class="nav-text">조직화 vs 캡슐화</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8B%A4%EB%A5%B8-%EA%B2%B0%ED%95%A9-%EB%B6%84%EB%A6%AC-%EB%AA%A8%EB%93%9C"><span class="nav-number">9.</span> <span class="nav-text">다른 결합 분리 모드</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">10.</span> <span class="nav-text">결론</span></a></li></div>
         </section>
         <!--/noindex-->
 
@@ -209,14 +210,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -365,13 +366,13 @@
 <li>외부에서 객체를 접근 시 반드시 Aggregate root를 통해야함</li>
 </ul>
 <p><img src="/assets/images/post/191125/(9).png"></p>
-<h5 id="aggregate-더-알아보기-gt-https-medium-com-SlackBeck-EC-95-A0-EA-B7-B8-EB-A6-AC-EA-B2-8C-EC-9E-87-ED-95-98-EB…"><a href="#aggregate-더-알아보기-gt-https-medium-com-SlackBeck-EC-95-A0-EA-B7-B8-EB-A6-AC-EA-B2-8C-EC-9E-87-ED-95-98-EB…" class="headerlink" title="aggregate 더 알아보기 &gt; https://medium.com/@SlackBeck/%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB… "></a>aggregate 더 알아보기 &gt; <a target="_blank" rel="noopener" href="https://medium.com/@SlackBeck/%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB%82%98%EC%97%90-%EB%A6%AC%ED%8C%8C%EC%A7%80%ED%86%A0%EB%A6%AC-%ED%95%98%EB%82%98-f97a69662f63">https://medium.com/@SlackBeck/%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB…</a> <br/></h5><br>
+<h5 id="aggregate-더-알아보기-gt-https-medium-com-SlackBeck-EC-95-A0-EA-B7-B8-EB-A6-AC-EA-B2-8C-EC-9E-87-ED-95-98-EB…"><a href="#aggregate-더-알아보기-gt-https-medium-com-SlackBeck-EC-95-A0-EA-B7-B8-EB-A6-AC-EA-B2-8C-EC-9E-87-ED-95-98-EB…" class="headerlink" title="aggregate 더 알아보기 &gt; https://medium.com/@SlackBeck/%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB… "></a>aggregate 더 알아보기 &gt; <a target="_blank" rel="external nofollow noopener noreferrer" href="https://medium.com/@SlackBeck/%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB%82%98%EC%97%90-%EB%A6%AC%ED%8C%8C%EC%A7%80%ED%86%A0%EB%A6%AC-%ED%95%98%EB%82%98-f97a69662f63">https://medium.com/@SlackBeck/%EC%95%A0%EA%B7%B8%EB%A6%AC%EA%B2%8C%EC%9E%87-%ED%95%98%EB…</a> <br></h5><br>
 
 <h3 id="포트와-어댑터"><a href="#포트와-어댑터" class="headerlink" title="포트와 어댑터"></a>포트와 어댑터</h3><p><img src="/assets/images/post/191125/(10).png"></p>
 <br>
 
 <p>포트와 어댑터, 육각형 아키택처 등의 방식으로 접근하는 이유 -&gt; 업무 / 도메인에 초점을 둔 코드가 프레임워크나 데이터베이스 같은 기술적 세부 구현과 독립적이며 분리된 아키텍처를 만들기 위함</p>
-<h5 id="포트와-어댑터-더-알아보기-gt-http-getoutsidedoor-com-2018-09-03-ports-adapters-architecture"><a href="#포트와-어댑터-더-알아보기-gt-http-getoutsidedoor-com-2018-09-03-ports-adapters-architecture" class="headerlink" title="포트와 어댑터 더 알아보기 &gt; http://getoutsidedoor.com/2018/09/03/ports-adapters-architecture/ "></a>포트와 어댑터 더 알아보기 &gt; <a target="_blank" rel="noopener" href="http://getoutsidedoor.com/2018/09/03/ports-adapters-architecture/">http://getoutsidedoor.com/2018/09/03/ports-adapters-architecture/</a> <br/></h5><p>요약하자면, 코드는 내부(도메인)와 외부(인프라)로 구성된다.</p>
+<h5 id="포트와-어댑터-더-알아보기-gt-http-getoutsidedoor-com-2018-09-03-ports-adapters-architecture"><a href="#포트와-어댑터-더-알아보기-gt-http-getoutsidedoor-com-2018-09-03-ports-adapters-architecture" class="headerlink" title="포트와 어댑터 더 알아보기 &gt; http://getoutsidedoor.com/2018/09/03/ports-adapters-architecture/ "></a>포트와 어댑터 더 알아보기 &gt; <a target="_blank" rel="external nofollow noopener noreferrer" href="http://getoutsidedoor.com/2018/09/03/ports-adapters-architecture/">http://getoutsidedoor.com/2018/09/03/ports-adapters-architecture/</a> <br></h5><p>요약하자면, 코드는 내부(도메인)와 외부(인프라)로 구성된다.</p>
 <p><img src="/assets/images/post/191125/(11).png"></p>
 <br>
 
@@ -409,7 +410,7 @@
 <p>커맨드 ( <strong>C</strong>reate - Insert, <strong>U</strong>pdate, <strong>D</strong>elete : 데이터를 변경) 와 쿼리 ( Select - <strong>R</strong>ead : 데이터를 조회)의 책임을 분리</p>
 </li>
 </ul>
-<h5 id="CQRS-패턴-더-알아보기-gt-https-www-popit-kr-cqrs-eventsourcing"><a href="#CQRS-패턴-더-알아보기-gt-https-www-popit-kr-cqrs-eventsourcing" class="headerlink" title="CQRS 패턴 더 알아보기 &gt; https://www.popit.kr/cqrs-eventsourcing/ "></a>CQRS 패턴 더 알아보기 &gt; <a target="_blank" rel="noopener" href="https://www.popit.kr/cqrs-eventsourcing/">https://www.popit.kr/cqrs-eventsourcing/</a> <br/></h5><br>
+<h5 id="CQRS-패턴-더-알아보기-gt-https-www-popit-kr-cqrs-eventsourcing"><a href="#CQRS-패턴-더-알아보기-gt-https-www-popit-kr-cqrs-eventsourcing" class="headerlink" title="CQRS 패턴 더 알아보기 &gt; https://www.popit.kr/cqrs-eventsourcing/ "></a>CQRS 패턴 더 알아보기 &gt; <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.popit.kr/cqrs-eventsourcing/">https://www.popit.kr/cqrs-eventsourcing/</a> <br></h5><br>
 
 <h4 id="예방책"><a href="#예방책" class="headerlink" title="예방책"></a>예방책</h4><ul>
 <li>아키택처 원칙이 필요</li>
@@ -515,26 +516,9 @@
       <a href="https://songii00.github.io/2019/11/28/2019-11-28-CleanArchitecture%20Item%2034/" title="빠져 있는 장">https://songii00.github.io/2019/11/28/2019-11-28-CleanArchitecture Item 34/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -608,7 +592,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

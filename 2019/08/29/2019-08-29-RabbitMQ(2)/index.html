@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="RabbitMQ, 이럴때 사용하자래거시 배송지연 처리 기능배송지연 처리 기능을 하는 시스템이 있다고 가정해보자.   배송 처리 과정은 위의 플로우대로 진행된다.  판매자가 배송 지연 요청을 했을 경우 실시간이 아닌 배송 지연 안내 배치를 수행하여 배송지연 메시지가 발송되게 된다. 여기서 기존 시스템의 대표적인 문제는 배송 지연 처리에서 복잡한 비지니스 로직">
 <meta property="og:type" content="article">
@@ -96,6 +96,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -170,7 +171,7 @@
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-m-blog-naver-com-tmondev-220419853534"><span class="nav-number">1.6.0.2.</span> <span class="nav-text">https:&#x2F;&#x2F;m.blog.naver.com&#x2F;tmondev&#x2F;220419853534 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-blog-leocat-kr-notes-2018-07-31-rabbitmq-delayed-queue"><span class="nav-number">1.6.0.3.</span> <span class="nav-text">https:&#x2F;&#x2F;blog.leocat.kr&#x2F;notes&#x2F;2018&#x2F;07&#x2F;31&#x2F;rabbitmq-delayed-queue 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-blog-leocat-kr-notes-2018-06-20-rabbitmq-dead-lettering-with-reject-or-nack"><span class="nav-number">1.6.0.4.</span> <span class="nav-text">https:&#x2F;&#x2F;blog.leocat.kr&#x2F;notes&#x2F;2018&#x2F;06&#x2F;20&#x2F;rabbitmq-dead-lettering-with-reject-or-nack 
-</span></a></li></ol></li></ol></li></ol></li></ol></div>
+</span></a></li></ol></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -204,14 +205,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -367,7 +368,7 @@
 
 <br>
 
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="https-m-blog-naver-com-tmondev-220419853534"><a href="#https-m-blog-naver-com-tmondev-220419853534" class="headerlink" title="https://m.blog.naver.com/tmondev/220419853534 "></a><a target="_blank" rel="noopener" href="https://m.blog.naver.com/tmondev/220419853534">https://m.blog.naver.com/tmondev/220419853534</a> <br/></h6><h6 id="https-blog-leocat-kr-notes-2018-07-31-rabbitmq-delayed-queue"><a href="#https-blog-leocat-kr-notes-2018-07-31-rabbitmq-delayed-queue" class="headerlink" title="https://blog.leocat.kr/notes/2018/07/31/rabbitmq-delayed-queue "></a><a target="_blank" rel="noopener" href="https://blog.leocat.kr/notes/2018/07/31/rabbitmq-delayed-queue">https://blog.leocat.kr/notes/2018/07/31/rabbitmq-delayed-queue</a> <br/></h6><h6 id="https-blog-leocat-kr-notes-2018-06-20-rabbitmq-dead-lettering-with-reject-or-nack"><a href="#https-blog-leocat-kr-notes-2018-06-20-rabbitmq-dead-lettering-with-reject-or-nack" class="headerlink" title="https://blog.leocat.kr/notes/2018/06/20/rabbitmq-dead-lettering-with-reject-or-nack "></a><a target="_blank" rel="noopener" href="https://blog.leocat.kr/notes/2018/06/20/rabbitmq-dead-lettering-with-reject-or-nack">https://blog.leocat.kr/notes/2018/06/20/rabbitmq-dead-lettering-with-reject-or-nack</a> <br/></h6>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><h6 id="https-m-blog-naver-com-tmondev-220419853534"><a href="#https-m-blog-naver-com-tmondev-220419853534" class="headerlink" title="https://m.blog.naver.com/tmondev/220419853534 "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://m.blog.naver.com/tmondev/220419853534">https://m.blog.naver.com/tmondev/220419853534</a> <br></h6><h6 id="https-blog-leocat-kr-notes-2018-07-31-rabbitmq-delayed-queue"><a href="#https-blog-leocat-kr-notes-2018-07-31-rabbitmq-delayed-queue" class="headerlink" title="https://blog.leocat.kr/notes/2018/07/31/rabbitmq-delayed-queue "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.leocat.kr/notes/2018/07/31/rabbitmq-delayed-queue">https://blog.leocat.kr/notes/2018/07/31/rabbitmq-delayed-queue</a> <br></h6><h6 id="https-blog-leocat-kr-notes-2018-06-20-rabbitmq-dead-lettering-with-reject-or-nack"><a href="#https-blog-leocat-kr-notes-2018-06-20-rabbitmq-dead-lettering-with-reject-or-nack" class="headerlink" title="https://blog.leocat.kr/notes/2018/06/20/rabbitmq-dead-lettering-with-reject-or-nack "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.leocat.kr/notes/2018/06/20/rabbitmq-dead-lettering-with-reject-or-nack">https://blog.leocat.kr/notes/2018/06/20/rabbitmq-dead-lettering-with-reject-or-nack</a> <br></h6>
     </div>
 
     
@@ -387,26 +388,9 @@
       <a href="https://songii00.github.io/2019/08/29/2019-08-29-RabbitMQ(2)/" title="RabbitMQ (2)">https://songii00.github.io/2019/08/29/2019-08-29-RabbitMQ(2)/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -417,8 +401,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/08/29/2019-10-12-CleanArchitecture%20Item%204/" rel="prev" title="구조적 프로그래밍">
-                  <i class="fa fa-chevron-left"></i> 구조적 프로그래밍
+                <a href="/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/" rel="prev" title="객체 지향 프로그래밍">
+                  <i class="fa fa-chevron-left"></i> 객체 지향 프로그래밍
                 </a>
             </div>
             <div class="post-nav-item">
@@ -480,7 +464,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

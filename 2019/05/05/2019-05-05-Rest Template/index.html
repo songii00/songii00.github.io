@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="RestTemplate이란 spring 3.0 부터 지원한다.  Spring에서 제공하고 있는 JdbcTemplate이나, JmsTemplate과 같은 맥락의 Template http 통신에 유용하게 쓸 수 있는 템플릿 RESTful Service 호출과 관련된 여러 메소드를 제공하여 REST 클라이언트를 쉽게 개발할 수 있도록 도와준다.    동작 순서">
 <meta property="og:type" content="article">
@@ -92,6 +92,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -164,7 +165,7 @@
         <section class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RestTemplate%EC%9D%B4%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">RestTemplate이란</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8F%99%EC%9E%91-%EC%88%9C%EC%84%9C"><span class="nav-number">1.1.</span> <span class="nav-text">동작 순서</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9E%A5%EC%A0%90"><span class="nav-number">1.1.1.</span> <span class="nav-text">장점</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HttpClient"><span class="nav-number">1.2.</span> <span class="nav-text">HttpClient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%98%88%EC%A0%9C"><span class="nav-number">1.3.</span> <span class="nav-text">예제</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">1.3.0.0.1.</span> <span class="nav-text">출처 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-sjh836-tistory-com-141"><span class="nav-number">1.3.0.0.2.</span> <span class="nav-text">https:&#x2F;&#x2F;sjh836.tistory.com&#x2F;141 
-</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-cakas-tistory-com-9"><span class="nav-number">1.3.0.0.3.</span> <span class="nav-text">https:&#x2F;&#x2F;cakas.tistory.com&#x2F;9</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-cakas-tistory-com-9"><span class="nav-number">1.3.0.0.3.</span> <span class="nav-text">https:&#x2F;&#x2F;cakas.tistory.com&#x2F;9</span></a></li></ol></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -198,14 +199,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -385,7 +386,7 @@
 <p>따라서 내부 통신(HTTP 커넥션)에 있어서는 Apache HttpComponents 를 사용한다. </p>
 <h3 id="예제"><a href="#예제" class="headerlink" title="예제"></a>예제</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ApiClient</span><span class="params">()</span> </span>&#123;     </span><br><span class="line">        &lt;I, O &gt; <span class="function">ResultWrapper <span class="title">callApi</span><span class="params">(I input, String uri, ParameterizedTypeReference &lt; ResultWrapper &lt; O &gt;&gt; outputType)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    HttpEntity&lt;I&gt; request = <span class="keyword">new</span> HttpEntity&lt;I&gt;(input, jsonHeaders);         </span><br><span class="line">                    ResponseEntity&lt;ResultWrapper&lt;O&gt;&gt; response = restTemplate.exchange(membershipUrl + uri, method, request, outputType);</span><br><span class="line">                    <span class="keyword">if</span> (HttpStatus.OK == response.getStatusCode()) &#123;</span><br><span class="line">                        <span class="keyword">return</span> ResultWrapper.success();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Exception(uri, e.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Exception(uri, FAIL_MESSAGE);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
 
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="https-sjh836-tistory-com-141"><a href="#https-sjh836-tistory-com-141" class="headerlink" title="https://sjh836.tistory.com/141 "></a><a target="_blank" rel="noopener" href="https://sjh836.tistory.com/141">https://sjh836.tistory.com/141</a> <br/></h6><h6 id="https-cakas-tistory-com-9"><a href="#https-cakas-tistory-com-9" class="headerlink" title="https://cakas.tistory.com/9"></a><a target="_blank" rel="noopener" href="https://cakas.tistory.com/9">https://cakas.tistory.com/9</a></h6><br>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><h6 id="https-sjh836-tistory-com-141"><a href="#https-sjh836-tistory-com-141" class="headerlink" title="https://sjh836.tistory.com/141 "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sjh836.tistory.com/141">https://sjh836.tistory.com/141</a> <br></h6><h6 id="https-cakas-tistory-com-9"><a href="#https-cakas-tistory-com-9" class="headerlink" title="https://cakas.tistory.com/9"></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://cakas.tistory.com/9">https://cakas.tistory.com/9</a></h6><br>
 
 
     </div>
@@ -407,26 +408,9 @@
       <a href="https://songii00.github.io/2019/05/05/2019-05-05-Rest%20Template/" title="RestTemplate">https://songii00.github.io/2019/05/05/2019-05-05-Rest Template/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -501,7 +485,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

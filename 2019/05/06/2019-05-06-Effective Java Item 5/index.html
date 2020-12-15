@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="사용하는 자원에 따라 동작이 달라지는 클래스많은 클래스가 하나 이상의 자원에 의존한다. 한 예로 맞춤법 검사기(SpellChecker)는 dictionary에 의존한다. 다음 두 예는 의존 객체에 대해 잘못 구현한 예이다.  12345678910public class SpellChecker &amp;#123;        private static final Le">
 <meta property="og:type" content="article">
@@ -92,6 +92,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -162,7 +163,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9E%90%EC%9B%90%EC%97%90-%EB%94%B0%EB%9D%BC-%EB%8F%99%EC%9E%91%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A7%80%EB%8A%94-%ED%81%B4%EB%9E%98%EC%8A%A4"><span class="nav-number">1.</span> <span class="nav-text">사용하는 자원에 따라 동작이 달라지는 클래스</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-1-%EC%A0%95%EC%A0%81-%EC%9C%A0%ED%8B%B8%EB%A6%AC%ED%8B%B0%EB%A5%BC-%EC%9E%98%EB%AA%BB-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%98%88-%EC%9C%A0%EC%97%B0%ED%95%98%EC%A7%80-%EC%95%8A%EA%B3%A0-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%98%EA%B8%B0-%EC%96%B4%EB%A0%B5%EB%8B%A4"><span class="nav-number">1.0.1.</span> <span class="nav-text"> 코드 5-1 정적 유틸리티를 잘못 사용한 예 - 유연하지 않고 테스트하기 어렵다. </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-2-%EC%8B%B1%EA%B8%80%ED%84%B4%EC%9D%84-%EC%9E%98%EB%AA%BB-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%98%88-%EC%9C%A0%EC%97%B0%ED%95%98%EC%A7%80-%EC%95%8A%EA%B3%A0-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%98%EA%B8%B0-%EC%96%B4%EB%A0%B5%EB%8B%A4"><span class="nav-number">1.0.2.</span> <span class="nav-text"> 코드 5-2 싱글턴을 잘못 사용한 예 - 유연하지 않고 테스트하기 어렵다. </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%98%EC%A1%B4-%EA%B0%9D%EC%B2%B4-%EC%A3%BC%EC%9E%85-%ED%8C%A8%ED%84%B4"><span class="nav-number">2.</span> <span class="nav-text">의존 객체 주입 패턴</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-3-%EC%9D%98%EC%A1%B4-%EA%B0%9D%EC%B2%B4-%EC%A3%BC%EC%9E%85%EC%9D%80-%EC%9C%A0%EC%97%B0%EC%84%B1%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9A%A9%EC%9D%B4%EC%84%B1%EC%9D%84-%EB%86%92%EC%97%AC%EC%A4%80%EB%8B%A4"><span class="nav-number">2.0.1.</span> <span class="nav-text"> 코드 5-3 의존 객체 주입은 유연성과 테스트 용이성을 높여준다. </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%8C%A9%ED%84%B0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4-Factory-Method-Pattern"><span class="nav-number">3.</span> <span class="nav-text">팩터리 메서드 패턴(Factory Method Pattern)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Supplier-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4"><span class="nav-number">4.</span> <span class="nav-text">Supplier 인터페이스</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-4-Supplier%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88"><span class="nav-number">4.0.1.</span> <span class="nav-text"> 코드 5-4 Supplier의 사용 예 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-5-IntSupplier%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88"><span class="nav-number">4.0.2.</span> <span class="nav-text"> 코드 5-5 IntSupplier의 사용 예 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-6-Supplier%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%8A%B9%EC%A0%95-%ED%83%80%EC%9E%85-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1"><span class="nav-number">4.0.3.</span> <span class="nav-text"> 코드 5-6 Supplier를 이용한 특정 타입 인스턴스 생성 </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%81%9D%EB%A7%88%EC%B9%98%EB%A9%B0"><span class="nav-number">5.</span> <span class="nav-text">끝마치며..</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Effective-Java-%E4%B8%AD%E2%80%A6"><span class="nav-number">5.0.1.</span> <span class="nav-text"> Effective Java 中… </span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9E%90%EC%9B%90%EC%97%90-%EB%94%B0%EB%9D%BC-%EB%8F%99%EC%9E%91%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A7%80%EB%8A%94-%ED%81%B4%EB%9E%98%EC%8A%A4"><span class="nav-number">1.</span> <span class="nav-text">사용하는 자원에 따라 동작이 달라지는 클래스</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-1-%EC%A0%95%EC%A0%81-%EC%9C%A0%ED%8B%B8%EB%A6%AC%ED%8B%B0%EB%A5%BC-%EC%9E%98%EB%AA%BB-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%98%88-%EC%9C%A0%EC%97%B0%ED%95%98%EC%A7%80-%EC%95%8A%EA%B3%A0-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%98%EA%B8%B0-%EC%96%B4%EB%A0%B5%EB%8B%A4"><span class="nav-number">1.0.1.</span> <span class="nav-text"> 코드 5-1 정적 유틸리티를 잘못 사용한 예 - 유연하지 않고 테스트하기 어렵다. </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-2-%EC%8B%B1%EA%B8%80%ED%84%B4%EC%9D%84-%EC%9E%98%EB%AA%BB-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%98%88-%EC%9C%A0%EC%97%B0%ED%95%98%EC%A7%80-%EC%95%8A%EA%B3%A0-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%98%EA%B8%B0-%EC%96%B4%EB%A0%B5%EB%8B%A4"><span class="nav-number">1.0.2.</span> <span class="nav-text"> 코드 5-2 싱글턴을 잘못 사용한 예 - 유연하지 않고 테스트하기 어렵다. </span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%98%EC%A1%B4-%EA%B0%9D%EC%B2%B4-%EC%A3%BC%EC%9E%85-%ED%8C%A8%ED%84%B4"><span class="nav-number">2.</span> <span class="nav-text">의존 객체 주입 패턴</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-3-%EC%9D%98%EC%A1%B4-%EA%B0%9D%EC%B2%B4-%EC%A3%BC%EC%9E%85%EC%9D%80-%EC%9C%A0%EC%97%B0%EC%84%B1%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9A%A9%EC%9D%B4%EC%84%B1%EC%9D%84-%EB%86%92%EC%97%AC%EC%A4%80%EB%8B%A4"><span class="nav-number">2.0.1.</span> <span class="nav-text"> 코드 5-3 의존 객체 주입은 유연성과 테스트 용이성을 높여준다. </span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%8C%A9%ED%84%B0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%A8%ED%84%B4-Factory-Method-Pattern"><span class="nav-number">3.</span> <span class="nav-text">팩터리 메서드 패턴(Factory Method Pattern)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Supplier-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4"><span class="nav-number">4.</span> <span class="nav-text">Supplier 인터페이스</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-4-Supplier%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88"><span class="nav-number">4.0.1.</span> <span class="nav-text"> 코드 5-4 Supplier의 사용 예 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-5-IntSupplier%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88"><span class="nav-number">4.0.2.</span> <span class="nav-text"> 코드 5-5 IntSupplier의 사용 예 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-5-6-Supplier%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%8A%B9%EC%A0%95-%ED%83%80%EC%9E%85-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1"><span class="nav-number">4.0.3.</span> <span class="nav-text"> 코드 5-6 Supplier를 이용한 특정 타입 인스턴스 생성 </span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%81%9D%EB%A7%88%EC%B9%98%EB%A9%B0"><span class="nav-number">5.</span> <span class="nav-text">끝마치며..</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Effective-Java-%E4%B8%AD%E2%80%A6"><span class="nav-number">5.0.1.</span> <span class="nav-text"> Effective Java 中… </span></a></li></ol></li></div>
         </section>
         <!--/noindex-->
 
@@ -196,14 +197,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -324,11 +325,11 @@
 <p>간단히 과정을 말하자면, 객체를 생성하기 위한 인터페이스를 정의하고, 클래스의 인스턴스 생성은 팩토리 메소드를 통해 생성한다.</p>
 <p><img src="/assets/img/post/190506/(3).png" alt="factory method pattern"> </p>
 <p>팩터리 메서드 패턴의 장점으로는 결합도를 낮춰서 얻을 수 있는 이점들이 있다. 클래스의 변경사항이 생겼을 때, 얼마나 다른 클래스에게도 영향을 줄 것인가를 뜻하는 결합도는, 이 패턴으로 인해 극대화 된다. 팩터리 메서드 패턴은 직접 상용하는 객체를 생성하지 않고, 팩터리 메서드 클래스를 통해 객체를 대신 생성시키고, 그 객체를 반환 받아 사용하기 떄문에 효율적인 코드 제어를 할 수 있다. 또한, 결합도를 낮춰 유지보수가 용이하며 객체의 생성을 한군데에서 제어할 수 있는 장점이 있다.</p>
-<h4 id="Supplier-인터페이스"><a href="#Supplier-인터페이스" class="headerlink" title="Supplier 인터페이스"></a>Supplier<T> 인터페이스</h4><p><img src="/assets/images/post/190506/(4).png" alt="supplier"> </p>
+<h4 id="Supplier-인터페이스"><a href="#Supplier-인터페이스" class="headerlink" title="Supplier 인터페이스"></a>Supplier<t> 인터페이스</t></h4><p><img src="/assets/images/post/190506/(4).png" alt="supplier"> </p>
 <p>해당 자바8에서 소개한 인터페이스는 팩터리를 표현한 완벽한 예이다. 해당 인터페이스는 인자는 받지않으며 리턴타입만 존재하는 메서드를 갖고있다. 순수함수에서 결과를 바꾸는건 오직 인풋 뿐이다. 그런데 인풋이 없다는건 내부에서 랜덤함수같은것을 쓰는게 아닌이상 항상 같은 것을 리턴하는 메서드라는걸 알 수 있다.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supplier&lt;String&gt; s = () -&gt; <span class="string">&quot;hello supplier&quot;</span>;</span><br><span class="line">String result = s.get();</span><br></pre></td></tr></table></figure>
 <h6 id="코드-5-4-Supplier의-사용-예"><a href="#코드-5-4-Supplier의-사용-예" class="headerlink" title=" 코드 5-4 Supplier의 사용 예 "></a><center> 코드 5-4 Supplier의 사용 예 </center></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SupplierExample</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">        IntSupplier is = () -&gt; &#123;</span><br><span class="line">     </span><br><span class="line">            <span class="keyword">int</span> result = (<span class="keyword">int</span>) (Math.random()*<span class="number">6</span>)+<span class="number">1</span>;</span><br><span class="line">     </span><br><span class="line">            <span class="keyword">return</span> result ;</span><br><span class="line">     </span><br><span class="line">        &#125;;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">int</span> result= is.getAsInt();</span><br><span class="line">     </span><br><span class="line">        System.out.print(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="코드-5-5-IntSupplier의-사용-예"><a href="#코드-5-5-IntSupplier의-사용-예" class="headerlink" title=" 코드 5-5 IntSupplier의 사용 예 "></a><center> 코드 5-5 IntSupplier의 사용 예 </center></h6><p>Supplier<T>를 입력받는 메서드는 일반적으로 한정적 와일드 카드 타입을 사용해 팩터리 타입 매개변수를 제한해야 한다. 다음의 코드가 클라이언트가 제공한 팩터리가 생성한 타일(Tile)들로 구성된 모자이크(Mosaic)를 만드는 메서드이다</p>
+<h6 id="코드-5-5-IntSupplier의-사용-예"><a href="#코드-5-5-IntSupplier의-사용-예" class="headerlink" title=" 코드 5-5 IntSupplier의 사용 예 "></a><center> 코드 5-5 IntSupplier의 사용 예 </center></h6><p>Supplier<t>를 입력받는 메서드는 일반적으로 한정적 와일드 카드 타입을 사용해 팩터리 타입 매개변수를 제한해야 한다. 다음의 코드가 클라이언트가 제공한 팩터리가 생성한 타일(Tile)들로 구성된 모자이크(Mosaic)를 만드는 메서드이다</t></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Mosaic <span class="title">create</span><span class="params">(Supplier&lt;? extends Tile&gt; tileFactory)</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
 <h6 id="코드-5-6-Supplier를-이용한-특정-타입-인스턴스-생성"><a href="#코드-5-6-Supplier를-이용한-특정-타입-인스턴스-생성" class="headerlink" title=" 코드 5-6 Supplier를 이용한 특정 타입 인스턴스 생성 "></a><center> 코드 5-6 Supplier를 이용한 특정 타입 인스턴스 생성 </center></h6><br>
 
@@ -358,26 +359,9 @@
       <a href="https://songii00.github.io/2019/05/06/2019-05-06-Effective%20Java%20Item%205/" title="Effective Java &#x2F; Item 5">https://songii00.github.io/2019/05/06/2019-05-06-Effective Java Item 5/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -451,7 +435,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

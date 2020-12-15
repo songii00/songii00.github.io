@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="DIP 의존성 역전 원칙객체 사이에 서로 도움을 받으면 의존 관계가 발생한다. 의존성 역전 원칙은 이러한 관계를 맺을 때 가이드 라인에 해당한다. DIP 는 한마디로 의존 관계를 맺을 때 변화하기 쉬운것, 또는 자주 변화하는 것 보다는 변화하기 어려운것, 거의 변화가 없는 것에 의존하라는 원칙이다. DIP가 말하는 유연성이 극대화된 시스템이란 소스 코드 의">
 <meta property="og:type" content="article">
@@ -92,6 +92,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -167,7 +168,7 @@
 </span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%94%EC%83%81%ED%8C%A9%ED%86%A0%EB%A6%AC%ED%8C%A8%ED%84%B4-%EC%B6%94%EC%83%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%ED%8C%A9%ED%84%B4"><span class="nav-number">3.0.2.1.</span> <span class="nav-text"> [추상팩토리패턴] 추상 팩토리 팩턴 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">3.0.2.2.</span> <span class="nav-text">출처 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-victorydntmd-tistory-com-300"><span class="nav-number">3.0.2.3.</span> <span class="nav-text">https:&#x2F;&#x2F;victorydntmd.tistory.com&#x2F;300 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-exceptionnotfound-net-simply-solid-the-dependency-inversion-principle"><span class="nav-number">3.0.2.4.</span> <span class="nav-text">https:&#x2F;&#x2F;exceptionnotfound.net&#x2F;simply-solid-the-dependency-inversion-principle&#x2F; 
-</span></a></li></ol></li></ol></li></ol></li></ol></div>
+</span></a></li></ol></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -201,14 +202,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -352,9 +353,9 @@
 <dl><dt>구체적이며 변동성이 크다면 절대로 그 이름을 언급하지 말라.</dt><dd>DIP 원칙 그 자체이다.</dd></dl><br>
 
 <h3 id="팩토리"><a href="#팩토리" class="headerlink" title="팩토리"></a>팩토리</h3><p>변동성이 큰 구체적인 객체는 주의해서 생성해야 한다. 자바 등의 대다수 객체지향 언어에서 의존성을 처리할 때 추상 팩토리를 사용하곤 한다.</p>
-<dl><dt>팩토리 메서드 패턴<br>: - 조건에 따른 객체 생성을 팩토리 클래스로 위임하여, 팩토리 클래스에서 객체를 생성하는 패턴<br>: - 즉, new 키워드를 호출하는 부분을 서브 클래스에 위임</dt><dd>- 결국 팩토리 메소드 패턴은 객체를 만들어내는 공장(Factory 객체)을 만드는 패턴</dd></dl><h5 id="더-알아보기-https-jdm-kr-blog-180"><a href="#더-알아보기-https-jdm-kr-blog-180" class="headerlink" title="더 알아보기 : https://jdm.kr/blog/180 "></a>더 알아보기 : <a target="_blank" rel="noopener" href="https://jdm.kr/blog/180">https://jdm.kr/blog/180</a> <br/></h5><br>
+<dl><dt>팩토리 메서드 패턴<br>: - 조건에 따른 객체 생성을 팩토리 클래스로 위임하여, 팩토리 클래스에서 객체를 생성하는 패턴<br>: - 즉, new 키워드를 호출하는 부분을 서브 클래스에 위임</dt><dd>- 결국 팩토리 메소드 패턴은 객체를 만들어내는 공장(Factory 객체)을 만드는 패턴</dd></dl><h5 id="더-알아보기-https-jdm-kr-blog-180"><a href="#더-알아보기-https-jdm-kr-blog-180" class="headerlink" title="더 알아보기 : https://jdm.kr/blog/180 "></a>더 알아보기 : <a target="_blank" rel="external nofollow noopener noreferrer" href="https://jdm.kr/blog/180">https://jdm.kr/blog/180</a> <br></h5><br>
 
-<dl><dt>추상 팩토리 패턴</dt><dd>서로 관련이 있는 객체들을 통째로 묶어서 팩토리 클래스로 만들고, 이들 팩토리를 조건에 따라 생성하도록 다시 팩토리를 만들어서 객체를 생성하는 패턴</dd></dl><h5 id="더-알아보기-https-jdm-kr-blog-192"><a href="#더-알아보기-https-jdm-kr-blog-192" class="headerlink" title="더 알아보기 : https://jdm.kr/blog/192 "></a>더 알아보기 : <a target="_blank" rel="noopener" href="https://jdm.kr/blog/192">https://jdm.kr/blog/192</a> <br/></h5><p><img src="/assets/images/post/191012/(16).png" alt="factory method pattern"> </p>
+<dl><dt>추상 팩토리 패턴</dt><dd>서로 관련이 있는 객체들을 통째로 묶어서 팩토리 클래스로 만들고, 이들 팩토리를 조건에 따라 생성하도록 다시 팩토리를 만들어서 객체를 생성하는 패턴</dd></dl><h5 id="더-알아보기-https-jdm-kr-blog-192"><a href="#더-알아보기-https-jdm-kr-blog-192" class="headerlink" title="더 알아보기 : https://jdm.kr/blog/192 "></a>더 알아보기 : <a target="_blank" rel="external nofollow noopener noreferrer" href="https://jdm.kr/blog/192">https://jdm.kr/blog/192</a> <br></h5><p><img src="/assets/images/post/191012/(16).png" alt="factory method pattern"> </p>
 <h6 id="추상팩토리패턴-추상-팩토리-팩턴"><a href="#추상팩토리패턴-추상-팩토리-팩턴" class="headerlink" title=" [추상팩토리패턴] 추상 팩토리 팩턴 "></a><center> [추상팩토리패턴] 추상 팩토리 팩턴 </center></h6><br>
 
 <p>Application은 ServiceFactory 인터페이스의 makeSvc 메서드를 호출한다. 이 메서드는 ServiceFactoryImpl에서 구현된다. 그리고 ServiceFactoryImpl 구현체가 ConcreteImpl의 인스턴스를 생성한 후, Service 타입으로 반환한다.</p>
@@ -364,7 +365,7 @@
 <p>또한 의존성은 이 곡선을 경계로, 더 추상적인 엔티티가 있는 쪽으로만 향하며 이 규칙을 의존성 규칙이라 한다.</p>
 <br>
 
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="https-victorydntmd-tistory-com-300"><a href="#https-victorydntmd-tistory-com-300" class="headerlink" title="https://victorydntmd.tistory.com/300 "></a><a target="_blank" rel="noopener" href="https://victorydntmd.tistory.com/300">https://victorydntmd.tistory.com/300</a> <br/></h6><h6 id="https-exceptionnotfound-net-simply-solid-the-dependency-inversion-principle"><a href="#https-exceptionnotfound-net-simply-solid-the-dependency-inversion-principle" class="headerlink" title="https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/ "></a><a target="_blank" rel="noopener" href="https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/">https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/</a> <br/></h6>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><h6 id="https-victorydntmd-tistory-com-300"><a href="#https-victorydntmd-tistory-com-300" class="headerlink" title="https://victorydntmd.tistory.com/300 "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://victorydntmd.tistory.com/300">https://victorydntmd.tistory.com/300</a> <br></h6><h6 id="https-exceptionnotfound-net-simply-solid-the-dependency-inversion-principle"><a href="#https-exceptionnotfound-net-simply-solid-the-dependency-inversion-principle" class="headerlink" title="https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/ "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/">https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/</a> <br></h6>
     </div>
 
     
@@ -384,26 +385,9 @@
       <a href="https://songii00.github.io/2019/10/13/2019-10-12-CleanArchitecture%20Item%2011/" title="DIP 의존성 역전 원칙">https://songii00.github.io/2019/10/13/2019-10-12-CleanArchitecture Item 11/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -477,7 +461,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

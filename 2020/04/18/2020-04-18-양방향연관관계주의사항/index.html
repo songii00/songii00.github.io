@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="“JPA” 기본 설정">
 <meta property="og:type" content="article">
@@ -94,6 +94,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -165,7 +166,7 @@
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9CJPA%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“JPA”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B8%B0%EB%B3%B8-%EC%84%A4%EC%A0%95"><span class="nav-number">2.</span> <span class="nav-text">기본 설정</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%95%AD%EC%83%81-%EC%96%91%EC%AA%BD%EC%97%90-%EA%B0%92%EC%9D%84-%EC%84%A4%EC%A0%95%ED%95%98%EC%9E%90"><span class="nav-number">3.</span> <span class="nav-text">항상 양쪽에 값을 설정하자</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%A3%BC%EC%9D%B8-%EC%9D%B4-%EC%95%84%EB%8B%8C-%EC%AA%BD%EC%97%90-%EA%B0%92-%EC%84%A4%EC%A0%95-%EC%8B%9C"><span class="nav-number">3.1.</span> <span class="nav-text">연관관계 주인 이 아닌 쪽에 값 설정 시</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%A3%BC%EC%9D%B8%EC%97%90-%EA%B0%92-%EC%84%A4%EC%A0%95"><span class="nav-number">3.2.</span> <span class="nav-text">연관관계 주인에 값 설정</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B7%B8%EB%9F%BC-%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%A3%BC%EC%9D%B8%EC%97%90%EB%A7%8C-%EA%B0%92%EC%9D%84-%EC%84%A4%EC%A0%95%ED%95%98%EB%A9%B4-%EA%B4%9C%EC%B0%AE%EC%9D%84%EA%B9%8C"><span class="nav-number">3.3.</span> <span class="nav-text">그럼 연관관계 주인에만 값을 설정하면 괜찮을까?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%ED%8E%B8%EC%9D%98-%EB%A9%94%EC%86%8C%EB%93%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"><span class="nav-number">4.</span> <span class="nav-text">연관관계 편의 메소드 사용하기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%96%91%EB%B0%A9%ED%96%A5-%EB%A7%A4%ED%95%91-%EC%8B%9C-%EB%AC%B4%ED%95%9C-%EB%A3%A8%ED%94%84-%EC%A1%B0%EC%8B%AC%ED%95%98%EA%B8%B0"><span class="nav-number">5.</span> <span class="nav-text">양방향 매핑 시 무한 루프 조심하기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%A4%EA%B3%84%EB%8A%94-%EB%8B%A8%EB%B0%A9%ED%96%A5-%EB%A7%A4%ED%95%91%EC%9C%BC%EB%A1%9C-%EB%81%9D%EB%82%B4%EC%9E%90"><span class="nav-number">6.</span> <span class="nav-text">설계는 단방향 매핑으로 끝내자</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%9D%98-%EC%A3%BC%EC%9D%B8%EC%9D%84-%EC%A0%95%ED%95%98%EB%8A%94-%EA%B8%B0%EC%A4%80"><span class="nav-number">7.</span> <span class="nav-text">연관관계의 주인을 정하는 기준</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">7.0.0.1.</span> <span class="nav-text">출처 
-</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%9E%90%EB%B0%94-ORM-%ED%91%9C%EC%A4%80-JPA-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EA%B8%B0%EB%B3%B8%ED%8E%B8-%EA%B9%80%EC%98%81%ED%95%9C"><span class="nav-number">7.0.0.2.</span> <span class="nav-text">자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)</span></a></li></ol></li></ol></li></ol></li></ol></div>
+</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%9E%90%EB%B0%94-ORM-%ED%91%9C%EC%A4%80-JPA-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EA%B8%B0%EB%B3%B8%ED%8E%B8-%EA%B9%80%EC%98%81%ED%95%9C"><span class="nav-number">7.0.0.2.</span> <span class="nav-text">자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -199,14 +200,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -383,7 +384,7 @@
 <li>연관관계 주인은 외래 키의 위치를 기준으로 정해야함.</li>
 </ul>
 <p><br><br><br><br></p>
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="자바-ORM-표준-JPA-프로그래밍-기본편-김영한"><a href="#자바-ORM-표준-JPA-프로그래밍-기본편-김영한" class="headerlink" title="자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)"></a>자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)</h6><br>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><h6 id="자바-ORM-표준-JPA-프로그래밍-기본편-김영한"><a href="#자바-ORM-표준-JPA-프로그래밍-기본편-김영한" class="headerlink" title="자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)"></a>자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)</h6><br>
     </div>
 
     
@@ -403,26 +404,9 @@
       <a href="https://songii00.github.io/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/" title="양방향 연관관계 주의사항">https://songii00.github.io/2020/04/18/2020-04-18-양방향연관관계주의사항/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -496,7 +480,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

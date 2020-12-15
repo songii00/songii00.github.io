@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="재사용하자1String s &#x3D; new String(&quot;hi&quot;);  위의 코드를 보면서 어떤생각이 들어야 할까. 책에서는 절대 따라하지 말라고 강력히 권고하고 있다. String 인스턴스는 문장이 실행될 때마다 새로 생성된다. 이 문장이 반복문 안에 있다면 생성되는 String 인스턴스의 갯수는 상상할 수 없다.  1String s &#x3D; &amp;qu">
 <meta property="og:type" content="article">
@@ -91,6 +91,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -161,9 +162,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%98%EC%9E%90"><span class="nav-number">1.</span> <span class="nav-text">재사용하자</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%84%B0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C"><span class="nav-number">2.</span> <span class="nav-text">정적 팩터리 메서드</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%BA%90%EC%8B%B1"><span class="nav-number">3.</span> <span class="nav-text">캐싱</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-6-1-%EC%84%B1%EB%8A%A5%EC%9D%84-%ED%9B%A8%EC%94%AC-%EB%8D%94-%EB%81%8C%EC%96%B4%EC%98%AC%EB%A6%B4-%EC%88%98-%EC%9E%88%EB%8B%A4"><span class="nav-number">3.0.1.</span> <span class="nav-text"> 코드 6-1 성능을 훨씬 더 끌어올릴 수 있다! </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9C%A0%ED%95%9C-%EC%83%81%ED%83%9C-%EB%A8%B8%EC%8B%A0%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80"><span class="nav-number">4.</span> <span class="nav-text">유한 상태 머신이란 무엇인가</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-6-2-%EA%B0%92%EB%B9%84%EC%8B%BC-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%84%B1%EB%8A%A5%EC%9D%84-%EA%B0%9C%EC%84%A0%ED%95%9C%EB%8B%A4"><span class="nav-number">4.0.1.</span> <span class="nav-text"> 코드 6-2 값비싼 객체를 재사용하여 성능을 개선한다. </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B4%EB%8A%94-%EC%98%88"><span class="nav-number">5.</span> <span class="nav-text">불필요한 객체를 만들어내는 예</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EC%98%A4%ED%86%A0%EB%B0%95%EC%8B%B1-auto-boxing"><span class="nav-number">5.1.</span> <span class="nav-text">오토박싱(auto boxing)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-6-3-%EB%81%94%EC%B0%8D%EC%9D%B4-%EB%8A%90%EB%A6%AC%EB%8B%A4-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EB%8A%94-%EC%9C%84%EC%B9%98%EB%A5%BC-%EC%B0%BE%EC%95%98%EB%8A%94%EA%B0%80"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 코드 6-3 끔찍이 느리다! 객체가 만들어지는 위치를 찾았는가? </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%81%9D%EB%A7%88%EC%B9%98%EB%A9%B0"><span class="nav-number">6.</span> <span class="nav-text">끝마치며..</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">6.0.1.</span> <span class="nav-text">출처 
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%98%EC%9E%90"><span class="nav-number">1.</span> <span class="nav-text">재사용하자</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%84%B0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C"><span class="nav-number">2.</span> <span class="nav-text">정적 팩터리 메서드</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%BA%90%EC%8B%B1"><span class="nav-number">3.</span> <span class="nav-text">캐싱</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-6-1-%EC%84%B1%EB%8A%A5%EC%9D%84-%ED%9B%A8%EC%94%AC-%EB%8D%94-%EB%81%8C%EC%96%B4%EC%98%AC%EB%A6%B4-%EC%88%98-%EC%9E%88%EB%8B%A4"><span class="nav-number">3.0.1.</span> <span class="nav-text"> 코드 6-1 성능을 훨씬 더 끌어올릴 수 있다! </span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9C%A0%ED%95%9C-%EC%83%81%ED%83%9C-%EB%A8%B8%EC%8B%A0%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80"><span class="nav-number">4.</span> <span class="nav-text">유한 상태 머신이란 무엇인가</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-6-2-%EA%B0%92%EB%B9%84%EC%8B%BC-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%84%B1%EB%8A%A5%EC%9D%84-%EA%B0%9C%EC%84%A0%ED%95%9C%EB%8B%A4"><span class="nav-number">4.0.1.</span> <span class="nav-text"> 코드 6-2 값비싼 객체를 재사용하여 성능을 개선한다. </span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B4%EB%8A%94-%EC%98%88"><span class="nav-number">5.</span> <span class="nav-text">불필요한 객체를 만들어내는 예</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EC%98%A4%ED%86%A0%EB%B0%95%EC%8B%B1-auto-boxing"><span class="nav-number">5.1.</span> <span class="nav-text">오토박싱(auto boxing)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%BD%94%EB%93%9C-6-3-%EB%81%94%EC%B0%8D%EC%9D%B4-%EB%8A%90%EB%A6%AC%EB%8B%A4-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EB%8A%94-%EC%9C%84%EC%B9%98%EB%A5%BC-%EC%B0%BE%EC%95%98%EB%8A%94%EA%B0%80"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 코드 6-3 끔찍이 느리다! 객체가 만들어지는 위치를 찾았는가? </span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%81%9D%EB%A7%88%EC%B9%98%EB%A9%B0"><span class="nav-number">6.</span> <span class="nav-text">끝마치며..</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">6.0.1.</span> <span class="nav-text">출처 
 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#http-ozt88-tistory-com-8"><span class="nav-number">6.0.2.</span> <span class="nav-text">http:&#x2F;&#x2F;ozt88.tistory.com&#x2F;8 
-</span></a></li></ol></li></ol></li></ol></div>
+</span></a></li></ol></li></div>
         </section>
         <!--/noindex-->
 
@@ -197,14 +198,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -343,7 +344,7 @@
 <h4 id="끝마치며"><a href="#끝마치며" class="headerlink" title="끝마치며.."></a>끝마치며..</h4><p>책에서는 객체 생성은 비싸다고 무조건 피해야 할 것이 아니며, 요즘의 JVM 으로는 작은 객체를 생성하고 회수하는 일은 큰 부담이 아니라고 말한다. 프로그램의 명확성, 간결성, 기능을 위해 객체를 추가하고 생성하는 것은 일반적으로 좋은일이라고 권고하기 까지 한다. </p>
 <p>또한 데이터베이스 연결같이 생성 비용이 매우 비싸 재사용이 추천되는 경우가 아니라면 단순히 객체 생성을 피하고자 객체 풀 생성을 하지 말라고 말한다. 자체 객체 풀은 코드를 어지럽게 하며, 메모리 사용량을 늘리고 성능을 떨어뜨리는 주범이다. </p>
 <p>마지막으로, 방어적 복사(Item50) 필요한 상황에서는 객체를 재사용하지 말라고 말한다. 방어적 복사란, 추후에 다루겠지만, 생성자로 받은 매개변수를 클래스내 매개변수에 직접 대입하지 않고, 새로운 객체를 만들어 대입하는 방식을 예로 들수 있다. 이런 방어적 복사로 인한 피해가 필요없는 객체를 반복생성했을 떄의 피해보다 훨씬크며, 버그와 보안구멍으로 이어지는 리스크가 또한 크다는게 저자의 의견이다.</p>
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="http-ozt88-tistory-com-8"><a href="#http-ozt88-tistory-com-8" class="headerlink" title="http://ozt88.tistory.com/8 "></a><a target="_blank" rel="noopener" href="http://ozt88.tistory.com/8">http://ozt88.tistory.com/8</a> <br/></h6><br>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><h6 id="http-ozt88-tistory-com-8"><a href="#http-ozt88-tistory-com-8" class="headerlink" title="http://ozt88.tistory.com/8 "></a><a target="_blank" rel="external nofollow noopener noreferrer" href="http://ozt88.tistory.com/8">http://ozt88.tistory.com/8</a> <br></h6><br>
 
     </div>
 
@@ -364,26 +365,9 @@
       <a href="https://songii00.github.io/2019/05/18/2019-05-19-Effective%20Java%20Item%206/" title="Effective Java &#x2F; Item 6">https://songii00.github.io/2019/05/18/2019-05-19-Effective Java Item 6/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -457,7 +441,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>

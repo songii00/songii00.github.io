@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="“OBJECTS 6장”  훌륭한 객체지향 코드를 얻기 위해서는 클래스가 아니라 객체를 지향 애플리케이션의 가장 중요한 재료 &#x3D; 객체들이 주고받는 메시지  객체가 수신하는 메시지들이 객체의 퍼블릭 인터페이스를 구성   애플리케이션은 클래스로 구성되지만 메시지를 통해 정의된다.">
 <meta property="og:type" content="article">
@@ -93,6 +93,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -163,7 +164,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9COBJECTS-6%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“OBJECTS 6장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%98%91%EB%A0%A5%EA%B3%BC-%EB%A9%94%EC%8B%9C%EC%A7%80"><span class="nav-number">2.</span> <span class="nav-text">협력과 메시지</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EC%84%9C%EB%B2%84-%EB%AA%A8%EB%8D%B8"><span class="nav-number">2.1.</span> <span class="nav-text">클라이언트 - 서버 모델</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%A9%94%EC%8B%9C%EC%A7%80%EC%99%80-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%A0%84%EC%86%A1"><span class="nav-number">2.2.</span> <span class="nav-text">메시지와 메시지 전송</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%A9%94%EC%8B%9C%EC%A7%80%EC%99%80-%EB%A9%94%EC%84%9C%EB%93%9C"><span class="nav-number">2.3.</span> <span class="nav-text">메시지와 메서드</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%99%80-%EC%98%A4%ED%8D%BC%EB%A0%88%EC%9D%B4%EC%85%98"><span class="nav-number">2.4.</span> <span class="nav-text">퍼블릭 인터페이스와 오퍼레이션</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98"><span class="nav-number">2.5.</span> <span class="nav-text">시그니처</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%99%80-%EC%84%A4%EA%B3%84-%ED%92%88%EC%A7%88"><span class="nav-number">3.</span> <span class="nav-text">인터페이스와 설계 품질</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EB%94%94%EB%AF%B8%ED%84%B0-%EB%B2%95%EC%B9%99"><span class="nav-number">3.0.1.</span> <span class="nav-text">디미터 법칙</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AC%BB%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%8B%9C%EC%BC%9C%EB%9D%BC"><span class="nav-number">3.1.</span> <span class="nav-text">묻지 말고 시켜라</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%98%EB%8F%84%EB%A5%BC-%EB%93%9C%EB%9F%AC%EB%82%B4%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4"><span class="nav-number">3.2.</span> <span class="nav-text">의도를 드러내는 인터페이스</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EC%9E%A5%EC%A0%90"><span class="nav-number">3.2.1.</span> <span class="nav-text">장점</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%95%A8%EA%BB%98-%EB%AA%A8%EC%9C%BC%EA%B8%B0"><span class="nav-number">3.3.</span> <span class="nav-text">함께 모으기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AC%BB%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%8B%9C%EC%BC%9C%EB%9D%BC-1"><span class="nav-number">3.4.</span> <span class="nav-text">묻지 말고 시켜라</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%97%90-%EC%9D%98%EB%8F%84%EB%A5%BC-%EB%93%9C%EB%9F%AC%EB%82%B4%EC%9E%90"><span class="nav-number">3.5.</span> <span class="nav-text">인터페이스에 의도를 드러내자</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9B%90%EC%B9%99%EC%9D%98-%ED%95%A8%EC%A0%95"><span class="nav-number">4.</span> <span class="nav-text">원칙의 함정</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%94%94%EB%AF%B8%ED%84%B0-%EB%B2%95%EC%B9%99%EC%9D%80-%ED%95%98%EB%82%98%EC%9D%98-%EB%8F%84%ED%8A%B8-%EB%A5%BC-%EA%B0%95%EC%A0%9C%ED%95%98%EB%8A%94-%EA%B7%9C%EC%B9%99%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4"><span class="nav-number">4.1.</span> <span class="nav-text">디미터 법칙은 하나의 도트(.) 를 강제하는 규칙이 아니다</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%B0%ED%95%A9%EB%8F%84%EC%99%80-%EC%9D%91%EC%A7%91%EB%8F%84%EC%9D%98-%EC%B6%A9%EB%8F%8C"><span class="nav-number">4.2.</span> <span class="nav-text">결합도와 응집도의 충돌</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%AA%85%EB%A0%B9-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC-%EC%9B%90%EC%B9%99"><span class="nav-number">5.</span> <span class="nav-text">명령-쿼리 분리 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B0%98%EB%B3%B5-%EC%9D%BC%EC%A0%95%EC%9D%98-%EB%AA%85%EB%A0%B9%EA%B3%BC-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC%ED%95%98%EA%B8%B0"><span class="nav-number">5.1.</span> <span class="nav-text">반복 일정의 명령과 쿼리 분리하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AA%85%EB%A0%B9-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC%EC%99%80-%EC%B0%B8%EC%A1%B0-%ED%88%AC%EB%AA%85%EC%84%B1"><span class="nav-number">5.2.</span> <span class="nav-text">명령-쿼리 분리와 참조 투명성</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B1%85%EC%9E%84%EC%97%90-%EC%B4%88%EC%A0%90%EC%9D%84-%EB%A7%9E%EC%B6%B0%EB%9D%BC"><span class="nav-number">5.3.</span> <span class="nav-text">책임에 초점을 맞춰라</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9COBJECTS-6%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“OBJECTS 6장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%98%91%EB%A0%A5%EA%B3%BC-%EB%A9%94%EC%8B%9C%EC%A7%80"><span class="nav-number">2.</span> <span class="nav-text">협력과 메시지</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EC%84%9C%EB%B2%84-%EB%AA%A8%EB%8D%B8"><span class="nav-number">2.1.</span> <span class="nav-text">클라이언트 - 서버 모델</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%A9%94%EC%8B%9C%EC%A7%80%EC%99%80-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%A0%84%EC%86%A1"><span class="nav-number">2.2.</span> <span class="nav-text">메시지와 메시지 전송</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%A9%94%EC%8B%9C%EC%A7%80%EC%99%80-%EB%A9%94%EC%84%9C%EB%93%9C"><span class="nav-number">2.3.</span> <span class="nav-text">메시지와 메서드</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%99%80-%EC%98%A4%ED%8D%BC%EB%A0%88%EC%9D%B4%EC%85%98"><span class="nav-number">2.4.</span> <span class="nav-text">퍼블릭 인터페이스와 오퍼레이션</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98"><span class="nav-number">2.5.</span> <span class="nav-text">시그니처</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%99%80-%EC%84%A4%EA%B3%84-%ED%92%88%EC%A7%88"><span class="nav-number">3.</span> <span class="nav-text">인터페이스와 설계 품질</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EB%94%94%EB%AF%B8%ED%84%B0-%EB%B2%95%EC%B9%99"><span class="nav-number">3.0.1.</span> <span class="nav-text">디미터 법칙</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AC%BB%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%8B%9C%EC%BC%9C%EB%9D%BC"><span class="nav-number">3.1.</span> <span class="nav-text">묻지 말고 시켜라</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%98%EB%8F%84%EB%A5%BC-%EB%93%9C%EB%9F%AC%EB%82%B4%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4"><span class="nav-number">3.2.</span> <span class="nav-text">의도를 드러내는 인터페이스</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EC%9E%A5%EC%A0%90"><span class="nav-number">3.2.1.</span> <span class="nav-text">장점</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%95%A8%EA%BB%98-%EB%AA%A8%EC%9C%BC%EA%B8%B0"><span class="nav-number">3.3.</span> <span class="nav-text">함께 모으기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AC%BB%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%8B%9C%EC%BC%9C%EB%9D%BC-1"><span class="nav-number">3.4.</span> <span class="nav-text">묻지 말고 시켜라</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%97%90-%EC%9D%98%EB%8F%84%EB%A5%BC-%EB%93%9C%EB%9F%AC%EB%82%B4%EC%9E%90"><span class="nav-number">3.5.</span> <span class="nav-text">인터페이스에 의도를 드러내자</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9B%90%EC%B9%99%EC%9D%98-%ED%95%A8%EC%A0%95"><span class="nav-number">4.</span> <span class="nav-text">원칙의 함정</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%94%94%EB%AF%B8%ED%84%B0-%EB%B2%95%EC%B9%99%EC%9D%80-%ED%95%98%EB%82%98%EC%9D%98-%EB%8F%84%ED%8A%B8-%EB%A5%BC-%EA%B0%95%EC%A0%9C%ED%95%98%EB%8A%94-%EA%B7%9C%EC%B9%99%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4"><span class="nav-number">4.1.</span> <span class="nav-text">디미터 법칙은 하나의 도트(.) 를 강제하는 규칙이 아니다</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%B0%ED%95%A9%EB%8F%84%EC%99%80-%EC%9D%91%EC%A7%91%EB%8F%84%EC%9D%98-%EC%B6%A9%EB%8F%8C"><span class="nav-number">4.2.</span> <span class="nav-text">결합도와 응집도의 충돌</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%AA%85%EB%A0%B9-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC-%EC%9B%90%EC%B9%99"><span class="nav-number">5.</span> <span class="nav-text">명령-쿼리 분리 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B0%98%EB%B3%B5-%EC%9D%BC%EC%A0%95%EC%9D%98-%EB%AA%85%EB%A0%B9%EA%B3%BC-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC%ED%95%98%EA%B8%B0"><span class="nav-number">5.1.</span> <span class="nav-text">반복 일정의 명령과 쿼리 분리하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AA%85%EB%A0%B9-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC%EC%99%80-%EC%B0%B8%EC%A1%B0-%ED%88%AC%EB%AA%85%EC%84%B1"><span class="nav-number">5.2.</span> <span class="nav-text">명령-쿼리 분리와 참조 투명성</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B1%85%EC%9E%84%EC%97%90-%EC%B4%88%EC%A0%90%EC%9D%84-%EB%A7%9E%EC%B6%B0%EB%9D%BC"><span class="nav-number">5.3.</span> <span class="nav-text">책임에 초점을 맞춰라</span></a></li></ol></li></div>
         </section>
         <!--/noindex-->
 
@@ -197,14 +198,14 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -472,7 +473,7 @@
 <ul>
 <li>인터페이스는 객체가 어떻게 하는지가 아니라 무엇을 하는지를 서술해야 함</li>
 </ul>
-<Br>
+<br>
 
 <h4 id="의도를-드러내는-인터페이스"><a href="#의도를-드러내는-인터페이스" class="headerlink" title="의도를 드러내는 인터페이스"></a>의도를 드러내는 인터페이스</h4><p>메서드를 명명하는 두가지 방법</p>
 <ol>
@@ -656,26 +657,9 @@
       <a href="https://songii00.github.io/2020/02/23/2020-02-23-OBJECTS%20Item%2006/" title="메시지와 인터페이스">https://songii00.github.io/2020/02/23/2020-02-23-OBJECTS Item 06/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
   </li>
 </ul>
-</div>
-
-          <div class="followme">
-  <span>Welcome to my other publishing channels</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-        <a target="_blank" class="social-link" href="/atom.xml">
-          <span class="icon">
-            <i class="fa fa-rss"></i>
-          </span>
-
-          <span class="label">RSS</span>
-        </a>
-      </div>
-  </div>
 </div>
 
           <div class="post-tags">
@@ -749,7 +733,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Zoe</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
   </div>
 
     </div>
