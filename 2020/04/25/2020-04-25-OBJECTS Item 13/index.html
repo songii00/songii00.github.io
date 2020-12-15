@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="“OBJECTS 13장”    상속 용도  타입 계층 구현  부모 클래스는 자식 클래스의 일반화  자식 클래스는 부모 클래스의 특수화     코드 재사용      상속을 사용하는 일차적인 목표는 코드 재사용이 아니라 타입 계층을 구현하는 것이어야 한다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="서브클래싱과 서브타이핑">
+<meta property="og:url" content="https://songii00.github.io/2020/04/25/2020-04-25-OBJECTS%20Item%2013/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="“OBJECTS 13장”    상속 용도  타입 계층 구현  부모 클래스는 자식 클래스의 일반화  자식 클래스는 부모 클래스의 특수화     코드 재사용      상속을 사용하는 일차적인 목표는 코드 재사용이 아니라 타입 계층을 구현하는 것이어야 한다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200425/(1).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200425/(2).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200425/(3).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200425/(4).png">
+<meta property="article:published_time" content="2020-04-25T01:31:48.000Z">
+<meta property="article:modified_time" content="2020-12-15T13:30:22.693Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="OBJECTS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/200425/(1).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2020/04/25/2020-04-25-OBJECTS%20Item%2013/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>서브클래싱과 서브타이핑 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9COBJECTS-13%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“OBJECTS 13장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%83%80%EC%9E%85"><span class="nav-number">2.</span> <span class="nav-text">타입</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B0%9C%EB%85%90-%EA%B4%80%EC%A0%90%EC%9D%98-%ED%83%80%EC%9E%85"><span class="nav-number">2.1.</span> <span class="nav-text">개념 관점의 타입</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%96%B8%EC%96%B4-%EA%B4%80%EC%A0%90%EC%9D%98-%ED%83%80%EC%9E%85"><span class="nav-number">2.2.</span> <span class="nav-text">프로그래밍 언어 관점의 타입</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%ED%8C%A8%EB%9F%AC%EB%8B%A4%EC%9E%84-%EA%B4%80%EC%A0%90%EC%9D%98-%ED%83%80%EC%9E%85"><span class="nav-number">2.3.</span> <span class="nav-text">객체지향 패러다임 관점의 타입</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%83%80%EC%9E%85-%EA%B3%84%EC%B8%B5"><span class="nav-number">3.</span> <span class="nav-text">타입 계층</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%83%80%EC%9E%85-%EC%82%AC%EC%9D%B4%EC%9D%98-%ED%8F%AC%ED%95%A8-%EA%B4%80%EA%B3%84"><span class="nav-number">3.1.</span> <span class="nav-text">타입 사이의 포함 관계</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%EA%B3%BC-%ED%83%80%EC%9E%85-%EA%B3%84%EC%B8%B5"><span class="nav-number">3.2.</span> <span class="nav-text">객체지향 프로그래밍과 타입 계층</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8B%B1%EA%B3%BC-%EC%84%9C%EB%B8%8C%ED%83%80%EC%9D%B4%ED%95%91"><span class="nav-number">4.</span> <span class="nav-text">서브클래싱과 서브타이핑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%96%B8%EC%A0%9C-%EC%83%81%EC%86%8D%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94%EA%B0%80"><span class="nav-number">4.1.</span> <span class="nav-text">언제 상속을 사용해야 하는가?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#is-a-%EA%B4%80%EA%B3%84"><span class="nav-number">4.2.</span> <span class="nav-text">is-a 관계</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%96%89%EB%8F%99-%ED%98%B8%ED%99%98%EC%84%B1"><span class="nav-number">4.3.</span> <span class="nav-text">행동 호환성</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%EC%9D%98-%EA%B8%B0%EB%8C%80%EC%97%90-%EB%94%B0%EB%9D%BC-%EA%B3%84%EC%B8%B5-%EB%B6%84%EB%A6%AC%ED%95%98%EA%B8%B0"><span class="nav-number">4.4.</span> <span class="nav-text">클라이언트의 기대에 따라 계층 분리하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8B%B1%EA%B3%BC-%EC%84%9C%EB%B8%8C%ED%83%80%EC%9D%B4%ED%95%91-1"><span class="nav-number">4.5.</span> <span class="nav-text">서브클래싱과 서브타이핑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%A6%AC%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B9%98%ED%99%98-%EC%9B%90%EC%B9%99"><span class="nav-number">5.</span> <span class="nav-text">리스코프 치환 원칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%EC%99%80-%EB%8C%80%EC%B2%B4-%EA%B0%80%EB%8A%A5%EC%84%B1"><span class="nav-number">5.1.</span> <span class="nav-text">클라이언트와 대체 가능성</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#is-a-%EA%B4%80%EA%B3%84-%EB%8B%A4%EC%8B%9C-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0"><span class="nav-number">5.2.</span> <span class="nav-text">is-a 관계 다시 살펴보기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%A6%AC%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B9%98%ED%99%98-%EC%9B%90%EC%B9%99%EC%9D%80-%EC%9C%A0%EC%97%B0%ED%95%9C-%EC%84%A4%EA%B3%84%EC%9D%98-%EA%B8%B0%EB%B0%98%EC%9D%B4%EB%8B%A4"><span class="nav-number">5.3.</span> <span class="nav-text">리스코프 치환 원칙은 유연한 설계의 기반이다</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%83%80%EC%9E%85-%EA%B3%84%EC%B8%B5%EA%B3%BC-%EB%A6%AC%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B9%98%ED%99%98-%EC%9B%90%EC%B9%99"><span class="nav-number">5.4.</span> <span class="nav-text">타입 계층과 리스코프 치환 원칙</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B3%84%EC%95%BD%EC%97%90-%EC%9D%98%ED%95%9C-%EC%84%A4%EA%B3%84%EC%99%80-%EC%84%9C%EB%B8%8C%ED%83%80%EC%9D%B4%ED%95%91"><span class="nav-number">6.</span> <span class="nav-text">계약에 의한 설계와 서브타이핑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%84%9C%EB%B8%8C%ED%83%80%EC%9E%85%EA%B3%BC-%EA%B3%84%EC%95%BD"><span class="nav-number">6.1.</span> <span class="nav-text">서브타입과 계약</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2020/04/25/2020-04-25-OBJECTS%20Item%2013/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          서브클래싱과 서브타이핑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-04-25 10:31:48" itemprop="dateCreated datePublished" datetime="2020-04-25T10:31:48+09:00">2020-04-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-12-15 22:30:22" itemprop="dateModified" datetime="2020-12-15T22:30:22+09:00">2020-12-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/objects/" itemprop="url" rel="index"><span itemprop="name">objects</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/25/2020-04-25-OBJECTS%20Item%2013/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/25/2020-04-25-OBJECTS Item 13/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="“OBJECTS-13장”"><a href="#“OBJECTS-13장”" class="headerlink" title="“OBJECTS 13장”"></a>“OBJECTS 13장”</h3><hr>
+<br>
+
+<ul>
+<li><p>상속 용도</p>
+<ul>
+<li><p>타입 계층 구현</p>
+<ul>
+<li><p>부모 클래스는 자식 클래스의 일반화</p>
+</li>
+<li><p>자식 클래스는 부모 클래스의 특수화 </p>
+</li>
+</ul>
+</li>
+<li><p>코드 재사용</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>상속을 사용하는 일차적인 목표는 코드 재사용이 아니라 타입 계층을 구현하는 것이어야 한다. </p>
+</blockquote>
+<a id="more"></a>
+
+<br>
+
+<h3 id="타입"><a href="#타입" class="headerlink" title="타입"></a>타입</h3><h4 id="개념-관점의-타입"><a href="#개념-관점의-타입" class="headerlink" title="개념 관점의 타입"></a>개념 관점의 타입</h4><p><img src="/assets/images/post/200425/(1).png"></p>
+<br>
+
+<ul>
+<li>타입의 인스턴스 <ul>
+<li>객체 </li>
+<li>자바, 루비, 자바스크립트, C는 프로그래밍 언어의 인스턴스 </li>
+</ul>
+</li>
+<li>요소 <ul>
+<li>심볼<ul>
+<li>타입의 이름</li>
+<li>프로그래밍 언어</li>
+</ul>
+</li>
+<li>내연<ul>
+<li>타입의 정의</li>
+<li>타입에 속하는 객체들이 가지는 공통적인 속성이나 행동 </li>
+</ul>
+</li>
+<li>외연<ul>
+<li>타입에 속하는 객체들의 집합 </li>
+<li>프로그래밍 언어 타입의 경우 자바, 루비, 자바스크립트, C가 속한 집합</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<h4 id="프로그래밍-언어-관점의-타입"><a href="#프로그래밍-언어-관점의-타입" class="headerlink" title="프로그래밍 언어 관점의 타입"></a>프로그래밍 언어 관점의 타입</h4><ul>
+<li>타입에 수행될 수 있는 유효한 오퍼레이션의 집합을 정의한다. <ul>
+<li>‘+’ 연산자 : 원시형 숫자 타입이나 문자열 타입의 객체에 사용 가능, 클래스의 인스턴스에 대해서는 사용 불가</li>
+</ul>
+</li>
+<li>타입에 수행되는 오퍼레이션에 대해 미리 약속된 문맥을 제공한다. <ul>
+<li>a + b ,  a와 b의 타입이 int 라면 두수를 더함, String 이라면 하나의 문자열로 합침 </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>타입은 적용 가능한 오퍼레이션의 종류와 의미를 정의함으로써 코드의 의미를 명확하게 전달하고 개발자의 실수를 방지하기 위해 사용된다. </p>
+</blockquote>
+<br>
+
+<h4 id="객체지향-패러다임-관점의-타입"><a href="#객체지향-패러다임-관점의-타입" class="headerlink" title="객체지향 패러다임 관점의 타입"></a>객체지향 패러다임 관점의 타입</h4><ul>
+<li>타입이란 ?<ul>
+<li>개념 관점 : 공통의 특징을 공유하는 대상들의 분류</li>
+<li>프로그래밍 언어 관점 : 동일한 오퍼레이션을 적용할 수 있는 인스턴스들의 집합 </li>
+<li>객체지향 패러다임 관점 : 객체가 수신할 수 있는 메시지의 종류를 정의 </li>
+</ul>
+</li>
+<li>퍼블릭 인터페이스 : 객체가 수신할 수 있는 메시지의 집합 </li>
+<li>객체지향 프로그래밍에서 타입을 정의하는 것은 객체의 퍼블릭 인터페이스를 정의하는 것</li>
+</ul>
+<blockquote>
+<p>객체의 퍼블릭 인터페이스가 객체의 타입을 결정한다. 따라서 동일한 퍼블릭 인터페이스를 제공하는 객체들은 동일한 타입으로 분류된다. </p>
+</blockquote>
+<br>
+
+<ul>
+<li>객체의 타입을 결정하는 것은 내부의 속성이 아니라 객체가 외부에 제공하는 행동임</li>
+</ul>
+<br>
+
+<h3 id="타입-계층"><a href="#타입-계층" class="headerlink" title="타입 계층"></a>타입 계층</h3><h4 id="타입-사이의-포함-관계"><a href="#타입-사이의-포함-관계" class="headerlink" title="타입 사이의 포함 관계"></a>타입 사이의 포함 관계</h4><ul>
+<li>슈퍼타입 <ul>
+<li>집합이 다른 집합의 모든 멤버를 포함 </li>
+<li>타입 정의 다른 타입 보다 좀 더 일반적 </li>
+</ul>
+</li>
+<li>서브타입<ul>
+<li>집합에 포함되는 인스턴스들이 더 큰 집합에 포함 </li>
+<li>타입 정의가 다른 타입보다 좀더 구체적</li>
+</ul>
+</li>
+<li>내연 관점 <ul>
+<li>일반화 : 어떤 타입의 정의를 좀 더 보편적이고 추상적으로 만드는 과정 </li>
+<li>특수화 : 어떤 타입의 정의를 좀 더 구체적이고 문맥 종속적으로 만드는 과정 </li>
+</ul>
+</li>
+</ul>
+<br>
+
+<h4 id="객체지향-프로그래밍과-타입-계층"><a href="#객체지향-프로그래밍과-타입-계층" class="headerlink" title="객체지향 프로그래밍과 타입 계층"></a>객체지향 프로그래밍과 타입 계층</h4><ul>
+<li>슈퍼 타입 <ul>
+<li>서브타입이 정의한 퍼블릭 인터페이스를 일반화시켜 상대적으로 범용적이고 넓은 의미로 정의</li>
+</ul>
+</li>
+<li>서브 타입<ul>
+<li>슈퍼 타입이 정의한 퍼블릭 인터페이스를 특수화시켜 상대적으로 구체적이고 좁은 의미로 정의 </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>서브타입의 인스턴스는 슈퍼타입의 인스턴스로 간주될 수 있다. </p>
+</blockquote>
+<br>
+
+<h3 id="서브클래싱과-서브타이핑"><a href="#서브클래싱과-서브타이핑" class="headerlink" title="서브클래싱과 서브타이핑"></a>서브클래싱과 서브타이핑</h3><ul>
+<li>객체지향 프로그래밍 언어에서 타입을 구현하는 일반적인 방법 : 클래스 </li>
+<li>타입 계층을 구현하는 일반적인 방법 : 상속 </li>
+</ul>
+<br>
+
+<h4 id="언제-상속을-사용해야-하는가"><a href="#언제-상속을-사용해야-하는가" class="headerlink" title="언제 상속을 사용해야 하는가?"></a>언제 상속을 사용해야 하는가?</h4><ul>
+<li>상속 관계가 is - a 관계를 모델링 하는가?</li>
+<li>클라이언트 입장에서 부모 클래스의 타입으로 자식 클래스를 사용해도 무방한가? (행동 호환성)</li>
+</ul>
+<br>
+
+<h4 id="is-a-관계"><a href="#is-a-관계" class="headerlink" title="is-a 관계"></a>is-a 관계</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Penguin</span> <span class="keyword">extends</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 펭귄은 새다.</span><br><span class="line">- 새는 날 수 있다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>정의가 아니라 기대되는 행동에 따라 타입 계층을 구성해야 함</li>
+<li>타입 계층의 의미는 행동이라는 문맥에 따라 달라짐 </li>
+</ul>
+<br>
+
+<h4 id="행동-호환성"><a href="#행동-호환성" class="headerlink" title="행동 호환성"></a>행동 호환성</h4><blockquote>
+<p>타입의 이름 사이에 개념적으로 어떤 연관성이 있다고 하더라도 행동에 연관성이 없다면 is-a관계를 사용하지 말아야 한다. </p>
+</blockquote>
+<br>
+
+<ul>
+<li>클라이언트의 관점 </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Penguin</span> <span class="keyword">extends</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 오버라이딩 하여 내부 구현 비워두기</span></span><br><span class="line">    <span class="comment">// bird가 날 수 있다는 클라이언트의 기대 만족시키지 못함</span></span><br><span class="line">    <span class="comment">// Penguin과 Bird 행동 호환되지 않음</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Penguin</span> <span class="keyword">extends</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 오버라이딩 후 예외 던지기 </span></span><br><span class="line">    <span class="comment">// 인자 타입에 따라 성공과 실패가 갈림</span></span><br><span class="line">    <span class="comment">// 클라이언트가 기대하지 않은 예외 </span></span><br><span class="line">    <span class="comment">// Penguin과 Bird 행동 호환되지 않음</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Penguin</span> <span class="keyword">extends</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 인자로 전달된 모든 Bird Penguin의 인스턴스가 아닐 경우에만</span></span><br><span class="line">    <span class="comment">// fly() 메시지를 전송한다.</span></span><br><span class="line">    <span class="comment">// instanceof 처럼 객체 타입을 확인하는 코드는 새로운 타입 추가시마다 코드 수정을 요구 </span></span><br><span class="line">    <span class="comment">// 개방-폐쇄 원칙 위반 </span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flyBird</span><span class="params">(Bird bird)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!(bird <span class="keyword">instanceof</span> Penguin))&#123;</span><br><span class="line">            bird.fly();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="클라이언트의-기대에-따라-계층-분리하기"><a href="#클라이언트의-기대에-따라-계층-분리하기" class="headerlink" title="클라이언트의 기대에 따라 계층 분리하기"></a>클라이언트의 기대에 따라 계층 분리하기</h4><p> <img src="/assets/images/post/200425/(2).png"></p>
+<p> <img src="/assets/images/post/200425/(3).png"></p>
+<br>  
+
+<blockquote>
+<p>클라이언트에 따라 인터페이스를 분리하면 각 클라이언트의 요구가 바뀌더라도 영향의 파급 효과를 효과적으로 제어할 수 있게 된다. </p>
+<p>…</p>
+<p>이처럼 인터페이스를 클라이언트의 기대에 따라 분리함으로써 변경에 의해 영향을 제어하는 설계 원칙을 인터페이스 분리 원칙(ISP)라고 부른다. </p>
+</blockquote>
+<br>
+
+<ul>
+<li>설계가 꼭 현실 세계를 반영할 필요는 없음  </li>
+<li>중요한 것은 설계가 반영할 도메인의 요구사항이고, 그 안에서 클라이언트가 객체에게 요구하는 행동</li>
+<li>최고의 설계는 제작하려는 소프트웨어 시스템이 기대하는 바에 따라 달라짐</li>
+<li>나는 새도 있고 날 수 없는 새도 있다는 사실은 어떤 세계를 만들려고 하느냐에 따라 고려 대상이 되기도, 안되기도 함</li>
+</ul>
+<br>
+
+<h4 id="서브클래싱과-서브타이핑-1"><a href="#서브클래싱과-서브타이핑-1" class="headerlink" title="서브클래싱과 서브타이핑"></a>서브클래싱과 서브타이핑</h4><ul>
+<li>서브클래싱<ul>
+<li>다른 클래스의 코드를 재사용할 목적으로 상속을 사용 하는 경우</li>
+<li>구현 상속</li>
+<li>클래스 상속</li>
+</ul>
+</li>
+<li>서브타이핑<ul>
+<li>타입 계층을 구성하기 위해 상속을 사용하는 경우</li>
+<li>인터페이스 상속 </li>
+</ul>
+</li>
+<li>서브클래싱과 서브타이핑을 나누는 기준은 상속을 사용하는 목적 </li>
+</ul>
+<blockquote>
+<p>인터페이스 상속 관계를 갖는 경우 프로그램에는 슈퍼타입으로 정의하지만 런타임에 서브타입의 객체로 대체할 수 있다. … 즉, 추상클래스를 상속한다는 것은 단순한 코드의 재사용을 위한 상속이 아니라 추상 클래스가 정의하고 있는 인터페이스를 상속하겠다는 의미인 것이다. </p>
+</blockquote>
+<br>
+
+<ul>
+<li>서브타입이 슈퍼타입이 하는 모든 행동을 동일하게 할 수 있어야 함</li>
+<li>행동 호환성 </li>
+<li>대체 가능성 </li>
+</ul>
+<br>
+
+<h3 id="리스코프-치환-원칙"><a href="#리스코프-치환-원칙" class="headerlink" title="리스코프 치환 원칙"></a>리스코프 치환 원칙</h3><blockquote>
+<p>서브타입은 그것의 기반 타입에 대해 대체 가능해야 한다. </p>
+</blockquote>
+<br>
+
+<ul>
+<li>자식 클래스가 부모 클래스와 행동 호환성을 유지함으로써 부모 클래스를 대체할 수 있도록 구현된 상속 관계만을 서브 타이핑이라고 불러야 함 </li>
+</ul>
+<br>
+
+<h4 id="클라이언트와-대체-가능성"><a href="#클라이언트와-대체-가능성" class="headerlink" title="클라이언트와 대체 가능성"></a>클라이언트와 대체 가능성</h4><ul>
+<li>클라이언트와 격리한 채로 본 모델은 의미있게 검증하는 것이 불가능 </li>
+<li>대체 가능성을 결정하는 것은 클라이언트</li>
+</ul>
+<br>
+
+<h4 id="is-a-관계-다시-살펴보기"><a href="#is-a-관계-다시-살펴보기" class="headerlink" title="is-a 관계 다시 살펴보기"></a>is-a 관계 다시 살펴보기</h4><ul>
+<li>상속이 서브타이핑을 위해 사용될 경우에만 is-a 관계</li>
+<li>서브클래싱을 구현하기 위해 상속을 사용했다면 is-a 관계라고 말할 수 없음</li>
+</ul>
+<br>
+
+<h4 id="리스코프-치환-원칙은-유연한-설계의-기반이다"><a href="#리스코프-치환-원칙은-유연한-설계의-기반이다" class="headerlink" title="리스코프 치환 원칙은 유연한 설계의 기반이다"></a>리스코프 치환 원칙은 유연한 설계의 기반이다</h4><p> <img src="/assets/images/post/200425/(4).png"></p>
+<br>
+
+<ul>
+<li>자식 클래스가 클라이언트의 관점에서 부모 클래스를 대체할 수 있다면, 기능 확장을 위해 자식 클래스를 추가하더라도 코드를 수정할 필요가 없음 </li>
+</ul>
+<br>
+
+<h4 id="타입-계층과-리스코프-치환-원칙"><a href="#타입-계층과-리스코프-치환-원칙" class="headerlink" title="타입 계층과 리스코프 치환 원칙"></a>타입 계층과 리스코프 치환 원칙</h4><ul>
+<li>구현 방법과 무관하게 클라이언트의 관점에서 슈퍼타입에 대해 기대하는 모든 것이 서브타입에게도 적용되야 함 </li>
+</ul>
+<br>
+
+<h3 id="계약에-의한-설계와-서브타이핑"><a href="#계약에-의한-설계와-서브타이핑" class="headerlink" title="계약에 의한 설계와 서브타이핑"></a>계약에 의한 설계와 서브타이핑</h3><ul>
+<li>계약에 의한 설계<ul>
+<li>클라이언트와 서버 사이의 협력의 의무와 이익으로 구성된 계약의 관점에서 표현</li>
+<li>구성<ul>
+<li>사전조건<ul>
+<li>클라이언트가 정상적으로 메서드를 실행하기 위해 만족시켜야 하는 조건</li>
+</ul>
+</li>
+<li>사후조건<ul>
+<li>메서드 실행 후 서버가 클라이언트에게 보장해야 하는 조건</li>
+</ul>
+</li>
+<li>클래스 불변식 <ul>
+<li>메서드 실행 전과 후에 인스턴스가 만족시켜야 하는 조건 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>서브타입이 리스코프 치환 원칙을 만족시키기 위해서는 클아이언트와 슈퍼타입 간에 체결된 ‘계약’을 준수해야 함</p>
+</blockquote>
+<br>
+
+<h4 id="서브타입과-계약"><a href="#서브타입과-계약" class="headerlink" title="서브타입과 계약"></a>서브타입과 계약</h4><ul>
+<li><p>계약의 관점에서 상속이 초래하는 가장 큰 문제 </p>
+<ul>
+<li>자식 클래스가 부모 클래스의 메서드를 오버라이딩 할 수 있다는 것 </li>
+</ul>
+</li>
+<li><p>어떤 타입 : 슈퍼타입</p>
+<ul>
+<li>더 약한 사전 조건 : 더 강한 사전 조건<ul>
+<li>서브 타입 될 수 있음</li>
+</ul>
+</li>
+<li>더 강한 사전 조건 : 더 약한 사전 조건<ul>
+<li>서브 타입 될 수 없음</li>
+</ul>
+</li>
+<li>더 강한 사후 조건 : 더 약한 사후 조건<ul>
+<li>서브 타입 될 수 있음</li>
+</ul>
+</li>
+<li>더 약한 사후 조건 : 더 강한 사후 조건<ul>
+<li>서브 타입 될 수 없음</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2020/04/25/2020-04-25-OBJECTS%20Item%2013/" title="서브클래싱과 서브타이핑">https://songii00.github.io/2020/04/25/2020-04-25-OBJECTS Item 13/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/OBJECTS/" rel="tag"># OBJECTS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/" rel="prev" title="양방향 연관관계 주의사항">
+                  <i class="fa fa-chevron-left"></i> 양방향 연관관계 주의사항
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/03/2020-05-03-OBJECTS%20Item%2014/" rel="next" title="일관성 있는 협력">
+                  일관성 있는 협력 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2020/04/25/2020-04-25-OBJECTS%20Item%2013/";
+    this.page.identifier = "2020/04/25/2020-04-25-OBJECTS Item 13/";
+    this.page.title = "서브클래싱과 서브타이핑";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

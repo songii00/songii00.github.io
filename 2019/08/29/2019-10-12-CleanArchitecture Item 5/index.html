@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="객체 지향 프로그래밍객체지향을 정의하는 요소겍체지향을 표현하는 많은 말들이 있다. 보통 “데이터와 함수의 조합”, “실제 세계를 모델링 하는 새로운 방법” 이라는 말을 들어봤을 것이다. 하지만 너무 모호하며 추상적이다.어떤 사람들은 “객체지향이란 캡슐화, 상속, 다형성 이 세가지 개념을 조합한 것이거나, 또는 최소한 세가지 요소를 반드시 지원해야 한다.”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="객체 지향 프로그래밍">
+<meta property="og:url" content="https://songii00.github.io/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="객체 지향 프로그래밍객체지향을 정의하는 요소겍체지향을 표현하는 많은 말들이 있다. 보통 “데이터와 함수의 조합”, “실제 세계를 모델링 하는 새로운 방법” 이라는 말을 들어봤을 것이다. 하지만 너무 모호하며 추상적이다.어떤 사람들은 “객체지향이란 캡슐화, 상속, 다형성 이 세가지 개념을 조합한 것이거나, 또는 최소한 세가지 요소를 반드시 지원해야 한다.”">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191012/(3).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191012/(4).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191012/(5).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191012/(26).png">
+<meta property="article:published_time" content="2019-08-29T08:48:45.000Z">
+<meta property="article:modified_time" content="2019-11-27T13:46:41.347Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="CleanArchitecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/191012/(3).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>객체 지향 프로그래밍 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"><span class="nav-number">1.</span> <span class="nav-text">객체 지향 프로그래밍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%98%EB%8A%94-%EC%9A%94%EC%86%8C"><span class="nav-number">1.1.</span> <span class="nav-text">객체지향을 정의하는 요소</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BA%A1%EC%8A%90%ED%99%94"><span class="nav-number">2.</span> <span class="nav-text">캡슐화</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%83%81%EC%86%8D"><span class="nav-number">3.</span> <span class="nav-text">상속</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8B%A4%ED%98%95%EC%84%B1"><span class="nav-number">4.</span> <span class="nav-text">다형성</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%97%AD%EC%A0%84"><span class="nav-number">4.1.</span> <span class="nav-text">의존성 역전</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">5.</span> <span class="nav-text">결론</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">출처 
+</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#http-www-infobrother-com-Tutorial-C-C-Polymorphism"><span class="nav-number">5.0.0.2.</span> <span class="nav-text">http:&#x2F;&#x2F;www.infobrother.com&#x2F;Tutorial&#x2F;C++&#x2F;C++_Polymorphism 
+</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#https-cheese10yun-github-io-spring-solid-dip"><span class="nav-number">5.0.0.3.</span> <span class="nav-text">https:&#x2F;&#x2F;cheese10yun.github.io&#x2F;spring-solid-dip&#x2F; 
+</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          객체 지향 프로그래밍
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-08-29 17:48:45" itemprop="dateCreated datePublished" datetime="2019-08-29T17:48:45+09:00">2019-08-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-11-27 22:46:41" itemprop="dateModified" datetime="2019-11-27T22:46:41+09:00">2019-11-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/clean-architecture/" itemprop="url" rel="index"><span itemprop="name">clean-architecture</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/29/2019-10-12-CleanArchitecture Item 5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="객체-지향-프로그래밍"><a href="#객체-지향-프로그래밍" class="headerlink" title="객체 지향 프로그래밍"></a>객체 지향 프로그래밍</h3><h4 id="객체지향을-정의하는-요소"><a href="#객체지향을-정의하는-요소" class="headerlink" title="객체지향을 정의하는 요소"></a>객체지향을 정의하는 요소</h4><p>겍체지향을 표현하는 많은 말들이 있다. 보통 “데이터와 함수의 조합”, “실제 세계를 모델링 하는 새로운 방법” 이라는 말을 들어봤을 것이다. 하지만 너무 모호하며 추상적이다.<br>어떤 사람들은 “객체지향이란 캡슐화, 상속, 다형성 이 세가지 개념을 조합한 것이거나, 또는 최소한 세가지 요소를 반드시 지원해야 한다.” 고 말한다.</p>
+<p>과연 사실일까?</p>
+<br>
+
+<a id="more"></a>
+
+<h3 id="캡슐화"><a href="#캡슐화" class="headerlink" title="캡슐화"></a>캡슐화</h3><br>
+
+<p><img src="/assets/images/post/191012/(3).png" alt="factory method pattern"> </p>
+<p>객체지향은 데이터와 함수를 쉽고 효과적으로 캡슐화 하는 방법을 제공한다.<br>이를 통해 데이터와 함수가 응집력 있게 구성된 집단을 서로 구분짓는 선을 그을 수 있다. </p>
+<p>구분선 바깥에서 데이터는 은닉되고, 일부 함수만이 외부에 노출된다.<br>이러한 개념이 실제 객체지향 언어에서는 각각 클래스의 private 멤버 데이터와 public 멤버함수로 표현된다. </p>
+<p>캡슐화는 객체지향 프로그래밍 만의 것이 아니다. 어떤 면에서 객체지향이 캡슐화를 약화시켰다고 볼 수 있다.<br>또한 많은 객체지향 언어가 캡슐화를 거의 강제하지 않는다. 그저 프로그래머가 올바르게 지키기를 기대한다. </p>
+<br>
+
+<h3 id="상속"><a href="#상속" class="headerlink" title="상속"></a>상속</h3><br>
+
+<p><img src="/assets/images/post/191012/(4).png" alt="factory method pattern"> </p>
+<p>객체지향 언어가 고안되기 훨씬 전에도 상속과 비슷한 기법이 있었지만 절대 상속만큼 편리한 방식은 아니엿다. 또한 다중상속을 구현하기란 훨씬 더 어려운 일이었다. </p>
+<p>따라서 상속은 객체지향이 완전히 새롭게 만든 개념은 아니지만 편리한 방식으로 제공했다고 볼 수 있다.</p>
+<br>
+
+<h3 id="다형성"><a href="#다형성" class="headerlink" title="다형성"></a>다형성</h3><p>객체지향개념에서 다형성이란 ‘여러 가지 형태를 가질 수 있는 능력’을 의미하며 자바에서는 한 타입의 참조변수로 여러 타입의 객체를 참조할 수 있도록함으로써 다형성을 프로그램적으로 구현하였다.<br>대표적인 예로 오버로딩을 들수 있다.</p>
+<p><img src="/assets/images/post/191012/(5).png" alt="factory method pattern"> </p>
+<p>그렇다면 다형성은 객체지향 프로그래밍이 처음 제공한 것일까?</p>
+<p>함수를 가르키는 포인터를 응용한 것이 다형성이라는 점을 볼때 객체지향언어는 다형성을 제공하지는 못했지만, 다형성을 좀더 안전하고 편리하게 사용할 수 있게 해준다.<br>객체지향 프로그래밍을 사용한다면 다형성은 대수롭지 않은 일이 된다.<br>이러한 이유로 객체지향은 제어흐름을 간접적으로 전환하는 규칙을 부과한다고 결론지을 수 있다.</p>
+<br>
+
+
+<h4 id="의존성-역전"><a href="#의존성-역전" class="headerlink" title="의존성 역전"></a>의존성 역전</h4><p>다형성을 안전하게 적용할 수 있는 매커니즘의 등장 전을 살펴보자.<br>제어의 흐름은 시스템의 행위에 따라 결정되며, 소스코드의 의존성은 제어흐름에 따라 결정되었다.</p>
+<p>하지만 다형성을 통하게 되면서 의존성 역전이 가능해졌다.</p>
+<p><img src="/assets/images/post/191012/(26).png" alt="factory method pattern">{: width=”60%” height=”60%”}</p>
+<p>HL1 모듈은 ML1 모듈의 F()함수를 호출한다. 소스코드에서는 HL1모듈은 인터페이스를 통해 F() 함수를 호출한다.</p>
+<p>하지만 ML1과 I 인터페이스 사이의 소스 코드 의존성(상속관계)이 제어흐름과는 반대라는 것을 주목하자. 이는 의존성 역전 (dependency inversion)라고 부른다.</p>
+<p>객체지향 언어가 다형성을 안전하고 편리하게 제공하며 소스 코드 의존성을 어디에서든 역전 시킬 수 있게 하였다.<br>시스템의 소스 코드의존성 전부에 대해 방향을 결정 할 수 있는 절대적인 권한을 갖게 되었다는것을 의미한다.</p>
+<p>이에 따라 배포 독립성과 개발 독립성을 자연스럽게 얻을 수 있다.</p>
+<ul>
+<li>배포 독립성 : 특정 컴포넌트의 소스 코드가 변경되면 해당 코드가 포함된 컴포넌트만 다시 배포 </li>
+<li>개발 독립성 : 시스템모듈을 독립적으로 배포할 수 있게되며, 각자 다른 팀에서 각 모듈을 독립적으로 개발</li>
+</ul>
+<br>
+
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><blockquote>
+<p>객체지향이란 다형성을 이용해 전체 시스템의 모든 소스 코드 의존성에 대한 절대적인 제어 권한을 획득할 수 있는 능력이다.<br>객체지향을 사용하면 아키텍트는 플러그인 아키텍처를 구성할 수 있고,<br>고수준의 정책을 포함하는 모듈은 저수준의 세부사항을 포함하는 모듈에 대해 독립성을 보장할 수 있다.<br>또한 저수준의 세부사항은 중요도가 낮은 플러그인 모듈로 만들 수 있고, 고수준의 정책을 포함하는 모듈과는 독립적으로 개발하고 배포할 수 있다.</p>
+</blockquote>
+<blockquote>
+<p>객체지향 프로그래밍은 제어흐름의 간접적인 전환에 부과되는 규율이다.</p>
+</blockquote>
+<br>
+
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="http-www-infobrother-com-Tutorial-C-C-Polymorphism"><a href="#http-www-infobrother-com-Tutorial-C-C-Polymorphism" class="headerlink" title="http://www.infobrother.com/Tutorial/C++/C++_Polymorphism "></a><a target="_blank" rel="noopener" href="http://www.infobrother.com/Tutorial/C++/C++_Polymorphism">http://www.infobrother.com/Tutorial/C++/C++_Polymorphism</a> <br/></h6><h6 id="https-cheese10yun-github-io-spring-solid-dip"><a href="#https-cheese10yun-github-io-spring-solid-dip" class="headerlink" title="https://cheese10yun.github.io/spring-solid-dip/ "></a><a target="_blank" rel="noopener" href="https://cheese10yun.github.io/spring-solid-dip/">https://cheese10yun.github.io/spring-solid-dip/</a> <br/></h6>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/" title="객체 지향 프로그래밍">https://songii00.github.io/2019/08/29/2019-10-12-CleanArchitecture Item 5/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CleanArchitecture/" rel="tag"># CleanArchitecture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/29/2019-10-12-CleanArchitecture%20Item%206/" rel="prev" title="함수형 프로그래밍">
+                  <i class="fa fa-chevron-left"></i> 함수형 프로그래밍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/29/2019-10-12-CleanArchitecture%20Item%204/" rel="next" title="구조적 프로그래밍">
+                  구조적 프로그래밍 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/08/29/2019-10-12-CleanArchitecture%20Item%205/";
+    this.page.identifier = "2019/08/29/2019-10-12-CleanArchitecture Item 5/";
+    this.page.title = "객체 지향 프로그래밍";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

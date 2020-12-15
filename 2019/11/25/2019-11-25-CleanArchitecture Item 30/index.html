@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="“CleanArchitecture 30장” 데이터베이스는 모델 아님 소프트웨어 데이터에 접근할 방법을 제공하는 유틸리티 저수준 세부사항 아키텍처와 관련 없음   뛰어난 아키텍처라면 저수준의 메커니즘이 시스템 아키텍처를 오염시키는 일을 용납하지 않는다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="데이터베이스는 세부사항이다">
+<meta property="og:url" content="https://songii00.github.io/2019/11/25/2019-11-25-CleanArchitecture%20Item%2030/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="“CleanArchitecture 30장” 데이터베이스는 모델 아님 소프트웨어 데이터에 접근할 방법을 제공하는 유틸리티 저수준 세부사항 아키텍처와 관련 없음   뛰어난 아키텍처라면 저수준의 메커니즘이 시스템 아키텍처를 오염시키는 일을 용납하지 않는다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191125/(1).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191125/(2).jpg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191125/(3).jpg">
+<meta property="article:published_time" content="2019-11-25T12:18:03.000Z">
+<meta property="article:modified_time" content="2020-01-14T11:58:04.805Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="CleanArchitecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/191125/(1).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/11/25/2019-11-25-CleanArchitecture%20Item%2030/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>데이터베이스는 세부사항이다 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9CCleanArchitecture-30%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“CleanArchitecture 30장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EB%8A%94"><span class="nav-number">2.</span> <span class="nav-text">데이터베이스는</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B4%80%EA%B3%84%ED%98%95-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4"><span class="nav-number">3.</span> <span class="nav-text">관계형 데이터베이스</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%80-%EC%99%9C-%EC%9D%B4%EB%A0%87%EA%B2%8C-%EB%84%90%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%90%98%EB%8A%94%EA%B0%80"><span class="nav-number">4.</span> <span class="nav-text">데이터베이스 시스템은 왜 이렇게 널리 사용되는가?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%94%94%EC%8A%A4%ED%81%AC%EA%B0%80-%EC%97%86%EB%8B%A4%EB%A9%B4-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%90%A0%EA%B9%8C"><span class="nav-number">5.</span> <span class="nav-text">디스크가 없다면 어떻게 될까?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%B8%EB%B6%80%EC%82%AC%ED%95%AD"><span class="nav-number">6.</span> <span class="nav-text">세부사항</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EB%8A%94-1"><span class="nav-number">6.1.</span> <span class="nav-text">데이터베이스는</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%95%98%EC%A7%80%EB%A7%8C-%EC%84%B1%EB%8A%A5%EC%9D%80"><span class="nav-number">7.</span> <span class="nav-text">하지만 성능은?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">8.</span> <span class="nav-text">결론</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/11/25/2019-11-25-CleanArchitecture%20Item%2030/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          데이터베이스는 세부사항이다
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-11-25 21:18:03" itemprop="dateCreated datePublished" datetime="2019-11-25T21:18:03+09:00">2019-11-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-01-14 20:58:04" itemprop="dateModified" datetime="2020-01-14T20:58:04+09:00">2020-01-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/clean-architecture/" itemprop="url" rel="index"><span itemprop="name">clean-architecture</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/11/25/2019-11-25-CleanArchitecture%20Item%2030/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/25/2019-11-25-CleanArchitecture Item 30/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="“CleanArchitecture-30장”"><a href="#“CleanArchitecture-30장”" class="headerlink" title="“CleanArchitecture 30장”"></a>“CleanArchitecture 30장”</h3><hr>
+<h3 id="데이터베이스는"><a href="#데이터베이스는" class="headerlink" title="데이터베이스는"></a>데이터베이스는</h3><ul>
+<li>모델 아님</li>
+<li>소프트웨어</li>
+<li>데이터에 접근할 방법을 제공하는 유틸리티</li>
+<li>저수준 세부사항</li>
+<li>아키텍처와 관련 없음</li>
+</ul>
+<blockquote>
+<p>뛰어난 아키텍처라면 저수준의 메커니즘이 시스템 아키텍처를 오염시키는 일을 용납하지 않는다.</p>
+</blockquote>
+<br>
+
+<a id="more"></a>
+
+<h3 id="관계형-데이터베이스"><a href="#관계형-데이터베이스" class="headerlink" title="관계형 데이터베이스"></a>관계형 데이터베이스</h3><p><img src="/assets/images/post/191125/(1).png"></p>
+<ul>
+<li>관계형 데이터베이스는 결국 기술일 뿐이다. 즉 세부사항임을 뜻함</li>
+<li>데이터를 테이블에 행 단위로 배치한다는 자체는 아키텍처 관점으로 전혀 중요하지 않음</li>
+<li>애플리케이션의 유스케이스는 이런 방식을 알아선 안됨 (데이터가 테이블 구조를 가진다는 사실)</li>
+<li>아키텍처의 외부 원에 위치한 최하위 수준의 유틸리티 함수만 알아야 함</li>
+</ul>
+<br>
+
+<h3 id="데이터베이스-시스템은-왜-이렇게-널리-사용되는가"><a href="#데이터베이스-시스템은-왜-이렇게-널리-사용되는가" class="headerlink" title="데이터베이스 시스템은 왜 이렇게 널리 사용되는가?"></a>데이터베이스 시스템은 왜 이렇게 널리 사용되는가?</h3><p><img src="/assets/images/post/191125/(2).jpg"></p>
+<br>
+
+<ul>
+<li>디스크 -&gt; 데이터 접근 및 관리 시스템이 필요해짐 -&gt; 두가지 유형으로 분리</li>
+<li>파일 시스템 : 문서기반. 파일 구조로 만들어 디렉터리를 통해 접근</li>
+<li>데이터베이스 시스템 : 내용 기반. 테이블 구조로 만들어 SQL을 통해 접근</li>
+<li>두 시스템은 데이터를 디스크에 체계화 하여, 각 시스템에 특화된 방식으로 접근해야 할 때 효율적으로 저장, 검색 할수 있도록 함</li>
+<li>관련 데이터를 RAM 으로 가져옴</li>
+</ul>
+<br>
+
+<h3 id="디스크가-없다면-어떻게-될까"><a href="#디스크가-없다면-어떻게-될까" class="headerlink" title="디스크가 없다면 어떻게 될까?"></a>디스크가 없다면 어떻게 될까?</h3><p>만약 모든 데이터가 RAM 에 저장된다면 데이터를 어떻게 체계화할 것인가?</p>
+<ul>
+<li>데이터들을 연결 리스트, 트리, 해시 테이블, 스택, 큐 혹은 무수히 많은 데이터 구조로 체계화</li>
+<li>데이터 접근할 때는 포인터나 참조 사용</li>
+<li>데이터가 데이터 베이스나 파일 시스템에 있더라도 RAM으로 읽은 후 임의의 구조로 변경</li>
+<li>데이터를 파일이나 테이블 형태로 그대로 두는 경우는 거의 없음</li>
+</ul>
+<br>
+
+<h3 id="세부사항"><a href="#세부사항" class="headerlink" title="세부사항"></a>세부사항</h3><p><img src="/assets/images/post/191125/(3).jpg"></p>
+<h4 id="데이터베이스는-1"><a href="#데이터베이스는-1" class="headerlink" title="데이터베이스는"></a>데이터베이스는</h4><ul>
+<li>메커니즘</li>
+<li>비트를 닮은 거대한 그릇</li>
+<li>데이터를 장기적으로 저장하는 공간</li>
+</ul>
+<br>
+
+<h3 id="하지만-성능은"><a href="#하지만-성능은" class="headerlink" title="하지만 성능은?"></a>하지만 성능은?</h3><p>데이터 저장소에 데이터를 빠르게 넣고 뺄 수 있는 건 저수준의 관심사이다. 성능은 시스템 전반적 아키텍처와는 아무 관련이 없다.</p>
+<br>
+
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><ul>
+<li>체계화된 데이터 구조와 데이터 모델은 아키텍처 적으로 중요</li>
+<li>데이터베이스는 아키텍처적으로 중요하지 않음</li>
+</ul>
+<blockquote>
+<p>데이터는 중요하다. 데이터베이스는 세부사항이다.</p>
+</blockquote>
+<br>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/11/25/2019-11-25-CleanArchitecture%20Item%2030/" title="데이터베이스는 세부사항이다">https://songii00.github.io/2019/11/25/2019-11-25-CleanArchitecture Item 30/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CleanArchitecture/" rel="tag"># CleanArchitecture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/17/2019-11-25-CleanArchitecture%20Item%2032/" rel="prev" title="프레임워크는 세부사항이다">
+                  <i class="fa fa-chevron-left"></i> 프레임워크는 세부사항이다
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/11/28/2019-11-28-CleanArchitecture%20Item%2033/" rel="next" title="사례 연구 : 비디오 판매">
+                  사례 연구 : 비디오 판매 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/11/25/2019-11-25-CleanArchitecture%20Item%2030/";
+    this.page.identifier = "2019/11/25/2019-11-25-CleanArchitecture Item 30/";
+    this.page.title = "데이터베이스는 세부사항이다";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

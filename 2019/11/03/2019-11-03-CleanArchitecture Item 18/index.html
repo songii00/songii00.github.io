@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="시스템 아키텍처는 일련의 소프트웨어 컴포넌트와 그 컴포넌트들을 분리하는 경계에 의해 정의된다. 가장 흔한 경계의 예들을 살펴보자.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="경계 해부학">
+<meta property="og:url" content="https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="시스템 아키텍처는 일련의 소프트웨어 컴포넌트와 그 컴포넌트들을 분리하는 경계에 의해 정의된다. 가장 흔한 경계의 예들을 살펴보자.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(9).jpeg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(8).jpg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(10).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(1).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(2).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(11).jpg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(3).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(4).gif">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191103/(12).jpg">
+<meta property="article:published_time" content="2019-11-03T06:28:11.000Z">
+<meta property="article:modified_time" content="2019-11-27T13:45:05.549Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="CleanArchitecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/191103/(9).jpeg">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>경계 해부학 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%9F%B0%ED%83%80%EC%9E%84%EC%97%90-%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8%ED%95%98%EA%B8%B0"><span class="nav-number">1.</span> <span class="nav-text">런타임에 경계 횡단하기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%91%90%EB%A0%A4%EC%9A%B4-%EB%8B%A8%EC%9D%BC%EC%B2%B4"><span class="nav-number">2.</span> <span class="nav-text">두려운 단일체</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8F%99%EC%A0%81-%EB%8B%A4%ED%98%95%EC%84%B1-vs-%EC%A0%95%EC%A0%81-%EB%8B%A4%ED%98%95%EC%84%B1"><span class="nav-number">2.1.</span> <span class="nav-text">동적 다형성 vs 정적 다형성</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%ED%85%9C%ED%94%8C%EB%A6%BF-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-thrillfighter-tistory-com-408"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">템플릿 더 알아보기 : https:&#x2F;&#x2F;thrillfighter.tistory.com&#x2F;408 
+</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8"><span class="nav-number">2.2.</span> <span class="nav-text">경계 횡단</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%A0%95%EB%A6%AC"><span class="nav-number">2.3.</span> <span class="nav-text">정리</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%B0%B0%ED%8F%AC%ED%98%95-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8"><span class="nav-number">3.</span> <span class="nav-text">배포형 컴포넌트</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8F%99%EC%A0%81-%EB%A7%81%ED%81%AC-vs-%EC%A0%95%EC%A0%81-%EB%A7%81%ED%81%AC"><span class="nav-number">3.1.</span> <span class="nav-text">동적 링크 vs 정적 링크</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%A0%95%EC%A0%81-%EB%8F%99%EC%A0%81-%EB%A7%81%ED%81%AC-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-jhnyang-tistory-com-42"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">정적&#x2F; 동적 링크 더 알아보기 :  [https:&#x2F;&#x2F;jhnyang.tistory.com&#x2F;42] 
+</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%8A%A4%EB%A0%88%EB%93%9C"><span class="nav-number">4.</span> <span class="nav-text">스레드</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%A1%9C%EC%BB%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4"><span class="nav-number">5.</span> <span class="nav-text">로컬 프로세스</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%84%EB%A6%AC-%EC%A0%84%EB%9E%B5"><span class="nav-number">5.1.</span> <span class="nav-text">분리 전략</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%86%B5%EC%8B%A0"><span class="nav-number">5.2.</span> <span class="nav-text">통신</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B9%84%EC%8A%A4"><span class="nav-number">6.</span> <span class="nav-text">서비스</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%86%B5%EC%8B%A0-1"><span class="nav-number">6.1.</span> <span class="nav-text">통신</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B6%84%EB%A6%AC-%EC%A0%84%EB%9E%B5-1"><span class="nav-number">6.2.</span> <span class="nav-text">분리 전략</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">7.</span> <span class="nav-text">결론</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">7.1.</span> <span class="nav-text">출처 
+</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          경계 해부학
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-11-03 15:28:11" itemprop="dateCreated datePublished" datetime="2019-11-03T15:28:11+09:00">2019-11-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-11-27 22:45:05" itemprop="dateModified" datetime="2019-11-27T22:45:05+09:00">2019-11-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/clean-architecture/" itemprop="url" rel="index"><span itemprop="name">clean-architecture</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/03/2019-11-03-CleanArchitecture Item 18/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>시스템 아키텍처는 일련의 소프트웨어 컴포넌트와 그 컴포넌트들을 분리하는 경계에 의해 정의된다. 가장 흔한 경계의 예들을 살펴보자.</p>
+<p><img src="/assets/images/post/191103/(9).jpeg" alt="factory method pattern"></p>
+<br>
+
+<a id="more"></a>
+
+<h3 id="런타임에-경계-횡단하기"><a href="#런타임에-경계-횡단하기" class="headerlink" title="런타임에 경계 횡단하기"></a>런타임에 경계 횡단하기</h3><p>: 경계 한쪽에 있는 기능에서 반대편 기능을 호출하여 데이터를 전달하는 일</p>
+<p>적절한 위치에서 경계를 횡단하게 하는 비결은 <strong>소스코드 의존성 관리</strong>에 있다.</p>
+<blockquote>
+<p>소스코드 모듈 하나 변경 -&gt; 이를 의존하는 다른 소스 코드 모듈 변경  -&gt; 재컴파일 -&gt; 재배포 </p>
+</blockquote>
+<p>경계는 이러한 변경이 전파되는 것을 막는 방화벽을 구축하고 관리하는 수단으로써 존재한다. </p>
+<br>
+
+<h3 id="두려운-단일체"><a href="#두려운-단일체" class="headerlink" title="두려운 단일체"></a>두려운 단일체</h3><p><img src="/assets/images/post/191103/(8).jpg" alt="factory method pattern"></p>
+<p>아키텍터 경계 중 가장 단순하며 흔한 형태는 <strong>물리적으로 엄격하게 구분되지 않는 형태</strong> 이다.</p>
+<ul>
+<li><p>단일 프로세서에서 같은 주소 공간을 공유</p>
+</li>
+<li><p>나름의 규칙에 따라 분리되 있을 뿐 </p>
+<blockquote>
+<p>소스 수준 분리 모드 </p>
+</blockquote>
+</li>
+</ul>
+<p>배포의 관점에서 단일체는 <em>단일 실행 파일</em>이다.  </p>
+<p>ex ) 실행 가능한 jar 파일로 묶인 일련의 자바 클래스 파일 </p>
+<p>이처럼 배포의 관점에서 볼때 단일체의 경계는 드러나지 않지만 그 안에 포함된 다양한 컴포넌트를 개발하고, 바이너리로 만드는 과정을 독립적으로 수행할 수 있게 하는일은 대단히 가치있는 일이다. </p>
+<br>
+
+<h4 id="동적-다형성-vs-정적-다형성"><a href="#동적-다형성-vs-정적-다형성" class="headerlink" title="동적 다형성 vs 정적 다형성"></a>동적 다형성 vs 정적 다형성</h4><p><strong>동적인 다형성</strong></p>
+<ul>
+<li><p>클래스의 상속을 통해서 하나의 타입에 서로 다른 타입을 넣어 서로 다른 타입처럼 인식되는 것을 뜻함</p>
+</li>
+<li><p> 런타임에 인식</p>
+</li>
+</ul>
+<p><strong>정적인 다형성</strong></p>
+<p><img src="/assets/images/post/191103/(10).png" alt="factory method pattern"></p>
+<ul>
+<li><p>정적인 다형성은 타입의 이름은 같지만 옵션( &lt; &gt; 같은것)을 주어 같은 이름이지만 옵션에 따라 다른 타입으로 인식되는 것을 뜻한다. ex) 제네릭, 템플릿</p>
+</li>
+<li><p>컴파일 타임에 이루어짐</p>
+</li>
+</ul>
+<h6 id="템플릿-더-알아보기-https-thrillfighter-tistory-com-408"><a href="#템플릿-더-알아보기-https-thrillfighter-tistory-com-408" class="headerlink" title="템플릿 더 알아보기 : https://thrillfighter.tistory.com/408 "></a>템플릿 더 알아보기 : <a target="_blank" rel="noopener" href="https://thrillfighter.tistory.com/408">https://thrillfighter.tistory.com/408</a> <br/></h6><br>
+
+<h4 id="경계-횡단"><a href="#경계-횡단" class="headerlink" title="경계 횡단"></a>경계 횡단</h4><p>가장 단순한 형태의 경계 횡단은 저수준 클라이언트에서 고수준 서비스로 향하는 함수 호출이다. </p>
+<p><img src="/assets/images/post/191103/(1).png" alt="factory method pattern"></p>
+<p>제어의 흐름은 왼쪽에서 오른쪽으로 경계를 횡단한다.  </p>
+<p>고수준 클라이언트가 저수준 서비스를 호출해야 한다면 동적 다형성을 사용하여 제어흐름과는 반대 방향으로 의존성을 역전시킬 수 있다. 이렇게 되면 런타임 의존성은 컴파일 타임 의존성과는 반대가 된다. </p>
+<p><img src="/assets/images/post/191103/(2).png" alt="factory method pattern"></p>
+<p>제어흐름은 왼쪽 -&gt; 오른쪽으로 경계를 횡단한다. 고수준 Client는 Service 인터페이스를 통해 저수준 ServiceImpl의 f() 함수를 호출한다. 주목해야 할 점은 경계를 횡단할 때 의존성은 모두 오-&gt;왼쪽으로 고수준 컴포넌트를 향한다는 점이다. </p>
+<br>
+
+<h4 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h4><p>정적 링크된 모노리틱 구조의 실행파일일 지라도 이처럼 분리하면 프로젝트를 진행하는데 많은도움이 된다. 팀들은 독립적으로 컴포넌트를 작업하고 고수준 컴포넌트는 저수준 세부사항으로부터 독립적으로 유지된다. </p>
+<p>단일체에서 컴포넌트 간 통신은 함수 호출에 이므로 매우 빠르고 값싸다. 때문에 소스 수준에서 결합이 분리되면 경계를 가로지르는 통신은 상당히 빈번할 수 있다. </p>
+<br>
+
+<h3 id="배포형-컴포넌트"><a href="#배포형-컴포넌트" class="headerlink" title="배포형 컴포넌트"></a>배포형 컴포넌트</h3><p><img src="/assets/images/post/191103/(11).jpg" alt="factory method pattern"></p>
+<p>아키텍처의 경계가 물리적으로 드러나는 가장 단순한 형태는 <strong>동적 링크 라이브러리</strong> 이다. </p>
+<p>ex) .NET, DLL, 자바 jar 등</p>
+<p>컴포넌트를 이 형태로 배포하면 따로 컴파일 하지 않고 곧바로 사용할 수 있다. 이는 <strong>배포 수준 결합 분리 모드</strong>에 해당한다. </p>
+<p>이는 배포 과정만 차이가 날 뿐, 배포 수준의 컴포넌트는 단일체와 동일하다. 일반적으로 모든 함수가 동일한 프로세서와 주소 공간에 위치하며 컴포넌트를 분리하거나 의존성을 관리하는 전략도 단일체와 동일하다.</p>
+<p>단일체와 마찬가지로 컴포넌트의 경계를 가로지르는 통신은 함수호출이므로 매우 값싸다. 동적 링크와 런타임 로딩으로 인해 최초 함수 호출은 오래 걸릴 수 있지만, 대체로 이들 경계를 가로지르는 통신은 매우 빈번할 것이다. </p>
+<br>
+
+<h4 id="동적-링크-vs-정적-링크"><a href="#동적-링크-vs-정적-링크" class="headerlink" title="동적 링크 vs 정적 링크"></a>동적 링크 vs 정적 링크</h4><p><strong>정적 링크</strong></p>
+<p><img src="/assets/images/post/191103/(3).png" alt="factory method pattern"></p>
+<ul>
+<li><p>컴파일 시 라이브러리가 참조되어 실행 파일과 함께 만들어짐</p>
+</li>
+<li><p>실행파일 만들 때 라이브러리를 같이 포함시켜서 .exe파일을 만드는 것</p>
+</li>
+<li><p>컴파일을 하면 링커가 프로그램이 필요로 하는 부분을 라이브러리에서 찾아 실행파일에다가 바로 복사</p>
+</li>
+<li><p>실행 파일에 복사됨으로 라이브러리가 필요 없음 -&gt; 메모리 많이 소모</p>
+<p>ex) A 프로그램 안에 cout 클래스 라이브러리가 정적링크 되있다면 60명이 A프로그램 동작 시 메모리에 cout 정보 코드만 60개 존재</p>
+</li>
+</ul>
+<p><strong>동적 링크</strong></p>
+<p><img src="/assets/images/post/191103/(4).gif" alt="factory method pattern"></p>
+<ul>
+<li><p>컴파일 단계에서는 라이브러리 정보만 포함</p>
+</li>
+<li><p>실행될 때 그 정보를 바탕으로 외부에 존재하는 라이브러리(DLL) 함수를 사용</p>
+</li>
+<li><p>한번 메모리에 로딩된 dll을 사용</p>
+<p>ex) cout 이 존재하는 라이브러리를 하나만 메모리에 올린 후,  프로그램이 cout 를 호출할 때 라이브러리로 점프 한 후 실행, 다시 되돌아옴. cout 이 60개 존재하는것이 아닌 하나의 shared libraries로 존재.</p>
+</li>
+</ul>
+<h6 id="정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42"><a href="#정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42" class="headerlink" title="정적/ 동적 링크 더 알아보기 :  [https://jhnyang.tistory.com/42] "></a>정적/ 동적 링크 더 알아보기 :  [<a target="_blank" rel="noopener" href="https://jhnyang.tistory.com/42]">https://jhnyang.tistory.com/42]</a> <br/></h6><br>
+
+<h3 id="스레드"><a href="#스레드" class="headerlink" title="스레드"></a>스레드</h3><p><img src="/assets/images/post/191103/(12).jpg" alt="factory method pattern"></p>
+<p>단일체와 배포형 컴포넌트는 모두 스레드를 활용할 수 있다. 스레드는 아키텍처 경계도 아니며 배포 단위도 아니다. 스레드는 실행 계획과 순서를 체계화하는 방법에 가깝다. 모든 스레드가 단 하나의 컴포넌트에 포함될 수도 있고, 많은 컴포넌트에 분산될 수 있다. </p>
+<br>
+
+<h3 id="로컬-프로세스"><a href="#로컬-프로세스" class="headerlink" title="로컬 프로세스"></a>로컬 프로세스</h3><p><strong>강한 물리적 형태를 띠는 아키텍처 경계</strong>로는 로컬 프로세스가 있다. 로컬 프로세스는 주로 명령행이나 시스템 호출을 통해 생성된다. 각각의 독립된 주소 공간에서 실행되며 일반적으로는 메모리 보호를 통해 프로세스들이 메모리를 공유하지 못하게 한다.</p>
+<p>대개의 경우 로컬 프로세스는 소켓이나 메일박스, 메세지큐와 같이 운영체제에서 제공하는 통신기능을 이용해 통신한다.</p>
+<p>각 로컬 프로세스는 정적으로 링크된 단일체이거나 동적으로 링크된 여러개의 컴포넌트로 구성될 수 있다. </p>
+<p>로컬 프로세스를 일종의 최상위 컴포넌트라고 생각하자. 즉 로컬 프로세스는 컴포넌트 간 의존성을 동적 다형성을 통해 관리하는 저수준 컴포넌트로 구성된다. </p>
+<br>
+
+<h4 id="분리-전략"><a href="#분리-전략" class="headerlink" title="분리 전략"></a>분리 전략</h4><p>단일체나 바이너리 컴포넌트의 경우와 분리전략은 동일하다. 소스 코드 의존성의 화살표는 항상 고수준 컴포넌트를 향한다. </p>
+<p>따라서 로컬 프로세스에서 고수준 프로세스의 소스 코드가 저수준 프로세스의 이름, 물리주소, 레즈스트리 조회 키를 절대로 포함해서는 안된다. 저수준 프로세스가 고수준 프로세스의 플러그인이 되도록 만드는 것이 아키텍처 관점의 목표이다. </p>
+<br>
+
+<h4 id="통신"><a href="#통신" class="headerlink" title="통신"></a>통신</h4><ul>
+<li><p>운영체제 호출, 데이터 마샬링 및 언마샬링, 프로세스 간 문맥 교환 등이 있다. </p>
+</li>
+<li><p>비싼 작업</p>
+</li>
+<li><p>통신이 빈번히 이뤄지지 않도록 신중히 제한 </p>
+</li>
+</ul>
+<br>
+
+<h3 id="서비스"><a href="#서비스" class="headerlink" title="서비스"></a>서비스</h3><p><strong>물리적인 형태를 띠는 가장 강력한 경계</strong>는 바로 서비스 이다.</p>
+<ul>
+<li><p>서비스는 프로세스 </p>
+</li>
+<li><p>명령행, 시스템 호출을 통해 구동</p>
+</li>
+<li><p>자신의 물리적 위치에 구애받지 않음</p>
+<p>: 서로 통신하는 두 서비스는 물리적으로 동일 프로세서나 멀티코어에서 동작할 수 있고 아닐수도 있다.</p>
+</li>
+<li><p>모든 통신은 네트워크를 통해 이뤄짐<br><br></p>
+</li>
+</ul>
+<h4 id="통신-1"><a href="#통신-1" class="headerlink" title="통신"></a>통신</h4><p>서비스 경계를 지나는 통신은 함수 호출에 비해 매우 느리다. 따라서 빈번히 통신하는 일을 피해야 한다. </p>
+<br>
+
+<h4 id="분리-전략-1"><a href="#분리-전략-1" class="headerlink" title="분리 전략"></a>분리 전략</h4><ul>
+<li>로컬 프로세스에 적용한 규칙을 동일 적용</li>
+<li>저수준 서비스는 반드시 고수준 서비스에 플러그인 되어야 함</li>
+<li>고수준 서비스의 소스 코드에는 저수준 서비스를 특정 짓는 어떤 물리적인 정보도 절대 포함해서는 안됨</li>
+</ul>
+<br>
+
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><blockquote>
+<p>대체로 한 시스템 안에서도 통신이 빈번한 로컬 경계와 지연을 중요하게 고려해야 하는 경계가 혼합되어 있음을 의미 한다. </p>
+</blockquote>
+<br>
+
+<h4 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h4><p><a target="_blank" rel="noopener" href="https://www.ikpil.com/957">https://www.ikpil.com/957</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/" title="경계 해부학">https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture Item 18/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CleanArchitecture/" rel="tag"># CleanArchitecture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/10/29/2019-10-28-CleanArchitecture%20Item%2017/" rel="prev" title="경계 : 선긋기">
+                  <i class="fa fa-chevron-left"></i> 경계 : 선긋기
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/11/03/2019-11-03-CleanArchitecture%20Item%2019/" rel="next" title="정책과 수준">
+                  정책과 수준 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/11/03/2019-11-03-CleanArchitecture%20Item%2018/";
+    this.page.identifier = "2019/11/03/2019-11-03-CleanArchitecture Item 18/";
+    this.page.title = "경계 해부학";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

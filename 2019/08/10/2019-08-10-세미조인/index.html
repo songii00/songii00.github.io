@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="세미조인이란세미조인은 서브 쿼리와 메인 쿼리와의 연결처리를 위한 유사 조인 방식이다. 여기서는 1:n 관계에서 1:1처럼 조회될 경우, 쿼리 튜닝을 위한 방법으로 소개하도록 하겠다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="세미조인">
+<meta property="og:url" content="https://songii00.github.io/2019/08/10/2019-08-10-%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="세미조인이란세미조인은 서브 쿼리와 메인 쿼리와의 연결처리를 위한 유사 조인 방식이다. 여기서는 1:n 관계에서 1:1처럼 조회될 경우, 쿼리 튜닝을 위한 방법으로 소개하도록 하겠다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/190810/(2).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/190810/(1).png">
+<meta property="article:published_time" content="2019-08-10T03:10:53.000Z">
+<meta property="article:modified_time" content="2019-11-27T13:47:38.592Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/190810/(2).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/08/10/2019-08-10-%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>세미조인 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8%EC%9D%B4%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">세미조인이란</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%98%88%EC%A0%9C"><span class="nav-number">1.1.</span> <span class="nav-text">예제</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inner-join"><span class="nav-number">1.2.</span> <span class="nav-text">Inner join</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8-%EC%A2%85%EB%A5%98"><span class="nav-number">2.</span> <span class="nav-text">세미조인 종류</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IN"><span class="nav-number">2.1.</span> <span class="nav-text">IN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EXISTS"><span class="nav-number">2.2.</span> <span class="nav-text">EXISTS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9E%A5%EC%A0%90"><span class="nav-number">3.</span> <span class="nav-text">장점</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%81%9D%EC%9C%BC%EB%A1%9C"><span class="nav-number">4.</span> <span class="nav-text">끝으로..</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/08/10/2019-08-10-%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          세미조인
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-08-10 12:10:53" itemprop="dateCreated datePublished" datetime="2019-08-10T12:10:53+09:00">2019-08-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-11-27 22:47:38" itemprop="dateModified" datetime="2019-11-27T22:47:38+09:00">2019-11-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/database/" itemprop="url" rel="index"><span itemprop="name">database</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/08/10/2019-08-10-%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/10/2019-08-10-세미조인/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="세미조인이란"><a href="#세미조인이란" class="headerlink" title="세미조인이란"></a>세미조인이란</h3><p>세미조인은 서브 쿼리와 메인 쿼리와의 연결처리를 위한 유사 조인 방식이다. 여기서는 1:n 관계에서 1:1처럼 조회될 경우, 쿼리 튜닝을 위한 방법으로 소개하도록 하겠다. </p>
+<a id="more"></a>
+
+<h4 id="예제"><a href="#예제" class="headerlink" title="예제"></a>예제</h4><p>학생 테이블(student) <br><br><img src="/assets/images/post/190810/(2).png" alt="학생 테이블"> </p>
+<p>힉과 테이블(department) <br><br><img src="/assets/images/post/190810/(1).png" alt="학과 테이블"> </p>
+<p>다음의 두 테이블이 있다고 가정한다. </p>
+<p>학생이 있는 학과의 리스트를 조회하는 예제를 살펴보자. </p>
+<h4 id="Inner-join"><a href="#Inner-join" class="headerlink" title="Inner join"></a>Inner join</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT distinct d.dept_name</span><br><span class="line">FROM department d </span><br><span class="line">INNER JOIN student s ON s.dept_code = d.dept_code</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>inner join을 사용하면 학과와 학생은 1:n 관계이기 때문에 중복이 발생한다. </p>
+<p>원하는 결과를 얻기 위해 집계함수를 사용하지 않은 group by 나 distinct 사용하여 중복을 제거해야만 한다.</p>
+<p>또한, 위의 예제의 경우 결국 select 를 사용하여 도출하는 데이터는 학과의 학과명 뿐이다. 학생의 정보를 사용하지 않는다. </p>
+<p>따라서 </p>
+<blockquote>
+<p>1:n 관계에서 1의 컬럼만을 사용할 경우가 바로 세미조인을 사용해야 하는 경우이다. </p>
+</blockquote>
+<br>
+
+<h3 id="세미조인-종류"><a href="#세미조인-종류" class="headerlink" title="세미조인 종류"></a>세미조인 종류</h3><p>세미 조인으로는 in과 exists가 있다. </p>
+<h4 id="IN"><a href="#IN" class="headerlink" title="IN"></a>IN</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT d.dept_name</span><br><span class="line">FROM department d </span><br><span class="line">WHERE d.<span class="function">dept_code <span class="title">IN</span> <span class="params">(SELECT s.dept_code FROM student s)</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure>
+
+<h4 id="EXISTS"><a href="#EXISTS" class="headerlink" title="EXISTS"></a>EXISTS</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT * </span><br><span class="line">FROM department d </span><br><span class="line">WHERE EXISTS </span><br><span class="line">(SELECT <span class="number">1</span> </span><br><span class="line">FROM student s </span><br><span class="line">WHERE d.dept_code = s.dept_code)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h3><p>세미조인을 사용하게 되면 여러가지 장점이 있다.</p>
+<p>첫번째는 동작 방식에 있다.</p>
+<p>세미 조인이 동작을 시작하면 학생 코드 A 인 김미나 학생의 학과 코드 1을 찾기 위해 department 테이블을 뒤지기 시작한다.<br>department 테이블의 컴퓨터 공학과에서 출발하여 student가 가지고 있는 학과 코드를 찾게 되는데 첫번째 로우에서 바로 찾게 되기 때문에 다른 로우들은 더이상 읽지 않는다.<br>그리고 돌아간 후, 학생코드 B인 최다미 학생의 학과코드를 찾기 위해 준비 한다.</p>
+<p>때문에 모든 로우를 다 읽는 inner join 보다 성능이 향상된다. </p>
+<p>두번째는 group by나 distinct 에서 한번 더 소모되던 비용을 줄여준다는 점이다.<br>1:n 관계에서 inner join, outer join 쓰면 중복이 발생할 가능성이 있는데 세미조인을 사용하면 그런 문제에서 벗어날 수 있다. </p>
+<br>
+
+<h3 id="끝으로"><a href="#끝으로" class="headerlink" title="끝으로.."></a>끝으로..</h3><p>1:n 상황에서 집계함수가 없는 group by 나 distinct 를 사용해 중복을 제거하고 있다면! <br><br>결국 사용하는 컬럼이 1에 속하는 테이블의 컬럼뿐이라면! </p>
+<blockquote>
+<p>세미조인을 사용하여 쿼리 튜닝을 해보자. </p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/08/10/2019-08-10-%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8/" title="세미조인">https://songii00.github.io/2019/08/10/2019-08-10-세미조인/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/database/" rel="tag"># database</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/06/16/2019-06-16-Effective%20Java%20Item%2010/" rel="prev" title="Effective Java / Item 10">
+                  <i class="fa fa-chevron-left"></i> Effective Java / Item 10
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/10/2019-08-10-%EC%BF%BC%EB%A6%AC%ED%8A%9C%EB%8B%9D%ED%8C%81/" rel="next" title="쿼리튜닝 팁">
+                  쿼리튜닝 팁 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/08/10/2019-08-10-%EC%84%B8%EB%AF%B8%EC%A1%B0%EC%9D%B8/";
+    this.page.identifier = "2019/08/10/2019-08-10-세미조인/";
+    this.page.title = "세미조인";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

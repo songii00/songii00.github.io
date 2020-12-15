@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="“CleanArchitecture 22장” 시스템 아키텍처 아이디어">
+<meta property="og:type" content="article">
+<meta property="og:title" content="클린 아키텍처">
+<meta property="og:url" content="https://songii00.github.io/2019/11/09/2019-11-09-CleanArchitecture%20Item%2022/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="“CleanArchitecture 22장” 시스템 아키텍처 아이디어">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191110/(1).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191110/(2).jpg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191110/(3).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191110/(4).jpeg">
+<meta property="article:published_time" content="2019-11-09T11:56:12.000Z">
+<meta property="article:modified_time" content="2020-01-14T12:00:26.464Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="CleanArchitecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/191110/(1).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/11/09/2019-11-09-CleanArchitecture%20Item%2022/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>클린 아키텍처 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9CCleanArchitecture-22%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“CleanArchitecture 22장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%95%84%EC%9D%B4%EB%94%94%EC%96%B4"><span class="nav-number">2.</span> <span class="nav-text">시스템 아키텍처 아이디어</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AA%A9%ED%91%9C"><span class="nav-number">2.1.</span> <span class="nav-text">목표</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%ED%8A%B9%EC%A7%95"><span class="nav-number">2.2.</span> <span class="nav-text">아키텍처 특징</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%98%EC%A1%B4%EC%84%B1-%EA%B7%9C%EC%B9%99"><span class="nav-number">3.</span> <span class="nav-text">의존성 규칙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%94%ED%8B%B0%ED%8B%B0"><span class="nav-number">3.1.</span> <span class="nav-text">엔티티</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9C%A0%EC%8A%A4%EC%BC%80%EC%9D%B4%EC%8A%A4"><span class="nav-number">3.2.</span> <span class="nav-text">유스케이스</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EC%96%B4%EB%8C%91%ED%84%B0"><span class="nav-number">3.3.</span> <span class="nav-text">인터페이스 어댑터</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC%EC%99%80-%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B2%84"><span class="nav-number">3.4.</span> <span class="nav-text">프레임워크와 드라이버</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8%ED%95%98%EA%B8%B0"><span class="nav-number">3.5.</span> <span class="nav-text">경계 횡단하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B2%BD%EA%B3%84-%ED%9A%A1%EB%8B%A8-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="nav-number">3.6.</span> <span class="nav-text">경계 횡단 데이터</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%A0%84%ED%98%95%EC%A0%81-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4"><span class="nav-number">4.</span> <span class="nav-text">전형적 시나리오</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">5.</span> <span class="nav-text">결론</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/11/09/2019-11-09-CleanArchitecture%20Item%2022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          클린 아키텍처
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-11-09 20:56:12" itemprop="dateCreated datePublished" datetime="2019-11-09T20:56:12+09:00">2019-11-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-01-14 21:00:26" itemprop="dateModified" datetime="2020-01-14T21:00:26+09:00">2020-01-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/clean-architecture/" itemprop="url" rel="index"><span itemprop="name">clean-architecture</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/11/09/2019-11-09-CleanArchitecture%20Item%2022/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/09/2019-11-09-CleanArchitecture Item 22/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="“CleanArchitecture-22장”"><a href="#“CleanArchitecture-22장”" class="headerlink" title="“CleanArchitecture 22장”"></a>“CleanArchitecture 22장”</h3><hr>
+<h3 id="시스템-아키텍처-아이디어"><a href="#시스템-아키텍처-아이디어" class="headerlink" title="시스템 아키텍처 아이디어"></a>시스템 아키텍처 아이디어</h3><p><img src="/assets/images/post/191110/(1).png" alt="factory method pattern"></p>
+<a id="more"></a>
+
+<ul>
+<li><p>육각형 아키텍처(Hexagonal Architecture) </p>
+<p>– 포트와 어댑터</p>
+<p>– 앨리스터 코오번이 개발</p>
+<p>– 시스템을 응용 프로그램 코어, 데이터베이스, 사용자 인터페이스, 테스트 스크립트 및 다른 시스템과의 인터페이스와 같이 느슨하게 결합 된 여러 교환 가능한 구성 요소로 나눔</p>
+<p>– 어댑터는 구성 요소와 외부 환경을 연결하는 접착제. 외부 세계와 응용 프로그램 구성 요소 내부의 요구 사항을 나타내는 포트 간의 교환을 조정</p>
+</li>
+<li><p>DCI(data, Context and Interaction)</p>
+<p>– 제임스 코플리언과 트리그베 린스쿠주가 만듬</p>
+<p>– <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_(computer_science)">개체</a> 통신 시스템을 프로그래밍하는 데 사용되는 패러다임 </p>
+<p>–  <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Domain_model">도메인 모델</a> (데이터)을 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Use_case">사용 사례</a> (컨텍스트) 및 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Object_(computer_science)">개체가 수행하는</a> 역할 (상호 작용)과 분리</p>
+</li>
+<li><p>BCE </p>
+<p>– 이바 야콥슨이 알림</p>
+<br>
+
+</li>
+</ul>
+<h4 id="목표"><a href="#목표" class="headerlink" title="목표"></a>목표</h4><ul>
+<li>관심사의 분리 </li>
+</ul>
+<p>소프트웨어를 계층으로 분리함으로써 [<strong>관심사의 분리</strong>] 라는 목표를 달성했다. 각 아키텍처는 최소한 업무 규칙을  위한 계층 하나와 사용자와 시스템 인터페이스를 위한 또 다른 계층 하나를 반드시 포함한다. </p>
+<br>
+
+<h4 id="아키텍처-특징"><a href="#아키텍처-특징" class="headerlink" title="아키텍처 특징"></a>아키텍처 특징</h4><ul>
+<li><p>프레임워크 독립성 </p>
+<p>– 다양한 기능의 라이브러리를 제공하는 소프트웨어, 즉 프레임워크의 존재 여부에 의존하지 않음</p>
+<p>– 프레임워크가 지닌 제약사항에 시스템을 맞추지 않음</p>
+</li>
+<li><p>테스트 용이성</p>
+<p>– 업무 규칙은 UI, 데이터베이스, 웹서버 또는 외부 요소가 없이도 테스트 할 수 있음</p>
+</li>
+<li><p>UI 독립성</p>
+<p>– 시스템과 상관없이 UI 쉽게 변경 가능</p>
+<p>– 업무 규칙을 변경하지 않은 채 웹 UI를 콘솔 UI로 대체 </p>
+</li>
+<li><p>데이터베이스 독립성</p>
+<p>– 업무 규칙은 데이터베이스에 결합되면 안됨</p>
+<p>– 오라클 &lt;-&gt; MS SQL &lt;-&gt; 몽고DB </p>
+</li>
+<li><p>외부 에이전시에 대한 독립성</p>
+<p>– 업무 규칙은 외부 세계와의 인터페이스에 대해 전혀 알지 못함</p>
+<br>
+
+</li>
+</ul>
+<p><img src="/assets/images/post/191110/(2).jpg" alt="factory method pattern"></p>
+<p>위 다이어그램은 이들 아키텍처 전부를 실행 가능한 하나의 아이디어로 통합하려는 시도이다.</p>
+<br>
+
+<h3 id="의존성-규칙"><a href="#의존성-규칙" class="headerlink" title="의존성 규칙"></a>의존성 규칙</h3><ul>
+<li>각각의 원은 소프트웨어에서 서로 다른 영역을 표현</li>
+<li> 안으로 들어갈 수록 고수준의 소프트웨어</li>
+<li>바깥쪽 원은 메커니즘, 안쪽 원은 정책</li>
+<li>아키텍처가 동작하도록 하는 가장 중요한 규칙 &gt; 의존성 규칙</li>
+</ul>
+<blockquote>
+<p>소스 코드 의존성은 반드시 안쪽으로, 고수준의 정책을 향해야 한다. </p>
+</blockquote>
+<p>내부 원에 속한 요소는 외부 원에 속한 어떤것도 알지 못한다. 특히 외부 원에 선언된 어떤 것에대해서도 그 이름을 언급해서는 안된다. </p>
+<p>ex) 함수, 클래스, 변수, 소프트웨어 엔티티</p>
+<p>외부의 원에 선언된 데이터 형식도 내부의 원에서 절대로 사용되서는 안된다. 외부 원에 위치한 어떤것도 내부의 원에 영향을 주지 않아야 한다. </p>
+<br>
+
+<h4 id="엔티티"><a href="#엔티티" class="headerlink" title="엔티티"></a>엔티티</h4><ul>
+<li>전사적인 핵심 업무 규칙 캡슐화</li>
+<li>단일 애플리케이션의 업무 객체</li>
+<li>메서드를 가지는 객체 또는 일련의 데이터 구조와 함수의 집합</li>
+<li>고수준인 규칙을 캡슐화</li>
+<li>페이지 네비게이션이나 보안 관련사항 변경 시 업무 객체는 영향을 받지 않음</li>
+<li>애플리케이션의 변경 시 엔티티 계층은 영향을 받아선 안됨</li>
+</ul>
+<Br>
+
+<h4 id="유스케이스"><a href="#유스케이스" class="headerlink" title="유스케이스"></a>유스케이스</h4><ul>
+<li><p>애플리케이션에 특화된 업무 규칙을 포함</p>
+</li>
+<li><p>시스템의 모든 유스케이스를 캡슐화 하고 구현</p>
+</li>
+<li><p>엔티티로 출입하는 데이터 흐름 조정</p>
+</li>
+<li><p>엔티티가 유스케이스의 목적을 달성하도록 이끔</p>
+</li>
+<li><p>해당 계층의 변경이 엔티티에 영향을 주지 않음</p>
+</li>
+<li><p>외부 요소(데이터베이스, UI, 프레임워크 등)의 변경에 영향을 받아선 안됨.</p>
+<br>
+
+</li>
+</ul>
+<h4 id="인터페이스-어댑터"><a href="#인터페이스-어댑터" class="headerlink" title="인터페이스 어댑터"></a>인터페이스 어댑터</h4><ul>
+<li>일련의 어댑터들로 구성</li>
+<li>유스케이스, 엔티티가 보기편한 데이터 형식 &lt;-&gt; 데이터베이스나 웹 같은 외부 에이전시에 편리한 형식</li>
+<li>MVC 아키텍처를 포함</li>
+<li>데이터 베이스에 대해 알아서는 안됨</li>
+</ul>
+<br>
+
+<h4 id="프레임워크와-드라이버"><a href="#프레임워크와-드라이버" class="headerlink" title="프레임워크와 드라이버"></a>프레임워크와 드라이버</h4><ul>
+<li>프레임워크나 도구(ex 데이터베이스)로 구성</li>
+<li>모든 세부사항이 위치</li>
+<li>세부사항을 외부에 위치시켜 피해를 최소화</li>
+</ul>
+<br>
+
+<h4 id="경계-횡단하기"><a href="#경계-횡단하기" class="headerlink" title="경계 횡단하기"></a>경계 횡단하기</h4><p><img src="/assets/images/post/191110/(3).png" alt="factory method pattern"></p>
+<p>위 다이어그램은 원 경계를 횡단하는 방법을 보여주는 예시이다. 컨트롤러와 프레젠터가 유스케이스와 통신하는 모습이다. </p>
+<ul>
+<li><p>제어흐름 : 컨트롤러 -&gt; 유스케이스 -&gt; 프레젠터</p>
+<p>– 안쪽 원의 코드가 바깥쪽 원의 코드를 호출하게 됨</p>
+</li>
+<li><p>소스 코드 의존성 : 유스케이스를 향해 안쪽을 가리킴</p>
+</li>
+<li><p>제어흐름 &lt;-&gt; 의존성 방향 </p>
+</li>
+<li><p>의존성 역전 원칙을 사용하여 (ex 자바의 인터페이스와 상속) [유스케이스 -&gt; 프레젠터] 로 제어흐름이 경계를 가로지를 때 소스 코드 의존성을 제어흐름과 반대가 되게 만들 수 있음</p>
+</li>
+<li><p>유스케이스가 내부 원의 인터페이스(유스케이스 출력 포트) 호출 -&gt; 외부 원의 프레젠터가 그 인터페이스를 구현하도록 만듬</p>
+</li>
+</ul>
+<blockquote>
+<p>동적 다형성을 이용해 소스 코드 의존성을 제어흐름과는 반대로 반들 수 있고, 제어 흐름의 방향과 상관없이 의존성 규칙을 준수 할수 있다. </p>
+</blockquote>
+<br>
+
+<h4 id="경계-횡단-데이터"><a href="#경계-횡단-데이터" class="headerlink" title="경계 횡단 데이터"></a>경계 횡단 데이터</h4><ul>
+<li>간단한 데이터 구조 </li>
+<li>격리되 있는 데이터 구조가 경계를 가로질러 전달됨 </li>
+<li>엔티티 객체나 데이터베이스 행을 전달 X</li>
+<li>항상 내부의 원에서 사용하기에 가장 편리한 형태가 되어야 함</li>
+</ul>
+<br>
+
+<h3 id="전형적-시나리오"><a href="#전형적-시나리오" class="headerlink" title="전형적 시나리오"></a>전형적 시나리오</h3><p><img src="/assets/images/post/191110/(4).jpeg" alt="factory method pattern"></p>
+<p>위 다이어그램은 데이터베이스를 사용하는 웹 기반 자바 시스템의 전형적 시나리오이다. </p>
+<p>모든 의존성은 경계선을 안쪽으로 가로지르며, 의존성 규칙을 준수한다. </p>
+<br>
+
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><blockquote>
+<p>소프트웨어를 계층으로 분리하고 의존성 규칙을 준수 한다면, 테스트하기 쉬운 시스템이 만들어진다. 또한 데이터베이스나 웹 프레임워크 같은 시스템 외부 요소의 변경 시에 어렵지 않게 교체할 수 있다. </p>
+</blockquote>
+<br>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/11/09/2019-11-09-CleanArchitecture%20Item%2022/" title="클린 아키텍처">https://songii00.github.io/2019/11/09/2019-11-09-CleanArchitecture Item 22/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CleanArchitecture/" rel="tag"># CleanArchitecture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/09/2019-11-09-CleanArchitecture%20Item%2023/" rel="prev" title="프레젠터와 험블 객체">
+                  <i class="fa fa-chevron-left"></i> 프레젠터와 험블 객체
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/11/10/2019-11-09-CleanArchitecture%20Item%2024/" rel="next" title="부분적 경계">
+                  부분적 경계 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/11/09/2019-11-09-CleanArchitecture%20Item%2022/";
+    this.page.identifier = "2019/11/09/2019-11-09-CleanArchitecture Item 22/";
+    this.page.title = "클린 아키텍처";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

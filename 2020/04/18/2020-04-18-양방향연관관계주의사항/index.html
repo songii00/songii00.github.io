@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="“JPA” 기본 설정">
+<meta property="og:type" content="article">
+<meta property="og:title" content="양방향 연관관계 주의사항">
+<meta property="og:url" content="https://songii00.github.io/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="“JPA” 기본 설정">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200418/(4).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200418/(1).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200418/(2).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200418/(3).png">
+<meta property="article:published_time" content="2020-04-18T05:28:01.000Z">
+<meta property="article:modified_time" content="2020-12-15T13:30:29.145Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="JPA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/200418/(4).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>양방향 연관관계 주의사항 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9CJPA%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“JPA”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B8%B0%EB%B3%B8-%EC%84%A4%EC%A0%95"><span class="nav-number">2.</span> <span class="nav-text">기본 설정</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%95%AD%EC%83%81-%EC%96%91%EC%AA%BD%EC%97%90-%EA%B0%92%EC%9D%84-%EC%84%A4%EC%A0%95%ED%95%98%EC%9E%90"><span class="nav-number">3.</span> <span class="nav-text">항상 양쪽에 값을 설정하자</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%A3%BC%EC%9D%B8-%EC%9D%B4-%EC%95%84%EB%8B%8C-%EC%AA%BD%EC%97%90-%EA%B0%92-%EC%84%A4%EC%A0%95-%EC%8B%9C"><span class="nav-number">3.1.</span> <span class="nav-text">연관관계 주인 이 아닌 쪽에 값 설정 시</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%A3%BC%EC%9D%B8%EC%97%90-%EA%B0%92-%EC%84%A4%EC%A0%95"><span class="nav-number">3.2.</span> <span class="nav-text">연관관계 주인에 값 설정</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B7%B8%EB%9F%BC-%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%A3%BC%EC%9D%B8%EC%97%90%EB%A7%8C-%EA%B0%92%EC%9D%84-%EC%84%A4%EC%A0%95%ED%95%98%EB%A9%B4-%EA%B4%9C%EC%B0%AE%EC%9D%84%EA%B9%8C"><span class="nav-number">3.3.</span> <span class="nav-text">그럼 연관관계 주인에만 값을 설정하면 괜찮을까?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%ED%8E%B8%EC%9D%98-%EB%A9%94%EC%86%8C%EB%93%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"><span class="nav-number">4.</span> <span class="nav-text">연관관계 편의 메소드 사용하기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%96%91%EB%B0%A9%ED%96%A5-%EB%A7%A4%ED%95%91-%EC%8B%9C-%EB%AC%B4%ED%95%9C-%EB%A3%A8%ED%94%84-%EC%A1%B0%EC%8B%AC%ED%95%98%EA%B8%B0"><span class="nav-number">5.</span> <span class="nav-text">양방향 매핑 시 무한 루프 조심하기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%A4%EA%B3%84%EB%8A%94-%EB%8B%A8%EB%B0%A9%ED%96%A5-%EB%A7%A4%ED%95%91%EC%9C%BC%EB%A1%9C-%EB%81%9D%EB%82%B4%EC%9E%90"><span class="nav-number">6.</span> <span class="nav-text">설계는 단방향 매핑으로 끝내자</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%9D%98-%EC%A3%BC%EC%9D%B8%EC%9D%84-%EC%A0%95%ED%95%98%EB%8A%94-%EA%B8%B0%EC%A4%80"><span class="nav-number">7.</span> <span class="nav-text">연관관계의 주인을 정하는 기준</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">7.0.0.1.</span> <span class="nav-text">출처 
+</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%9E%90%EB%B0%94-ORM-%ED%91%9C%EC%A4%80-JPA-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EA%B8%B0%EB%B3%B8%ED%8E%B8-%EA%B9%80%EC%98%81%ED%95%9C"><span class="nav-number">7.0.0.2.</span> <span class="nav-text">자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          양방향 연관관계 주의사항
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-04-18 14:28:01" itemprop="dateCreated datePublished" datetime="2020-04-18T14:28:01+09:00">2020-04-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-12-15 22:30:29" itemprop="dateModified" datetime="2020-12-15T22:30:29+09:00">2020-12-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/jpa/" itemprop="url" rel="index"><span itemprop="name">jpa</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/18/2020-04-18-양방향연관관계주의사항/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="“JPA”"><a href="#“JPA”" class="headerlink" title="“JPA”"></a>“JPA”</h3><hr>
+<h3 id="기본-설정"><a href="#기본-설정" class="headerlink" title="기본 설정"></a>기본 설정</h3><p><img src="/assets/images/post/200418/(4).png"></p>
+<a id="more"></a>
+
+<br>
+
+<h3 id="항상-양쪽에-값을-설정하자"><a href="#항상-양쪽에-값을-설정하자" class="headerlink" title="항상 양쪽에 값을 설정하자"></a>항상 양쪽에 값을 설정하자</h3><h4 id="연관관계-주인-이-아닌-쪽에-값-설정-시"><a href="#연관관계-주인-이-아닌-쪽에-값-설정-시" class="headerlink" title="연관관계 주인 이 아닌 쪽에 값 설정 시"></a>연관관계 주인 이 아닌 쪽에 값 설정 시</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Member member = <span class="keyword">new</span> Member();</span><br><span class="line">member.setUsername(<span class="string">&quot;member1&quot;</span>);</span><br><span class="line">entityManager.persist(member);</span><br><span class="line"></span><br><span class="line">Team team = <span class="keyword">new</span> Team();</span><br><span class="line">team.setUsername(<span class="string">&quot;TeamA&quot;</span>);</span><br><span class="line"><span class="comment">// 역방향만 연관관계 설정</span></span><br><span class="line">team.getMembers().add(member);</span><br><span class="line">entityManager.persist(team);</span><br><span class="line"></span><br><span class="line">entityManager.flush(); <span class="comment">// 영속성 컨텍스트 디비랑 싱크 맞춤</span></span><br><span class="line">entityManager.clear(); <span class="comment">// 영속성 컨텍스트 클리어</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/images/post/200418/(1).png"></p>
+<br>
+
+<ul>
+<li>Member의 teamId가 null임</li>
+<li>mappedBy 는 읽기전용이므로 jpa가 insert하거나 update 할때 처리하지 않음</li>
+</ul>
+<br>
+
+<h4 id="연관관계-주인에-값-설정"><a href="#연관관계-주인에-값-설정" class="headerlink" title="연관관계 주인에 값 설정"></a>연관관계 주인에 값 설정</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Team team = <span class="keyword">new</span> Team();</span><br><span class="line">team.setUsername(<span class="string">&quot;TeamA&quot;</span>);</span><br><span class="line"><span class="comment">//team.getMembers().add(member);</span></span><br><span class="line">entityManager.persist(team);</span><br><span class="line"></span><br><span class="line">Member member = <span class="keyword">new</span> Member();</span><br><span class="line">member.setUsername(<span class="string">&quot;member1&quot;</span>);</span><br><span class="line"><span class="comment">// 연관관계의 주인에 값 넣기</span></span><br><span class="line">member.setTeam(team);</span><br><span class="line">entityManager.persist(member);</span><br><span class="line"></span><br><span class="line">entityManager.flush(); <span class="comment">// 영속성 컨텍스트 디비랑 싱크 맞춤</span></span><br><span class="line">entityManager.clear(); <span class="comment">// 영속성 컨텍스트 클리어</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/images/post/200418/(2).png"></p>
+<br>
+
+<h4 id="그럼-연관관계-주인에만-값을-설정하면-괜찮을까"><a href="#그럼-연관관계-주인에만-값을-설정하면-괜찮을까" class="headerlink" title="그럼 연관관계 주인에만 값을 설정하면 괜찮을까?"></a>그럼 연관관계 주인에만 값을 설정하면 괜찮을까?</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Team team = <span class="keyword">new</span> Team();</span><br><span class="line">team.setUsername(<span class="string">&quot;TeamA&quot;</span>);</span><br><span class="line">entityManager.persist(team);</span><br><span class="line"></span><br><span class="line">Member member = <span class="keyword">new</span> Member();</span><br><span class="line">member.setUsername(<span class="string">&quot;member1&quot;</span>);</span><br><span class="line">member.setTeam(team);</span><br><span class="line">entityManager.persist(member);</span><br><span class="line"></span><br><span class="line"><span class="comment">// entityManager.flush(); // 영속성 컨텍스트 디비랑 싱크 맞춤</span></span><br><span class="line"><span class="comment">// entityManager.clear(); // 영속성 컨텍스트 클리어</span></span><br><span class="line"></span><br><span class="line">Team findTeam = entityManager.find(Team.class, team.getId()); <span class="comment">// 1차 캐시 </span></span><br><span class="line">List&lt;Member&gt; members = findTeam.getMembers();</span><br><span class="line">System.out.println(<span class="string">&quot;================&quot;</span>);</span><br><span class="line"><span class="keyword">for</span>(Member m : members)&#123;</span><br><span class="line">  System.out.println(<span class="string">&quot;m : &quot;</span> + m.getId());</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(<span class="string">&quot;================&quot;</span>);</span><br><span class="line">transaction.commit();</span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/images/post/200418/(3).png"></p>
+<br>
+
+<ul>
+<li>Team이 영속성 컨텍스트에 들어감.</li>
+<li>Team은 1차캐시에서 로딩 된 순수한 객체 상태.<ul>
+<li>Team 안의 Member 컬렉션의 값이 없음.</li>
+</ul>
+</li>
+<li>영속성 컨텍스트를 비운다면 디비에서 다시 조회.<ul>
+<li>지연 로딩으로 멤버의 값을 가져옴.</li>
+<li>Team 안의 Member 컬렉션의 값이 있음.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>양방향 연관관계 셋팅 시에는 양쪽 다 값 셋팅 필요하다.</p>
+</blockquote>
+<br>
+
+<h3 id="연관관계-편의-메소드-사용하기"><a href="#연관관계-편의-메소드-사용하기" class="headerlink" title="연관관계 편의 메소드 사용하기"></a>연관관계 편의 메소드 사용하기</h3><ul>
+<li>연관관계 편의 메서드는 연관관계를 맺는 한쪽에만 설정.</li>
+<li>N, 1 아무쪽에나 설정해도 됨.</li>
+<li>만약 둘다 연관관계 편의 메서드가 있을 시 무한 루프 발생 가능성 조심.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Member</span> </span>&#123;</span><br><span class="line">    <span class="meta">@ManyToOne</span></span><br><span class="line">    <span class="meta">@JoinColumn(name = &quot;TEAM_ID&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Team team;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeTeam</span><span class="params">(Team team)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 연관관계 편의 메소드를 생성하자</span></span><br><span class="line">        <span class="keyword">this</span>.team = team;</span><br><span class="line">        team.getMembers().add(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Team</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 가짜 매핑 - 주인의 반대편</span></span><br><span class="line">    <span class="meta">@OneToMany(mappedBy = &quot;team&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Member&gt; members = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addMember</span><span class="params">(Member member)</span></span>&#123;</span><br><span class="line">          member.setTeam(<span class="keyword">this</span>);</span><br><span class="line">          members.add(member);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="양방향-매핑-시-무한-루프-조심하기"><a href="#양방향-매핑-시-무한-루프-조심하기" class="headerlink" title="양방향 매핑 시 무한 루프 조심하기"></a>양방향 매핑 시 무한 루프 조심하기</h3><ul>
+<li>toString(), lombok, Json 생성 라이브러리.</li>
+<li>Json 생성 라이브러리 쓰는 순간 무한루프.<ol>
+<li>컨트롤러에서 entity를 절대 반환하지 않기.</li>
+<li>entity 변경 시 api 스펙 바뀌어야함 -&gt; dto 로 변환 반환.</li>
+</ol>
+</li>
+</ul>
+<br>
+
+<h3 id="설계는-단방향-매핑으로-끝내자"><a href="#설계는-단방향-매핑으로-끝내자" class="headerlink" title="설계는 단방향 매핑으로 끝내자"></a>설계는 단방향 매핑으로 끝내자</h3><ul>
+<li>단방향 매핑만으로도 이미 연관관계 매핑은 완료.</li>
+<li>1:N 일때 N 쪽에 단방향 연관관계를 일단 설정하기.</li>
+<li>양방향은 필요할 때 추가.</li>
+</ul>
+<br>
+
+<h3 id="연관관계의-주인을-정하는-기준"><a href="#연관관계의-주인을-정하는-기준" class="headerlink" title="연관관계의 주인을 정하는 기준"></a>연관관계의 주인을 정하는 기준</h3><ul>
+<li>연관관계 주인은 외래 키의 위치를 기준으로 정해야함.</li>
+</ul>
+<p><br><br><br><br></p>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><h6 id="자바-ORM-표준-JPA-프로그래밍-기본편-김영한"><a href="#자바-ORM-표준-JPA-프로그래밍-기본편-김영한" class="headerlink" title="자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)"></a>자바 ORM 표준 JPA 프로그래밍 - 기본편(김영한)</h6><br>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/" title="양방향 연관관계 주의사항">https://songii00.github.io/2020/04/18/2020-04-18-양방향연관관계주의사항/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/JPA/" rel="tag"># JPA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/13/2020-04-13-OBJECTS%20Item%2012/" rel="prev" title="다형성">
+                  <i class="fa fa-chevron-left"></i> 다형성
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/04/25/2020-04-25-OBJECTS%20Item%2013/" rel="next" title="서브클래싱과 서브타이핑">
+                  서브클래싱과 서브타이핑 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2020/04/18/2020-04-18-%EC%96%91%EB%B0%A9%ED%96%A5%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/";
+    this.page.identifier = "2020/04/18/2020-04-18-양방향연관관계주의사항/";
+    this.page.title = "양방향 연관관계 주의사항";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

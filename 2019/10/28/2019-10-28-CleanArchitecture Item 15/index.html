@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="소프트웨어 아키텍트 프로그래머  코드와 동떨어져서는 안된다.  최고의 프로그래머이며 나머지 팀원들의 생산성을 극대화 할 수 있는 설계를 하도록 방향을 이끌어준다">
+<meta property="og:type" content="article">
+<meta property="og:title" content="아키텍처란?">
+<meta property="og:url" content="https://songii00.github.io/2019/10/28/2019-10-28-CleanArchitecture%20Item%2015/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="소프트웨어 아키텍트 프로그래머  코드와 동떨어져서는 안된다.  최고의 프로그래머이며 나머지 팀원들의 생산성을 극대화 할 수 있는 설계를 하도록 방향을 이끌어준다">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191028/(4).jpeg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191028/(5).jpg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191028/(6).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191028/(2).jpg">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/191028/(3).jpg">
+<meta property="article:published_time" content="2019-10-28T11:35:12.000Z">
+<meta property="article:modified_time" content="2019-11-27T13:45:30.493Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="CleanArchitecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/191028/(4).jpeg">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/10/28/2019-10-28-CleanArchitecture%20Item%2015/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>아키텍처란? | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EC%95%84%ED%82%A4%ED%85%8D%ED%8A%B8"><span class="nav-number">1.</span> <span class="nav-text">소프트웨어 아키텍트</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">2.</span> <span class="nav-text">소프트웨어 아키텍처</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B0%9C%EB%B0%9C"><span class="nav-number">3.</span> <span class="nav-text">개발</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EB%AA%A8%EB%85%B8%EB%A6%AC%ED%8B%B1-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%8B%A8%EC%9C%84%EB%A1%9C-%EB%B6%84%EB%A6%AC%EB%90%98%EC%A7%80-%EC%95%8A%EA%B3%A0-%EC%97%AC%EB%9F%AC-%EA%B8%B0%EB%8A%A5%EC%9D%B4-%ED%95%98%EB%82%98%EB%A1%9C-%EA%B2%B0%ED%95%A9%EB%90%9C-%ED%98%95%ED%83%9C%EB%A5%BC-%EB%9D%84%EB%A9%B0-%EC%9D%BC%EB%AA%85-%ED%86%B5%EC%A7%9C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%EC%9D%B4%EB%9D%BC-%EB%B6%88%EB%A6%B0%EB%8B%A4"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">* 모노리틱 프로그램 : 컴포넌트단위로 분리되지 않고 여러 기능이 하나로 결합된 형태를 띄며 일명 통짜프로그램이라 불린다.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%B0%B0%ED%8F%AC"><span class="nav-number">4.</span> <span class="nav-text">배포</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EB%AA%A8%EB%86%80%EB%A6%AC%ED%8B%B1-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EB%8D%94-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0-https-futurecreator-github-io-2018-09-14-what-is-microservices-architecture"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">모놀리틱 &#x2F; 마이크로서비스아키텍처 더 알아보기 :  https:&#x2F;&#x2F;futurecreator.github.io&#x2F;2018&#x2F;09&#x2F;14&#x2F;what-is-microservices-architecture&#x2F; 
+</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%AA%A8%EB%86%80%EB%A6%AC%ED%8B%B1-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-vs-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">4.1.</span> <span class="nav-text">모놀리틱 아키텍처 vs 마이크로서비스 아키텍처</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EB%AA%A8%EB%86%80%EB%A6%AC%ED%8B%B1-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">4.1.0.1.</span> <span class="nav-text">모놀리틱 아키텍처 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98"><span class="nav-number">4.1.0.2.</span> <span class="nav-text">마이크로서비스 아키텍처</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9A%B4%EC%98%81"><span class="nav-number">5.</span> <span class="nav-text">운영</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9C%A0%EC%A7%80%EB%B3%B4%EC%88%98"><span class="nav-number">6.</span> <span class="nav-text">유지보수</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%A0%ED%83%9D%EC%82%AC%ED%95%AD-%EC%97%B4%EC%96%B4-%EB%91%90%EA%B8%B0"><span class="nav-number">7.</span> <span class="nav-text">선택사항 열어 두기</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%B5%AC%EC%84%B1%EC%9A%94%EC%86%8C"><span class="nav-number">7.1.</span> <span class="nav-text">소프트웨어 시스템 구성요소</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9E%A5%EC%B9%98-%EB%8F%85%EB%A6%BD%EC%84%B1"><span class="nav-number">8.</span> <span class="nav-text">장치 독립성</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B2%9C%EA%B3%B5%EC%B9%B4%EB%93%9C"><span class="nav-number">8.0.0.1.</span> <span class="nav-text">천공카드 </span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%9E%90%EA%B8%B0%ED%85%8C%EC%9D%B4%ED%94%84"><span class="nav-number">8.0.0.2.</span> <span class="nav-text">자기테이프 </span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EB%A1%A0"><span class="nav-number">9.</span> <span class="nav-text">결론</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/10/28/2019-10-28-CleanArchitecture%20Item%2015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          아키텍처란?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-28 20:35:12" itemprop="dateCreated datePublished" datetime="2019-10-28T20:35:12+09:00">2019-10-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-11-27 22:45:30" itemprop="dateModified" datetime="2019-11-27T22:45:30+09:00">2019-11-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/clean-architecture/" itemprop="url" rel="index"><span itemprop="name">clean-architecture</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/10/28/2019-10-28-CleanArchitecture%20Item%2015/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/28/2019-10-28-CleanArchitecture Item 15/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="소프트웨어-아키텍트"><a href="#소프트웨어-아키텍트" class="headerlink" title="소프트웨어 아키텍트"></a>소프트웨어 아키텍트</h3><ul>
+<li>프로그래머 </li>
+<li>코드와 동떨어져서는 안된다. </li>
+<li>최고의 프로그래머이며 나머지 팀원들의 생산성을 극대화 할 수 있는 설계를 하도록 방향을 이끌어준다<br></li>
+</ul>
+<a id="more"></a>
+
+<h3 id="소프트웨어-아키텍처"><a href="#소프트웨어-아키텍처" class="headerlink" title="소프트웨어 아키텍처"></a>소프트웨어 아키텍처</h3><p><img src="/assets/images/post/191028/(4).jpeg" alt="factory method pattern"></p>
+<p>시스템을 구축했던 사람들이 만들어낸 시스템의 형태 </p>
+<ul>
+<li><p>컴포넌트로 분할하는 방법, 분할된 컴포넌트를 배치하는 방법, 컴포넌트가 서로 의사소통하는 방식에 따라 정해진다. </p>
+</li>
+<li><p>소프트웨어 시스템이 쉽게 개발, 배포 운영 유지보수 되도록 만들어진다.</p>
+<br>
+
+</li>
+</ul>
+<blockquote>
+<p>가능한 한 많은 선택지를, 가능한 한 오래 남겨두는 전략을 따라야 한다. </p>
+</blockquote>
+<br>
+
+<p>아키텍처의 주 목적은 **”시스템의 생명주기를 지원하는 것”**이다. 시스템을 쉽게 이해하고, 쉽게 개발하며, 쉽게 유지보수하고, 또 쉽게 배포하게 해주는 것이 좋은 아키텍처이다. </p>
+<p>아키텍처의 궁극적인 목표는 시스템의 수명과 관련된 비용은 최소화하고, 프로그래머의 생산성은 최대화 하는데 있다. </p>
+<br>
+
+<h3 id="개발"><a href="#개발" class="headerlink" title="개발"></a>개발</h3><p>시스템 아키텍처는 개발팀이 시스템을 쉽게 개발할 수 있도록 해야한다. </p>
+<ul>
+<li><p>팀 구조가 작을 때 : 예를 들어 개발자 다섯명 정도로 구성될 정도로 작다면 *모노리틱 시스템을 개발</p>
+</li>
+<li><p>팀 구조가 클 때 : 예를 들어 일곱명씩 구성된 총 다섯팀으로 구성될 정도로 크다면 팀별 단일 컴포넌트로 개발</p>
+</li>
+</ul>
+<h6 id="모노리틱-프로그램-컴포넌트단위로-분리되지-않고-여러-기능이-하나로-결합된-형태를-띄며-일명-통짜프로그램이라-불린다"><a href="#모노리틱-프로그램-컴포넌트단위로-분리되지-않고-여러-기능이-하나로-결합된-형태를-띄며-일명-통짜프로그램이라-불린다" class="headerlink" title="* 모노리틱 프로그램 : 컴포넌트단위로 분리되지 않고 여러 기능이 하나로 결합된 형태를 띄며 일명 통짜프로그램이라 불린다."></a>* 모노리틱 프로그램 : 컴포넌트단위로 분리되지 않고 여러 기능이 하나로 결합된 형태를 띄며 일명 통짜프로그램이라 불린다.</h6><br>
+
+<h3 id="배포"><a href="#배포" class="headerlink" title="배포"></a>배포</h3><p>소프트웨어 시스템이 사용될 수 있으려면 <strong>반드시 배포할 수 있어야 한다.</strong><br>배포비용이 높을수록, 시스템의 유용성은 떨어진다. 따라서 소트웨어 아키텍처는 시스템을 단 한번에 쉽게 배포할 수 있도록 만들어야 한다. </p>
+<ul>
+<li>마이크로서비스 아키텍처 : 컴포넌트 경계가 뚜렷해지고 인터페이스가 안정되므로 시스템을 쉽게 개발할 수 있지만 배포 시 수많은 마이크로서비스를 연결하고 순서를 결정하는 과정에서 오류가 발생 할 수 있다. </li>
+</ul>
+<h6 id="모놀리틱-마이크로서비스아키텍처-더-알아보기-https-futurecreator-github-io-2018-09-14-what-is-microservices-architecture"><a href="#모놀리틱-마이크로서비스아키텍처-더-알아보기-https-futurecreator-github-io-2018-09-14-what-is-microservices-architecture" class="headerlink" title="모놀리틱 / 마이크로서비스아키텍처 더 알아보기 :  https://futurecreator.github.io/2018/09/14/what-is-microservices-architecture/ "></a>모놀리틱 / 마이크로서비스아키텍처 더 알아보기 :  <a target="_blank" rel="noopener" href="https://futurecreator.github.io/2018/09/14/what-is-microservices-architecture/">https://futurecreator.github.io/2018/09/14/what-is-microservices-architecture/</a> <br/></h6><br>
+
+
+
+<h4 id="모놀리틱-아키텍처-vs-마이크로서비스-아키텍처"><a href="#모놀리틱-아키텍처-vs-마이크로서비스-아키텍처" class="headerlink" title="모놀리틱 아키텍처 vs 마이크로서비스 아키텍처"></a>모놀리틱 아키텍처 vs 마이크로서비스 아키텍처</h4><p><img src="/assets/images/post/191028/(5).jpg" alt="factory method pattern"></p>
+<h6 id="모놀리틱-아키텍처"><a href="#모놀리틱-아키텍처" class="headerlink" title="모놀리틱 아키텍처 "></a><center>모놀리틱 아키텍처 </center></h6><p><img src="/assets/images/post/191028/(6).png" alt="factory method pattern"></p>
+<h6 id="마이크로서비스-아키텍처"><a href="#마이크로서비스-아키텍처" class="headerlink" title="마이크로서비스 아키텍처"></a><center>마이크로서비스 아키텍처</center></h6><h3 id="운영"><a href="#운영" class="headerlink" title="운영"></a>운영</h3><p>운영에서 겪는 대다수의 어려움은 단순히 하드웨어를 더 투입해서 해결할 수 있다.<br>아키텍처는 비용 공식 관점에서 운영보다는 개발, 배포, 유지보수 쪽으로 더 기울어진다.</p>
+<blockquote>
+<p>하드웨어는 값싸고 인력은 비싸다.(운영을 방해하는 아키텍처가 개발, 배포, 유지보수를 방해하는 아키텍처 보다는 비용이 덜든다.)</p>
+</blockquote>
+<p>좋은 아키텍처는 <strong>시스템을 운영하는데 필요한 요구</strong>를 알려준다. 개발자에게 시스템의 운영방식을 드러낸다. 유스케이스, 기능, 시스템의 필수 행위를 일급 엔티티로 격상시키고 개발자에게 주요 목표로 인식되게 한다. 이를 통해 시스템의 이해가 쉬워지며 개발과 유지보수에 도움이 된다.</p>
+<br>
+
+<h3 id="유지보수"><a href="#유지보수" class="headerlink" title="유지보수"></a>유지보수</h3><p>유지보수는 모든 측면에서 봤을 때 소프트웨어 시스템에서 비용이 가장 많이 든다.<br>가장 큰 비용은 <strong>탐사와 이로인한 위험부담</strong> 이다.</p>
+<p>탐사 : 새로운 기능을 추가, 결함을 수정할 때 어떻게 고치면 최적일지를 결정할 때 드는 비용</p>
+<p>따라서 비용을 줄이기 위해, 시스템을 컴포넌트로 분리하고, 안정된 인터페이스를 두어 서로 격리하는 등 신중하게 아키텍처를 고려해야 한다.</p>
+<br>
+
+<h3 id="선택사항-열어-두기"><a href="#선택사항-열어-두기" class="headerlink" title="선택사항 열어 두기"></a>선택사항 열어 두기</h3><p>소프트웨어는 행위적 가치와 구조적 가치를 지닌다. 소프트웨어를 부드럽게 만드는 것은 구조적 가치이다.</p>
+<blockquote>
+<p>소프트 웨어를 부드럽게 유지하는 방법은 선택사항을 가능한 많이 오랫동안 열어두는 것이다.</p>
+</blockquote>
+<p>여기서 선택사항은 바로 “중요하지 않은 세부사항” 이다.</p>
+<br>
+
+<h4 id="소프트웨어-시스템-구성요소"><a href="#소프트웨어-시스템-구성요소" class="headerlink" title="소프트웨어 시스템 구성요소"></a>소프트웨어 시스템 구성요소</h4><ul>
+<li>정책<br>모든 규칙과 절차를 구체화 한다.</li>
+<li>세부사항<br>사람, 외부시스템, 프로그래머가 정책과 소통할 때 필요한 요소지만 정책에는 일체 영향을 미치지 않는 것<br>EX ) 데이터베이스, 입출력 장치, 웹 시스템, 서버, 프레임워크, 통신 프로토콜 </li>
+</ul>
+<blockquote>
+<p>아키텍트의 목표는 시스템에서 정책을 가장 핵심적인 요소로 식별하고 동시에 세부사항은 정책에 무관하게 만들 수 있는 형태의 시스템을 구축하는데 있다. 이를 통해 세부사항을 결정하는 일은 미루거나 연기할 수 있게 된다. </p>
+</blockquote>
+<blockquote>
+<p>좋은 아키텍트는 결정되지 않는 사항의 수를 최대화 한다. </p>
+</blockquote>
+<br>
+
+<h3 id="장치-독립성"><a href="#장치-독립성" class="headerlink" title="장치 독립성"></a>장치 독립성</h3><p><img src="/assets/images/post/191028/(2).jpg" alt="factory method pattern"></p>
+<h6 id="천공카드"><a href="#천공카드" class="headerlink" title="천공카드 "></a><center>천공카드 </center></h6><p><img src="/assets/images/post/191028/(3).jpg" alt="factory method pattern"></p>
+<h6 id="자기테이프"><a href="#자기테이프" class="headerlink" title="자기테이프 "></a><center>자기테이프 </center></h6><br>
+
+<p>1960년대에는 코드를 입출력 장치와 직접 결합하여 사용했다. 프린터를 인쇄할 일이 있으면 해당 프린터를 직접 제어하는 입출력 명령어를 사용해서 코드를 작성했다. </p>
+<blockquote>
+<p>장치 종속성 </p>
+</blockquote>
+<p>오늘날의 운영체제는 입출력 장치를 소프트웨어 함수로 추상화했고, 해당 함수는 단일 레코드를 처리한다. 그리고 오퍼레이터가 해당 추상 서비스를 단위 레코드 장치 중 어디에 연결해야 하는지 운영체제에게 알려준다. </p>
+<blockquote>
+<p>장치 독립성</p>
+</blockquote>
+<p>장치 독립성은 어떤 장치를 사용할지 고려하지 않고도 프로그램을 작성 할 수 있다. 이는 정책을 세부사항으로부터 분리하는 형태이다. 어떤 장치를 사용할지에 대한 결정을 연기시킨다. </p>
+<br>
+
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><p>좋은 아키텍트는 세부사항을 정책으로부터 신중히 가려내고, 정책이 세부사항과 결합되지 않도록 엄격하게 분리한다. 이를 통해 정책은 세부사항에 관한 어떠한 지식도 갖지 못하게 되며, 어떤 경우에도 세부사항에 의존하지 않게 된다. 좋은 아키텍트는 세부사항에 대한 결정을 가능한 한 오랫동안 미룰 수 있는 방향으로 정책을 설계한다. </p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/10/28/2019-10-28-CleanArchitecture%20Item%2015/" title="아키텍처란?">https://songii00.github.io/2019/10/28/2019-10-28-CleanArchitecture Item 15/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CleanArchitecture/" rel="tag"># CleanArchitecture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/10/20/2019-10-20-CleanArchitecture%20Item%2014/" rel="prev" title="컴포넌트 결합">
+                  <i class="fa fa-chevron-left"></i> 컴포넌트 결합
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/10/28/2019-10-28-CleanArchitecture%20Item%2016/" rel="next" title="독립성">
+                  독립성 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/10/28/2019-10-28-CleanArchitecture%20Item%2015/";
+    this.page.identifier = "2019/10/28/2019-10-28-CleanArchitecture Item 15/";
+    this.page.title = "아키텍처란?";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="“OBJECTS 3장”  객체지향 패러다임의 관점에서 핵심은 역할(role), 책임(responsibility), 협력(collaboration) 이다.     객체지향의 본질은 협력하는 객체들의 공동체를 창조하는 것 협력을 위해 어떤 역할과 책임이 필요한지 고민하지 않은 채 너무 이른 시기에 구현에 초점을 맞추는 것은 변경하기 어렵고 유연하지 못한 코드를">
+<meta property="og:type" content="article">
+<meta property="og:title" content="역할, 책임, 협력">
+<meta property="og:url" content="https://songii00.github.io/2020/02/01/2020-02-01-OBJECTS%20Item%2003/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="“OBJECTS 3장”  객체지향 패러다임의 관점에서 핵심은 역할(role), 책임(responsibility), 협력(collaboration) 이다.     객체지향의 본질은 협력하는 객체들의 공동체를 창조하는 것 협력을 위해 어떤 역할과 책임이 필요한지 고민하지 않은 채 너무 이른 시기에 구현에 초점을 맞추는 것은 변경하기 어렵고 유연하지 못한 코드를">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(1).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(2).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(3).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(4).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(5).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(6).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(7).png">
+<meta property="og:image" content="https://songii00.github.io/assets/images/post/200201/(8).png">
+<meta property="article:published_time" content="2020-02-01T11:00:12.000Z">
+<meta property="article:modified_time" content="2020-02-01T14:02:42.622Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="OBJECTS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songii00.github.io/assets/images/post/200201/(1).png">
+
+
+<link rel="canonical" href="https://songii00.github.io/2020/02/01/2020-02-01-OBJECTS%20Item%2003/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>역할, 책임, 협력 | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9COBJECTS-3%EC%9E%A5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“OBJECTS 3장”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%98%91%EB%A0%A5"><span class="nav-number">2.</span> <span class="nav-text">협력</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%98%81%ED%99%94-%EC%98%88%EB%A7%A4-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%8F%8C%EC%95%84%EB%B3%B4%EA%B8%B0"><span class="nav-number">2.1.</span> <span class="nav-text">영화 예매 시스템 돌아보기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%98%91%EB%A0%A5-1"><span class="nav-number">2.2.</span> <span class="nav-text">협력</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%98%91%EB%A0%A5%EC%9D%B4-%EC%84%A4%EA%B3%84%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%AC%B8%EB%A7%A5%EC%9D%84-%EA%B2%B0%EC%A0%95%ED%95%9C%EB%8B%A4"><span class="nav-number">2.3.</span> <span class="nav-text">협력이 설계를 위한 문맥을 결정한다</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B1%85%EC%9E%84"><span class="nav-number">3.</span> <span class="nav-text">책임</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B1%85%EC%9E%84%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80"><span class="nav-number">3.1.</span> <span class="nav-text">책임이란 무엇인가</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B1%85%EC%9E%84-%ED%95%A0%EB%8B%B9"><span class="nav-number">3.2.</span> <span class="nav-text">책임 할당</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%B1%85%EC%9E%84-%EC%A3%BC%EB%8F%84-%EC%84%A4%EA%B3%84"><span class="nav-number">3.3.</span> <span class="nav-text">책임 주도 설계</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%A9%94%EC%8B%9C%EC%A7%80%EA%B0%80-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EA%B2%B0%EC%A0%95%ED%95%9C%EB%8B%A4"><span class="nav-number">3.4.</span> <span class="nav-text">메시지가 객체를 결정한다</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%96%89%EB%8F%99%EC%9D%B4-%EC%83%81%ED%83%9C%EB%A5%BC-%EA%B2%B0%EC%A0%95%ED%95%9C%EB%8B%A4"><span class="nav-number">3.5.</span> <span class="nav-text">행동이 상태를 결정한다</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%97%AD%ED%95%A0"><span class="nav-number">4.</span> <span class="nav-text">역할</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%AD%ED%95%A0%EA%B3%BC-%ED%98%91%EB%A0%A5"><span class="nav-number">4.1.</span> <span class="nav-text">역할과 협력</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%9C%A0%EC%97%B0%ED%95%98%EA%B3%A0-%EC%9E%AC%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5%ED%95%9C-%ED%98%91%EB%A0%A5"><span class="nav-number">4.2.</span> <span class="nav-text">유연하고 재사용 가능한 협력</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B0%9D%EC%B2%B4-%EB%8C%80-%EC%97%AD%ED%95%A0"><span class="nav-number">4.3.</span> <span class="nav-text">객체 대 역할</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%97%AD%ED%95%A0%EA%B3%BC-%EC%B6%94%EC%83%81%ED%99%94"><span class="nav-number">4.4.</span> <span class="nav-text">역할과 추상화</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%B0%B0%EC%9A%B0%EC%99%80-%EB%B0%B0%EC%97%AD"><span class="nav-number">4.5.</span> <span class="nav-text">배우와 배역</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2020/02/01/2020-02-01-OBJECTS%20Item%2003/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          역할, 책임, 협력
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-02-01 20:00:12 / Modified: 23:02:42" itemprop="dateCreated datePublished" datetime="2020-02-01T20:00:12+09:00">2020-02-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/objects/" itemprop="url" rel="index"><span itemprop="name">objects</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/02/01/2020-02-01-OBJECTS%20Item%2003/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/02/01/2020-02-01-OBJECTS Item 03/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="“OBJECTS-3장”"><a href="#“OBJECTS-3장”" class="headerlink" title="“OBJECTS 3장”"></a>“OBJECTS 3장”</h3><hr>
+<blockquote>
+<p>객체지향 패러다임의 관점에서 핵심은 역할(role), 책임(responsibility), 협력(collaboration) 이다.</p>
+</blockquote>
+<br>
+
+<ul>
+<li>객체지향의 본질은 협력하는 객체들의 공동체를 창조하는 것</li>
+<li>협력을 위해 어떤 역할과 책임이 필요한지 고민하지 않은 채 너무 이른 시기에 구현에 초점을 맞추는 것은 변경하기 어렵고 유연하지 못한 코드를 낳는 원인이 된다. </li>
+</ul>
+<a id="more"></a>
+
+<br>
+
+
+<h3 id="협력"><a href="#협력" class="headerlink" title="협력"></a>협력</h3><h4 id="영화-예매-시스템-돌아보기"><a href="#영화-예매-시스템-돌아보기" class="headerlink" title="영화 예매 시스템 돌아보기"></a>영화 예매 시스템 돌아보기</h4><p><img src="/assets/images/post/200201/(1).png"></p>
+<br>
+
+<ul>
+<li>협력 : 객체들이 애플리케이션의 기능을 구현하기 위해 수행하는 상호작용 </li>
+<li>책임 : 객체가 협력에 참여하기 위해 수행하는 로직</li>
+<li>역할 : 객체들이 협력 안에서 수행하는 책임들의 모임 </li>
+</ul>
+<br>
+
+<h4 id="협력-1"><a href="#협력-1" class="headerlink" title="협력"></a>협력</h4><ul>
+<li>메세지 전송 : 객체 사이의 협력을 위해 사용할 수 있는 유일한 커뮤니케이션 수단</li>
+<li>객체는 다른 객체의 상세한 내부 구현에 직접 접근할 수 없기 때문에 오직 메시지 전송을 통해서만 자신의 요청을 전달</li>
+<li>메시지를 수신한 객체는 메서드를 실행 해 요청에 응답</li>
+<li>객체가 메시지를 처리할 방법을 스스로 선택</li>
+</ul>
+<p><img src="/assets/images/post/200201/(2).png"></p>
+<ul>
+<li>자신이 할 수 없는 일을 다른 객체에게 위임하면 협력에 참여하는 객체들의 전체적인 자율성을 향상시킬 수 있음</li>
+<li>객체를 자율적으로 만드는 가장 기본적인 방법은 “내부 구현을 캡슐화” 하는 것</li>
+</ul>
+<blockquote>
+<p>정리해보자. 자율적인 객체는 자신에게 할당된 책임을 수행하던 중 필요한 정보를 알지 못하거나 외부의 도움이 필요한 경우 적절한 객체에게 메시지를 전송해서 협력을 요청한다. 메시지를 수신한 객체 역시 메시지를 처리하던 중에 직접 처리할 수 없는 정보나 행동이 필요한 경우 또 다른 객체에게 도움을 요청한다. 이처럼 객체들 사이의 협력을 구성하는 일련의 요청과 응답의 흐름을 통해 애플리케이션의 기능이 구현된다.</p>
+</blockquote>
+<br>
+
+<h4 id="협력이-설계를-위한-문맥을-결정한다"><a href="#협력이-설계를-위한-문맥을-결정한다" class="headerlink" title="협력이 설계를 위한 문맥을 결정한다"></a>협력이 설계를 위한 문맥을 결정한다</h4><ul>
+<li><p>협력</p>
+</li>
+<li><p>객체의 행동을 결정하는 것 =  객체가 참여하고 있는 협력</p>
+</li>
+<li><p>협력이 바뀌면 객체가 제공하는 행동 역시 바뀜</p>
+</li>
+<li><p>협력이 존재하기 떄문에 객체가 존재하는 것</p>
+</li>
+<li><p>객체의 상태를 결정하는 것 = 행동</p>
+</li>
+<li><p>객체의 상태는 그 객체가 행동을 수행하는 데 필요한 정보가 무엇인지로 결정</p>
+</li>
+<li><p>객체는 객체가 수행하는 행동에 필요한 상태도 함께 가지고 있어야 함</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Movie</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line">    <span class="keyword">private</span> Duration runningTime;</span><br><span class="line">    <span class="keyword">private</span> Money fee;</span><br><span class="line">    <span class="keyword">private</span> DiscountPolicy discountPolicy;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Money <span class="title">getFee</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fee;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 요금 계산</span></span><br><span class="line"><span class="comment">     * calculateDiscountAmount 에서 할인 요금 반환</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> screening</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Money <span class="title">calculateMovieFee</span><span class="params">(Screening screening)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fee.minus(discountPolicy.calculateDiscountAmount(screening));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 상태는 객체가 행동하는데 필요한 정보에 의해 결정되고, 행동은 협력 안에서 객체가 처리할 메시지로 결정된다. </p>
+<p>결과적으로 협력이 객체를 구성하는 행동과 상태 모두를 결정한다. </p>
+<p>따라서 협력은 객체를 설계하는데 필요한 일종의 문맥을 제공한다.</p>
+</blockquote>
+<br>
+
+<h3 id="책임"><a href="#책임" class="headerlink" title="책임"></a>책임</h3><h4 id="책임이란-무엇인가"><a href="#책임이란-무엇인가" class="headerlink" title="책임이란 무엇인가"></a>책임이란 무엇인가</h4><p>“협력에 참여하기 위해 객체가 수행하는 행동”</p>
+<ul>
+<li>객체의 의해 정의되는 응집도 있는 행위의 집합</li>
+<li>객체가 유지해야 하는 정보와 수행할 수 있는 행동에 대해 개략적으로 서술된 문장</li>
+<li>하는 것 (doing) 과 아는 것(knowing)</li>
+</ul>
+<br>
+
+<p><img src="/assets/images/post/200201/(3).png"></p>
+<br>
+
+<ul>
+<li><p>협력 안에서 객체에게 할당한 책임이 외부의 인터페이스와 내부의 속성을 결정함</p>
+</li>
+<li><p>책임과 메시지의 크기는 다름</p>
+</li>
+<li><p>단순한 책임이 여러개의 메시지로 분할되기도, 커다란 책임으로 자라나기도 함</p>
+<blockquote>
+<p>객체지향 개발에서 가장 중요한 능력은 책임을 능숙하게 소프트웨어 객체에 할당하는 것 -크레이그 라만</p>
+</blockquote>
+</li>
+</ul>
+<br>
+
+<ul>
+<li><p>협력이 중요한 이유는 객체에게 할당할 책임을 결정할 수 있는 문맥을 제공하기 때문</p>
+</li>
+<li><p>적잘한 협력 -&gt; 적절한 책임 -&gt; 적절한 객체에게 할당 -&gt; 단순하고 유연한 설계</p>
+</li>
+<li><p>객체의 구현 방법은 책임보다는 덜 중요하며 책임을 결정한 다음에 고민해도 늦지 않음</p>
+</li>
+</ul>
+<br>
+
+<h4 id="책임-할당"><a href="#책임-할당" class="headerlink" title="책임 할당"></a>책임 할당</h4><ul>
+<li>INORMATION EXPERT(정보 전문가) 패턴<ul>
+<li>책임을 수행하는 데 필요한 정보를 가장 잘 알고 있는 전문가에게 그 책임을 할당</li>
+</ul>
+</li>
+</ul>
+<p><img src="/assets/images/post/200201/(4).png"></p>
+<br>
+
+<ul>
+<li>객체지향 설계는 협력에 필요한 메시지를 찾고 메시지에 적적할 객체를 선택하는 반복적인 과정을 통해 이루어짐</li>
+<li>이런 메시지가 메시지를 수신할 객체의 책임을 결정</li>
+<li>결정된 메시지가 객체의 퍼블릭 인터페이스를 구성</li>
+</ul>
+<br>
+
+<h4 id="책임-주도-설계"><a href="#책임-주도-설계" class="headerlink" title="책임 주도 설계"></a>책임 주도 설계</h4><ul>
+<li>협력을 설계하기 위해서는 책임에 초점을 맞춰야 함</li>
+<li>책임 주도 설계(Responsibility-Driven Desing, RDD) <ul>
+<li>책임을 찾고 책임을 수행할 적절한 객체를 찾아 책임을 할당하는 방식으로 협력을 설계하는 방법</li>
+</ul>
+</li>
+<li>책임을 할당할 떄 고려해야 하는 두가지 요소<ul>
+<li>메시지가 객체를 결정</li>
+<li>행동이 상태를 결정</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<h4 id="메시지가-객체를-결정한다"><a href="#메시지가-객체를-결정한다" class="headerlink" title="메시지가 객체를 결정한다"></a>메시지가 객체를 결정한다</h4><blockquote>
+<p>객체가 메시지를 선택하는 것이 아니라 메시지가 객체를 선택하게 했다</p>
+</blockquote>
+<br>
+
+<ul>
+<li><p>메시지가 객체를 선택하게 하면</p>
+<ul>
+<li>객체가 최소한의 인터페이스를 가질 수 있게 됨</li>
+<li>추상적인 인터페이스를 가질 수 있게 됨</li>
+</ul>
+</li>
+<li><p>객체가 충분히 추상적이면서 미니멀리즘을 따르는 인터페이스를 가지고 하고 싶다면 메시지가 객체를 선택하게 하라.</p>
+</li>
+</ul>
+<br>
+
+<h4 id="행동이-상태를-결정한다"><a href="#행동이-상태를-결정한다" class="headerlink" title="행동이 상태를 결정한다"></a>행동이 상태를 결정한다</h4><ul>
+<li>객체를 객체답게 만드는 것은 객체의 상태가 아니라 객체가 다른 객체에게 제공하는 행동</li>
+<li>객체의 행동이 아니라 상태에 초점을 맞추는 것 &gt; 가장 쉽게 빠지는 실수</li>
+<li>객체의 내부 구현이 객체의 퍼블릭 인터페이스에 노출 &gt; 캡슐화 저해 &gt; 내부 구현 변경 시 퍼블릭 인터페이스 변경 &gt; 객체를 의존하는 클라이언트에 영향</li>
+<li>데이터-주도 설계(Data Driven Design) : 객체의 내부 구현에 초점을 맞춘 설계 방법</li>
+</ul>
+<blockquote>
+<p>중요한 것은 객체의 상태가 아니라 행동이다.</p>
+</blockquote>
+<br>
+
+<h3 id="역할"><a href="#역할" class="headerlink" title="역할"></a>역할</h3><h4 id="역할과-협력"><a href="#역할과-협력" class="headerlink" title="역할과 협력"></a>역할과 협력</h4><ul>
+<li>역할 : 객체가 어떤 특정한 협력 안에서 수행하는 책임의 집합</li>
+</ul>
+<p><img src="/assets/images/post/200201/(5).png"></p>
+<br>
+
+<p>어떤 이유로 역할 이라는 개념을 이용해 설계 과정을 더 번거롭게 만드는 것일까? 어차피 역할이 없이도 객체만으로 충분히 협력을 설계할 수 있는것 아닌가?</p>
+<br>
+
+<h4 id="유연하고-재사용-가능한-협력"><a href="#유연하고-재사용-가능한-협력" class="headerlink" title="유연하고 재사용 가능한 협력"></a>유연하고 재사용 가능한 협력</h4><ul>
+<li>역할을 통해 유연하고 재사용 가능한 협력을 얻을 수 있음</li>
+<li>코드 중복</li>
+<li>문제를 해결하기 위해서는 객체가 아닌 책임에 초점을 맞춰야 함</li>
+</ul>
+<blockquote>
+<p>역할은 다른 것으로 교체할 수 있는 책임의 집합이다.</p>
+</blockquote>
+<p><img src="/assets/images/post/200201/(6).png"></p>
+<br>
+
+<ul>
+<li>동일한 책임을 수행하는 역할을 기반으로 두 개의 협력을 하나로 통합할 수 있음</li>
+<li>불필요한 중복 제거</li>
+<li>협력이 유연해짐</li>
+</ul>
+<blockquote>
+<p>책임과 역할을 중심으로 협력을 바라보는 것이 바로 변경과 확장이 용이한 유용한 설계로 나아가는 첫 걸음이다.</p>
+</blockquote>
+<br>
+
+<h4 id="객체-대-역할"><a href="#객체-대-역할" class="headerlink" title="객체 대 역할"></a>객체 대 역할</h4><blockquote>
+<p>객체에 관해 생각 할 때 ‘이 객체가 무슨 역할을 수행하는가?’ 라고 자문하는 것이 도움이 된다.</p>
+<p>하지만 어떤 협력에서 하나 이상의 객체가 동일한 책임을 수행할 수 있다면 역할은 서로 다른 방법으로 실행할 수 있는 책임의 집합이 된다. </p>
+<p>다시말해 협력에 적합한 책임을 수행하는 대상이 한 종류라면 간단하게 객체로 간주한다. 만약 여러 종류의 객체들이 참여할 수 있다면 역할이라고 부르면 된다.</p>
+</blockquote>
+<p><img src="/assets/images/post/200201/(7).png"></p>
+<br>
+
+<ul>
+<li><p>설계 초반에는 </p>
+<ul>
+<li><p>적절한 책임과 협력의 큰 그림을 탐색하는 것이 중요</p>
+</li>
+<li><p>역할과 객체를 명확하게 구분하는 것은 그 다음 문제</p>
+</li>
+</ul>
+</li>
+<li><p>애매하다면 단순하게 객체로 시작하고 반복적으로 책임과 협력을 정제해가면서 필요한 순간에 객체로부터 역할을 분리해 내는 것이 가장 좋은 방법</p>
+</li>
+<li><p>협력을 위해 어떤 책임이 필요한지를 이해하는 것</p>
+</li>
+</ul>
+<blockquote>
+<p>다양한 객체들이 협력에 참여한다는 것이 확실하다면 역할로 시작하라. 하지만 모든 것이 안개 속에 둘러싸여 있고 정확한 결정을 내리기 어려운 상황이라면 구체적인 객체로 시작하라.</p>
+</blockquote>
+<ul>
+<li>역할 모델링</li>
+</ul>
+<br>
+
+<h4 id="역할과-추상화"><a href="#역할과-추상화" class="headerlink" title="역할과 추상화"></a>역할과 추상화</h4><p><strong>추상화의 장점</strong></p>
+<p><img src="/assets/images/post/200201/(8).png"></p>
+<br>
+
+<ul>
+<li>세부사항에 억눌리지 않고도 상위 수준의 정책을 쉽고 간단하게 표현<ul>
+<li>추상화는 상황을 단순화함</li>
+<li>역할은 협력을 추상화함</li>
+<li>객체에게 중요한 것은 행동이라는 사실</li>
+</ul>
+</li>
+<li>설계를 유연하게 만듬</li>
+</ul>
+<br>
+
+<h4 id="배우와-배역"><a href="#배우와-배역" class="headerlink" title="배우와 배역"></a>배우와 배역</h4><blockquote>
+<p>협력이라는 문맥안에서 역할은 특정한 협력에 참여해서 책임을 수행하는 객체의 일부다. 일반적으로 역할은 객체가 협력에 참여하는 잠시 동안에만 존재하는 일시적인 개념이다. 역할은 모양이나 구조에 의해 정의될 수 없으며 오직 시스템의 문맥 안에서 무엇을 하는지에 의해서만 정의될 수 있다. </p>
+<p>역할은 객체의 페르소나다.</p>
+</blockquote>
+<ul>
+<li>객체는 여러 역할을 가질 수 있음</li>
+<li>특정한 협력 안에서는 일시적으로 오직 하나의 역할만 보여짐</li>
+</ul>
+<br>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2020/02/01/2020-02-01-OBJECTS%20Item%2003/" title="역할, 책임, 협력">https://songii00.github.io/2020/02/01/2020-02-01-OBJECTS Item 03/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/OBJECTS/" rel="tag"># OBJECTS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/01/27/2020-01-27-OBJECTS%20Item%2002/" rel="prev" title="객체지향 프로그래밍">
+                  <i class="fa fa-chevron-left"></i> 객체지향 프로그래밍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/09/2020-02-09-OBJECTS%20Item%2004/" rel="next" title="설계 품질과 트레이드오프">
+                  설계 품질과 트레이드오프 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2020/02/01/2020-02-01-OBJECTS%20Item%2003/";
+    this.page.identifier = "2020/02/01/2020-02-01-OBJECTS Item 03/";
+    this.page.title = "역할, 책임, 협력";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

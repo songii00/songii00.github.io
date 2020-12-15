@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="문제상황Spring Batch를 이용해 대량의 데이터 전송 로직을 구성중 대량의 데이터를 페이징 처리 후 chunk를 반복하며 전송해야 하는 상황이 생겼다.    이때 구성 흐름은 reader에서 데이터를 읽고 writer에서 FeignClient를 이용해 전송한후, StepExecutionListener를 통해 로깅 처리를 한다. 그 후 다시 reader">
+<meta property="og:type" content="article">
+<meta property="og:title" content="버그해결기 - chunk">
+<meta property="og:url" content="https://songii00.github.io/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="문제상황Spring Batch를 이용해 대량의 데이터 전송 로직을 구성중 대량의 데이터를 페이징 처리 후 chunk를 반복하며 전송해야 하는 상황이 생겼다.    이때 구성 흐름은 reader에서 데이터를 읽고 writer에서 FeignClient를 이용해 전송한후, StepExecutionListener를 통해 로깅 처리를 한다. 그 후 다시 reader">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-06-10T11:35:10.000Z">
+<meta property="article:modified_time" content="2020-01-08T13:51:46.623Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="spring batch">
+<meta property="article:tag" content="bug">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://songii00.github.io/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>버그해결기 - chunk | Zoe의 기술블로그</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%AC%B8%EC%A0%9C%EC%83%81%ED%99%A9"><span class="nav-number">1.</span> <span class="nav-text">문제상황</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EC%BD%94%EB%93%9C%EC%98%88%EC%8B%9C"><span class="nav-number">1.1.</span> <span class="nav-text">코드예시</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B4%EC%9C%A0"><span class="nav-number">2.</span> <span class="nav-text">이유</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EA%B0%9C%EC%84%A0%EC%BD%94%EB%93%9C%EC%98%88"><span class="nav-number">2.1.</span> <span class="nav-text">개선코드예</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          버그해결기 - chunk
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-06-10 20:35:10" itemprop="dateCreated datePublished" datetime="2019-06-10T20:35:10+09:00">2019-06-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-01-08 22:51:46" itemprop="dateModified" datetime="2020-01-08T22:51:46+09:00">2020-01-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/spring-batch/" itemprop="url" rel="index"><span itemprop="name">spring batch</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/10/2019-06-12-버그해결기-chunk/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="문제상황"><a href="#문제상황" class="headerlink" title="문제상황"></a>문제상황</h3><p>Spring Batch를 이용해 대량의 데이터 전송 로직을 구성중 대량의 데이터를 페이징 처리 후 chunk를 반복하며 전송해야 하는 상황이 생겼다.   </p>
+<p>이때 구성 흐름은 reader에서 데이터를 읽고 writer에서 FeignClient를 이용해 전송한후, StepExecutionListener를 통해 로깅 처리를 한다. 그 후 다시 reader를 통해 다시 다음 인덱스의 데이터를 읽고, writer로 전송한다. 읽어올 데이터가 없을 때까지 해당 chunk를 반복한 후 데이터가 없을때 다음 스텝을 진행한다. </p>
+<p>문제는 reader-&gt;writer를 반복 후 더 이상 읽어올 데이터가 없으면 listener가 실행될 거라고 생각했지만, 현실은 chunk의 무한반복 문제가 발생했다는 것이다. 코드를 보면서 살펴보자.</p>
+<br>
+
+<a id="more"></a>
+
+<h4 id="코드예시"><a href="#코드예시" class="headerlink" title="코드예시"></a>코드예시</h4><ul>
+<li>Reader</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> KopisRequest <span class="title">read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">log.info(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Item Read&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 응답 객체 생체</span></span><br><span class="line">ResponsePram responseParam = <span class="keyword">new</span> ResponsePram();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 페이징 처리 데이터</span></span><br><span class="line"><span class="comment">// startSearchIndex 부터 1000개의 데이터를 읽어</span></span><br><span class="line">List&lt;ResponseDetail&gt; responseDetailList = DetailService.getDetailList(</span><br><span class="line">        <span class="keyword">new</span> ResponseDetail.Search(startSearchIndex, <span class="number">1000</span>));</span><br><span class="line">        </span><br><span class="line">increaseSearchIndex(responseDetailList.size()); <span class="comment">// startSearchIndex를 읽어온 데이터 수만큼 증가</span></span><br><span class="line">responseParam.setItems(responseDetailList); <span class="comment">// 반환 객체에 저장</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> responseParam; <span class="comment">// 객체 반환</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br>
+
+<p>Reader는 ItemReader와 ItemStream을 구현했다.</p>
+<p>read 메서드가 실행되면 페이징 처리된 데이터인 ResponseDetail 객체 정보를 startSearchIndex(시작 인덱스)부터 1000개 읽어온다. </p>
+<p>예를 들어 startSearchIndex가 1이라면 1부터 1000개의 데이터를 읽어오는 쿼리를 실행한다. 그후, startSearchIndex 를 1000개 증가시켜 1001로 설정한다. </p>
+<p>마지막으로 responseParam 에 읽어온 ResponseDetailList를 저장 후 반환한다. </p>
+<p>writer는 예제 코드는 없지만 간단히 reader에서 읽어온 데이터를 전송하는 역할만 수행한다고 하자.</p>
+<p>위 step이 실행된다면 어떻게 될까.</p>
+<p>결과적으로만 말하면 read-&gt;write-&gt;read-&gt;write의 무한 반복이다. </p>
+<p>위의 코드가 실행되는 순간 이미 chunk 무한지옥의 늪에 빠졌다고 할수있다.</p>
+<p>도대체 왜 chunk는 끝나질 않는걸까?</p>
+<br>
+
+<h3 id="이유"><a href="#이유" class="headerlink" title="이유"></a>이유</h3><p>답은 ChunkOrientedTasklet에 있다. ChunkOrientedTasklet는 chunk단위로 작업하기 위한 전체 코드가 위치한 곳이다. </p>
+<br>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChunkOrientedTasklet</span>&lt;<span class="title">I</span>&gt; <span class="keyword">implements</span> <span class="title">Tasklet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String INPUTS_KEY = <span class="string">&quot;INPUTS&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChunkProcessor&lt;I&gt; chunkProcessor;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChunkProvider&lt;I&gt; chunkProvider;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> buffering = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Log logger = LogFactory.getLog(ChunkOrientedTasklet.class);</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> RepeatStatus <span class="title">execute</span><span class="params">(StepContribution contribution, ChunkContext chunkContext)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Chunk&lt;I&gt; inputs = (Chunk)chunkContext.getAttribute(<span class="string">&quot;INPUTS&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (inputs == <span class="keyword">null</span>) &#123;</span><br><span class="line">            inputs = <span class="keyword">this</span>.chunkProvider.provide(contribution);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.buffering) &#123;</span><br><span class="line">                chunkContext.setAttribute(<span class="string">&quot;INPUTS&quot;</span>, inputs);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.chunkProcessor.process(contribution, inputs);</span><br><span class="line">        <span class="keyword">this</span>.chunkProvider.postProcess(contribution, inputs);</span><br><span class="line">        <span class="keyword">if</span> (inputs.isBusy()) &#123;</span><br><span class="line">            logger.debug(<span class="string">&quot;Inputs still busy&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> RepeatStatus.CONTINUABLE;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            chunkContext.removeAttribute(<span class="string">&quot;INPUTS&quot;</span>);</span><br><span class="line">            chunkContext.setComplete();</span><br><span class="line">            <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">                logger.debug(<span class="string">&quot;Inputs not busy, ended: &quot;</span> + inputs.isEnd());</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">return</span> RepeatStatus.continueIf(!inputs.isEnd());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>여기서 chunkProvider.provide()로 Reader에서 Chunk size만큼 데이터를 가져온다. 그 후, chunkProcessor.process() 에서 Reader에서 받은 데이터 Processor, Writer를 거치게 된다.<br>아의 코드는 read를 담당하는 provide 메서드이다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Chunk&lt;I&gt; <span class="title">provide</span><span class="params">(<span class="keyword">final</span> StepContribution contribution)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Chunk&lt;I&gt; inputs = <span class="keyword">new</span> Chunk();</span><br><span class="line">        <span class="keyword">this</span>.repeatOperations.iterate(<span class="keyword">new</span> RepeatCallback() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> RepeatStatus <span class="title">doInIteration</span><span class="params">(RepeatContext context)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                Object item = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    item = SimpleChunkProvider.<span class="keyword">this</span>.read(contribution, inputs);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (SkipOverflowException var4) &#123;</span><br><span class="line">                    <span class="keyword">return</span> RepeatStatus.FINISHED;</span><br><span class="line">                &#125;</span><br><span class="line">    </span><br><span class="line">                <span class="keyword">if</span> (item == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    inputs.setEnd();</span><br><span class="line">                    <span class="keyword">return</span> RepeatStatus.FINISHED;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    inputs.add(item);</span><br><span class="line">                    contribution.incrementReadCount();</span><br><span class="line">                    <span class="keyword">return</span> RepeatStatus.CONTINUABLE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> inputs;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>위 코드는 inputs이 ChunkSize만큼 쌓일때까지 read()를 호출한다. 이 read() 는 내부를 보면 실제로는 ItemReader.read를 호출하게 된다. </p>
+<p>여기서 중요한 부분은 read를 통해 읽어온 데이터가 null이 되지 않으면 RepeatStatus.CONTINUABLE 을 리턴한다는 것이다. RepeatStatus.CONTINUABLE 를 반환하면 해당 chunk는 다시 반복되게 되는데 이때문에 위 예제의 Reader 에서는 chunk가 끝나지 않는 것이다.</p>
+<br>
+<br>
+
+<h4 id="개선코드예"><a href="#개선코드예" class="headerlink" title="개선코드예"></a>개선코드예</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> KopisRequest <span class="title">read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Item Read&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 응답객체 생성 </span></span><br><span class="line">    ResponsePram responseParam =<span class="keyword">new</span> ResponsePram();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 페이징 처리 데이터</span></span><br><span class="line">    <span class="comment">// startSearchIndex 부터 1000개의 데이터를 읽어온다.</span></span><br><span class="line">    List&lt;ResponseDetail&gt; responseDetailList = DetailService.getDetailList(</span><br><span class="line">            <span class="keyword">new</span> ResponseDetail.Search(startSearchIndex, <span class="number">1000</span>));</span><br><span class="line">     </span><br><span class="line">    <span class="comment">// 만약 읽어온 리스트가 비어있다면 null을 반</span></span><br><span class="line">    <span class="keyword">if</span> (CollectionUtils.isEmpty(responseDetailList)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    increaseSearchIndex(responseDetailList.size()); <span class="comment">// startSearchIndex를 1000만큼 증가시킨다.</span></span><br><span class="line">    responseParam.setItems(responseDetailList); <span class="comment">// 반환 객체에 저장</span></span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> responseParam; <span class="comment">// 객체 반환</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br>
+
+<p>만약 조회한 리스트가 없다면 null을 반환하는 로직을 추가하는 것만으로 무한반복 지옥에서 탈출할 수 있다. </p>
+<p>Tasklet이 아니라 chunk를 사용해야 할때, ItemReader를 구현해서 사용해야 할때, 위 상황을 명심하자. 또한 혹시 더좋은  방법이 있다면 블로그의 댓글기능이 아직 구현되있지 않으므로 Contact의 메세지를 부탁드리며 이상으로 버그 해결기는 마치도록 하겠다.</p>
+<br>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/" title="버그해결기 - chunk">https://songii00.github.io/2019/06/10/2019-06-12-버그해결기-chunk/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/spring-batch/" rel="tag"># spring batch</a>
+              <a href="/tags/bug/" rel="tag"># bug</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/05/18/2019-05-19-Effective%20Java%20Item%206/" rel="prev" title="Effective Java / Item 6">
+                  <i class="fa fa-chevron-left"></i> Effective Java / Item 6
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/06/16/2019-06-16-Effective%20Java%20Item%2010/" rel="next" title="Effective Java / Item 10">
+                  Effective Java / Item 10 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/";
+    this.page.identifier = "2019/06/10/2019-06-12-버그해결기-chunk/";
+    this.page.title = "버그해결기 - chunk";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
