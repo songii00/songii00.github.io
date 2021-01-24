@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="DIP 의존성 역전 원칙객체 사이에 서로 도움을 받으면 의존 관계가 발생한다. 의존성 역전 원칙은 이러한 관계를 맺을 때 가이드 라인에 해당한다. DIP 는 한마디로 의존 관계를 맺을 때 변화하기 쉬운것, 또는 자주 변화하는 것 보다는 변화하기 어려운것, 거의 변화가 없는 것에 의존하라는 원칙이다. DIP가 말하는 유연성이 극대화된 시스템이란 소스 코드 의">
 <meta property="og:type" content="article">
@@ -54,6 +54,15 @@
 </script>
 <title>DIP 의존성 역전 원칙 | Zoe의 기술블로그</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145886411-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145886411-1');
+      }
+    </script>
 
 
 

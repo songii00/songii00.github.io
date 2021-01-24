@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="“OBJECTS 9장” 개팡-폐쇄 원칙(Open-Closed Principle, OCP) 소프트웨어 개체(클래스, 모듈, 함수 등등)은 확장에 대해 열려있어야 하고, 수정에 대해서는 닫혀 있어야 한다.      확장에 대해 열려 있다  애플리케이션의 요구사항이 변경될 때 이 변경에 맞게 새로운 동작 을 추가해서 애플리케이션의 기능을 확장할 수 있음   수정">
 <meta property="og:type" content="article">
@@ -59,6 +59,15 @@
 </script>
 <title>유연한 설계 | Zoe의 기술블로그</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145886411-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145886411-1');
+      }
+    </script>
 
 
 

@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="RabbitMQ, 이럴때 사용하자래거시 배송지연 처리 기능배송지연 처리 기능을 하는 시스템이 있다고 가정해보자.   배송 처리 과정은 위의 플로우대로 진행된다.  판매자가 배송 지연 요청을 했을 경우 실시간이 아닌 배송 지연 안내 배치를 수행하여 배송지연 메시지가 발송되게 된다. 여기서 기존 시스템의 대표적인 문제는 배송 지연 처리에서 복잡한 비지니스 로직">
 <meta property="og:type" content="article">
@@ -58,6 +58,15 @@
 </script>
 <title>RabbitMQ (2) | Zoe의 기술블로그</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145886411-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145886411-1');
+      }
+    </script>
 
 
 

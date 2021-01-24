@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="“OBJECTS 8장” 잘 설계된 객체지향 애플리케이션은 작고 응집도 높은 객체 들로 구성된다. 또한 이런 작은 객체들이 단독으로 수행할 수 있는 작업은 없기 때문에 다른 객체에게 도움을 요청해야 한다. 이런 요청들이 객체 사이의 협력을 낳는다.  협력은 객체가 다른 객체에 대해 알 것을 강요하고 이런 지식들이 객체 사이의 의존성을 낳는다.">
 <meta property="og:type" content="article">
@@ -57,6 +57,15 @@
 </script>
 <title>의존성 관리하기 | Zoe의 기술블로그</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145886411-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145886411-1');
+      }
+    </script>
 
 
 

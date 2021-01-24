@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="끄적끄적">
 <meta property="og:type" content="website">
@@ -48,6 +48,15 @@
 </script>
 <title>Zoe의 기술블로그</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145886411-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145886411-1');
+      }
+    </script>
 
 
 
@@ -1209,7 +1218,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/11/17/2019-11-17-CleanArchitecture%20Item%2027/">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/11/17/2019-11-17-CleanArchitecture%20Item%2026/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/assets/images/avatar.gif">
@@ -1222,7 +1231,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/11/17/2019-11-17-CleanArchitecture%20Item%2027/" class="post-title-link" itemprop="url">크고 작은 모든 서비스들</a>
+          <a href="/2019/11/17/2019-11-17-CleanArchitecture%20Item%2026/" class="post-title-link" itemprop="url">메인 컴포넌트</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1240,7 +1249,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-01-14 20:59:35" itemprop="dateModified" datetime="2020-01-14T20:59:35+09:00">2020-01-14</time>
+        <time title="Modified: 2020-01-14 20:59:59" itemprop="dateModified" datetime="2020-01-14T20:59:59+09:00">2020-01-14</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1261,8 +1270,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2019/11/17/2019-11-17-CleanArchitecture%20Item%2027/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/17/2019-11-17-CleanArchitecture Item 27/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2019/11/17/2019-11-17-CleanArchitecture%20Item%2026/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/17/2019-11-17-CleanArchitecture Item 26/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1276,11 +1285,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h3 id="“CleanArchitecture-27장”"><a href="#“CleanArchitecture-27장”" class="headerlink" title="“CleanArchitecture 27장”"></a>“CleanArchitecture 27장”</h3><hr>
-<h3 id="서비스-지향-‘아키텍처’-마이크로서비스-‘아키텍처’"><a href="#서비스-지향-‘아키텍처’-마이크로서비스-‘아키텍처’" class="headerlink" title="서비스 지향 ‘아키텍처’ , 마이크로서비스 ‘아키텍처’"></a>서비스 지향 ‘아키텍처’ , 마이크로서비스 ‘아키텍처’</h3><p><img src="/assets/images/post/191117/(1).png" alt="factory method pattern"></p>
+          <h3 id="“CleanArchitecture-26장”"><a href="#“CleanArchitecture-26장”" class="headerlink" title="“CleanArchitecture 26장”"></a>“CleanArchitecture 26장”</h3><hr>
+<h3 id="메인-컴포넌트"><a href="#메인-컴포넌트" class="headerlink" title="메인 컴포넌트"></a>메인 컴포넌트</h3><blockquote>
+<p>모든 시스템에서 최소한 하나의 컴포넌트가 존재하고, 이 컴포넌트가 나머지 컴포넌트를 생성하고, 조정하며, 관리한다</p>
+</blockquote>
+<p><br><img src="/assets/images/post/191117/(6).gif" alt="factory method pattern"></p>
+<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/11/17/2019-11-17-CleanArchitecture%20Item%2027/#more" rel="contents">
+              <a class="btn" href="/2019/11/17/2019-11-17-CleanArchitecture%20Item%2026/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
