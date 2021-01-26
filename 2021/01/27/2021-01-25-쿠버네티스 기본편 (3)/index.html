@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://songii00.github.io/assets/images/post/210125/(3).png">
 <meta property="og:image" content="https://songii00.github.io/assets/images/post/210125/(5).png">
 <meta property="article:published_time" content="2021-01-26T16:19:23.000Z">
-<meta property="article:modified_time" content="2021-01-26T16:29:07.022Z">
+<meta property="article:modified_time" content="2021-01-26T16:33:28.346Z">
 <meta property="article:author" content="Zoe">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary">
@@ -175,7 +175,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9C%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9-%EA%B5%AC%EC%84%B1-%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EB%B3%B8%ED%8E%B8-3-%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3)”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%8C%8C%EB%93%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9"><span class="nav-number">2.</span> <span class="nav-text">파드 네트워킹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pause-container"><span class="nav-number">2.1.</span> <span class="nav-text">pause container</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%8C%8C%EB%93%9C-%EA%B0%84-%ED%86%B5%EC%8B%A0"><span class="nav-number">2.2.</span> <span class="nav-text">파드 간 통신</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9"><span class="nav-number">3.</span> <span class="nav-text">서비스 네트워킹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proxy-mode"><span class="nav-number">4.</span> <span class="nav-text">proxy mode</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#userspace-mode"><span class="nav-number">4.1.</span> <span class="nav-text">userspace mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iptables-mode"><span class="nav-number">4.2.</span> <span class="nav-text">iptables mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPVS-mode"><span class="nav-number">4.3.</span> <span class="nav-text">IPVS mode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-DNS"><span class="nav-number">5.</span> <span class="nav-text">쿠버네티스 DNS</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9C%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9-%EA%B5%AC%EC%84%B1-%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EB%B3%B8%ED%8E%B8-3-%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">“클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3)”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%8C%8C%EB%93%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9"><span class="nav-number">2.</span> <span class="nav-text">파드 네트워킹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pause-container"><span class="nav-number">2.1.</span> <span class="nav-text">pause container</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%ED%8C%8C%EB%93%9C-%EA%B0%84-%ED%86%B5%EC%8B%A0"><span class="nav-number">2.2.</span> <span class="nav-text">파드 간 통신</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9"><span class="nav-number">3.</span> <span class="nav-text">서비스 네트워킹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proxy-mode"><span class="nav-number">4.</span> <span class="nav-text">proxy mode</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#userspace-mode"><span class="nav-number">4.1.</span> <span class="nav-text">userspace mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iptables-mode"><span class="nav-number">4.2.</span> <span class="nav-text">iptables mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IPVS-mode"><span class="nav-number">4.3.</span> <span class="nav-text">IPVS mode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-DNS"><span class="nav-number">5.</span> <span class="nav-text">쿠버네티스 DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EC%B6%9C%EC%B2%98"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">출처 
+</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -277,7 +278,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-01-27 01:19:23 / Modified: 01:29:07" itemprop="dateCreated datePublished" datetime="2021-01-27T01:19:23+09:00">2021-01-27</time>
+      <time title="Created: 2021-01-27 01:19:23 / Modified: 01:33:28" itemprop="dateCreated datePublished" datetime="2021-01-27T01:19:23+09:00">2021-01-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -407,7 +408,10 @@
 <blockquote>
 <p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://da-nika.tistory.com/191">https://da-nika.tistory.com/191</a></p>
 </blockquote>
+<br>
 
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br></h6><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.inflearn.com/course/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EC%B4%88/dashboard">https://www.inflearn.com/course/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EC%B4%88/dashboard</a></p>
+<br>
     </div>
 
     
