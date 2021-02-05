@@ -180,20 +180,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -242,7 +242,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/08/29/2019-08-29-RabbitMQ(1)/">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/10/12/2019-10-12-CleanArchitecture%20Item%207/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/assets/images/avatar.gif">
@@ -255,7 +255,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/08/29/2019-08-29-RabbitMQ(1)/" class="post-title-link" itemprop="url">RabbitMQ (1)</a>
+          <a href="/2019/10/12/2019-10-12-CleanArchitecture%20Item%207/" class="post-title-link" itemprop="url">SRP 단일책임원칙</a>
         </h2>
 
         <div class="post-meta-container">
@@ -266,14 +266,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2019-08-29 17:48:45" itemprop="dateCreated datePublished" datetime="2019-08-29T17:48:45+09:00">2019-08-29</time>
+      <time title="Created: 2019-10-12 11:54:45" itemprop="dateCreated datePublished" datetime="2019-10-12T11:54:45+09:00">2019-10-12</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-11-27 22:47:17" itemprop="dateModified" datetime="2019-11-27T22:47:17+09:00">2019-11-27</time>
+        <time title="Modified: 2019-11-27 22:46:29" itemprop="dateModified" datetime="2019-11-27T22:46:29+09:00">2019-11-27</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -281,7 +281,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MessageQueue/" itemprop="url" rel="index"><span itemprop="name">MessageQueue</span></a>
+          <a href="/categories/clean-architecture/" itemprop="url" rel="index"><span itemprop="name">clean-architecture</span></a>
         </span>
     </span>
 
@@ -294,8 +294,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2019/08/29/2019-08-29-RabbitMQ(1)/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/29/2019-08-29-RabbitMQ(1)/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2019/10/12/2019-10-12-CleanArchitecture%20Item%207/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/12/2019-10-12-CleanArchitecture Item 7/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -309,10 +309,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h3 id="1-RabbitMQ-란"><a href="#1-RabbitMQ-란" class="headerlink" title="1. RabbitMQ 란"></a>1. RabbitMQ 란</h3><p><img src="/assets/images/post/190829/(1).png" alt="factory method pattern"> </p>
+          <h3 id="설계원칙"><a href="#설계원칙" class="headerlink" title="설계원칙"></a>설계원칙</h3><p><img src="/assets/images/post/191012/(11).png" alt="factory method pattern"><br>좋은 소프트웨어 시스템은 깔끔한 코드(clean code)로 부터 시작한다. 좋은 코드로 좋은 아키텍처를 정의하는 원칙이 바로 SOLID다.</p>
+<p>SOLID 원칙은 함수와 데이터 구조를 클래스로 배치하는방법, 그리고 이들 클래스를 서로 결합하는 방법을 설명해준다.</p>
+<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/08/29/2019-08-29-RabbitMQ(1)/#more" rel="contents">
+              <a class="btn" href="/2019/10/12/2019-10-12-CleanArchitecture%20Item%207/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -762,6 +764,107 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/08/29/2019-08-29-RabbitMQ(1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/29/2019-08-29-RabbitMQ(1)/" class="post-title-link" itemprop="url">RabbitMQ (1)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-08-29 17:48:45" itemprop="dateCreated datePublished" datetime="2019-08-29T17:48:45+09:00">2019-08-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-11-27 22:47:17" itemprop="dateModified" datetime="2019-11-27T22:47:17+09:00">2019-11-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MessageQueue/" itemprop="url" rel="index"><span itemprop="name">MessageQueue</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/08/29/2019-08-29-RabbitMQ(1)/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/29/2019-08-29-RabbitMQ(1)/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="1-RabbitMQ-란"><a href="#1-RabbitMQ-란" class="headerlink" title="1. RabbitMQ 란"></a>1. RabbitMQ 란</h3><p><img src="/assets/images/post/190829/(1).png" alt="factory method pattern"> </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/29/2019-08-29-RabbitMQ(1)/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/08/10/2019-08-10-%EC%BF%BC%EB%A6%AC%ED%8A%9C%EB%8B%9D%ED%8C%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1143,113 +1246,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/05/18/2019-05-19-Effective%20Java%20Item%206/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/assets/images/avatar.gif">
-      <meta itemprop="name" content="Zoe">
-      <meta itemprop="description" content="끄적끄적">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zoe의 기술블로그">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/05/18/2019-05-19-Effective%20Java%20Item%206/" class="post-title-link" itemprop="url">Effective Java / Item 6</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-05-18 15:15:21" itemprop="dateCreated datePublished" datetime="2019-05-18T15:15:21+09:00">2019-05-18</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-11-27 22:40:43" itemprop="dateModified" datetime="2019-11-27T22:40:43+09:00">2019-11-27</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/effective-java/" itemprop="url" rel="index"><span itemprop="name">effective java</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2019/05/18/2019-05-19-Effective%20Java%20Item%206/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/18/2019-05-19-Effective Java Item 6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="재사용하자"><a href="#재사용하자" class="headerlink" title="재사용하자"></a>재사용하자</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="keyword">new</span> String(<span class="string">&quot;hi&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>위의 코드를 보면서 어떤생각이 들어야 할까. 책에서는 절대 따라하지 말라고 강력히 권고하고 있다. String 인스턴스는 문장이 실행될 때마다 새로 생성된다. 이 문장이 반복문 안에 있다면 생성되는 String 인스턴스의 갯수는 상상할 수 없다. </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="string">&quot;hi&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>위의 코드는 어떨까. 앞의 코드와 정확히 같은 것을 나타낸다. 다만 다른점이 있다면 후자는 하나의 String 인스턴스를 사용한다는 점이다. 이 방식을 사용한다면 같은 가상 머신 안에서 이와 똑같은 문자열 리터럴을 사용하는 모든 코드가 같은 객체를 재사용함이 보장된다. </p>
-<p>똑같은 기능의 객체는 매번 생성하기 보다는 개체 하나를 재사용하는 편이 바람직하다. 재사용은 빠르고, 특히 불변 객체는 언제든 재사용될 수 있다. </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/05/18/2019-05-19-Effective%20Java%20Item%206/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
