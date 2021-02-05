@@ -23,15 +23,15 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="Better way 6. 인덱스를 사용하는 대신 대입을 사용해 데이터를 언패킹하라.tuple 튜플 불변한 순서가 있는 객체의 집합  한번 생성되면 값 변경 불가  딕셔너리의 키-값 쌍과 비슷하게 두값으로 이루어짐  123pair &#x3D; (&amp;#x27;약과&amp;#x27;, &amp;#x27;호박엿&amp;#x27;)print(pair[0])pair[1] &#x3D; &amp;#x27;한과&amp;#x27">
+<meta name="description" content="Better way 6. 인덱스를 사용하는 대신 대입을 사용해 데이터를 언패킹하라.tuple 튜플 불변한 순서가 있는 객체의 집합  한번 생성되면 값 변경 불가  딕셔너리의 키-값 쌍과 비슷하게 두값으로 이루어짐">
 <meta property="og:type" content="article">
 <meta property="og:title" content="파이썬 코딩의 기술 01">
 <meta property="og:url" content="https://songii00.github.io/2021/02/05/2021-02-05-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2001/index.html">
 <meta property="og:site_name" content="Zoe의 기술블로그">
-<meta property="og:description" content="Better way 6. 인덱스를 사용하는 대신 대입을 사용해 데이터를 언패킹하라.tuple 튜플 불변한 순서가 있는 객체의 집합  한번 생성되면 값 변경 불가  딕셔너리의 키-값 쌍과 비슷하게 두값으로 이루어짐  123pair &#x3D; (&amp;#x27;약과&amp;#x27;, &amp;#x27;호박엿&amp;#x27;)print(pair[0])pair[1] &#x3D; &amp;#x27;한과&amp;#x27">
+<meta property="og:description" content="Better way 6. 인덱스를 사용하는 대신 대입을 사용해 데이터를 언패킹하라.tuple 튜플 불변한 순서가 있는 객체의 집합  한번 생성되면 값 변경 불가  딕셔너리의 키-값 쌍과 비슷하게 두값으로 이루어짐">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-05T02:33:32.000Z">
-<meta property="article:modified_time" content="2021-02-05T15:49:47.223Z">
+<meta property="article:modified_time" content="2021-02-05T15:52:20.752Z">
 <meta property="article:author" content="Zoe">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -278,7 +278,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-02-06 00:49:47" itemprop="dateModified" datetime="2021-02-06T00:49:47+09:00">2021-02-06</time>
+        <time title="Modified: 2021-02-06 00:52:20" itemprop="dateModified" datetime="2021-02-06T00:52:20+09:00">2021-02-06</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -319,6 +319,8 @@
 <li>한번 생성되면 값 변경 불가 </li>
 <li>딕셔너리의 키-값 쌍과 비슷하게 두값으로 이루어짐</li>
 </ul>
+<a id="more"></a>
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pair = (<span class="string">&#x27;약과&#x27;</span>, <span class="string">&#x27;호박엿&#x27;</span>)</span><br><span class="line">print(pair[<span class="number">0</span>])</span><br><span class="line">pair[<span class="number">1</span>] = <span class="string">&#x27;한과&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="언패킹-풀기-구문"><a href="#언패킹-풀기-구문" class="headerlink" title="언패킹(풀기) 구문"></a>언패킹(풀기) 구문</h4><ul>
