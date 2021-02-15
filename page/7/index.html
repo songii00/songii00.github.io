@@ -180,7 +180,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -233,6 +233,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/" class="post-title-link" itemprop="url">버그해결기 - chunk</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-06-10 20:35:10" itemprop="dateCreated datePublished" datetime="2019-06-10T20:35:10+09:00">2019-06-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-01-08 22:51:46" itemprop="dateModified" datetime="2020-01-08T22:51:46+09:00">2020-01-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/spring-batch/" itemprop="url" rel="index"><span itemprop="name">spring batch</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/10/2019-06-12-버그해결기-chunk/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="문제상황"><a href="#문제상황" class="headerlink" title="문제상황"></a>문제상황</h3><p>Spring Batch를 이용해 대량의 데이터 전송 로직을 구성중 대량의 데이터를 페이징 처리 후 chunk를 반복하며 전송해야 하는 상황이 생겼다.   </p>
+<p>이때 구성 흐름은 reader에서 데이터를 읽고 writer에서 FeignClient를 이용해 전송한후, StepExecutionListener를 통해 로깅 처리를 한다. 그 후 다시 reader를 통해 다시 다음 인덱스의 데이터를 읽고, writer로 전송한다. 읽어올 데이터가 없을 때까지 해당 chunk를 반복한 후 데이터가 없을때 다음 스텝을 진행한다. </p>
+<p>문제는 reader-&gt;writer를 반복 후 더 이상 읽어올 데이터가 없으면 listener가 실행될 거라고 생각했지만, 현실은 chunk의 무한반복 문제가 발생했다는 것이다. 코드를 보면서 살펴보자.</p>
+<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/10/2019-06-12-%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0-chunk/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
