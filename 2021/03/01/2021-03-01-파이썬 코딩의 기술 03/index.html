@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"songii00.github.io","root":"/","images":"/assets/images","scheme":"Mist","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="chapter 2. 리스트와 딕셔너리Better way 15. 딕셔너리 삽입 순서에 의존할 때는 조심하라.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="파이썬 코딩의 기술 03">
+<meta property="og:url" content="https://songii00.github.io/2021/03/01/2021-03-01-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2003/index.html">
+<meta property="og:site_name" content="Zoe의 기술블로그">
+<meta property="og:description" content="chapter 2. 리스트와 딕셔너리Better way 15. 딕셔너리 삽입 순서에 의존할 때는 조심하라.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-01T08:48:32.000Z">
+<meta property="article:modified_time" content="2021-03-01T08:58:56.363Z">
+<meta property="article:author" content="Zoe">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://songii00.github.io/2021/03/01/2021-03-01-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2003/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>파이썬 코딩의 기술 03 | Zoe의 기술블로그</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145886411-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145886411-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+  <script data-ad-client="ca-pub-3299276415784548" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="alternate" href="/rss2.xml" title="Zoe의 기술블로그" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zoe의 기술블로그</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">끄적끄적</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-2-%EB%A6%AC%EC%8A%A4%ED%8A%B8%EC%99%80-%EB%94%95%EC%85%94%EB%84%88%EB%A6%AC"><span class="nav-number">1.</span> <span class="nav-text">chapter 2. 리스트와 딕셔너리</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Better-way-15-%EB%94%95%EC%85%94%EB%84%88%EB%A6%AC-%EC%82%BD%EC%9E%85-%EC%88%9C%EC%84%9C%EC%97%90-%EC%9D%98%EC%A1%B4%ED%95%A0-%EB%95%8C%EB%8A%94-%EC%A1%B0%EC%8B%AC%ED%95%98%EB%9D%BC"><span class="nav-number">2.</span> <span class="nav-text">Better way 15. 딕셔너리 삽입 순서에 의존할 때는 조심하라.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EB%8D%95-%ED%83%80%EC%9D%B4%ED%95%91-Duck-Typing"><span class="nav-number">2.1.</span> <span class="nav-text">덕 타이핑(Duck Typing)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Better-way-16-in%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B3%A0-%EB%94%95%EC%85%94%EB%84%88%EB%A6%AC-%ED%82%A4%EA%B0%80-%EC%97%86%EC%9D%84-%EB%95%8C-KeyError%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0-%EB%B3%B4%EB%8B%A4%EB%8A%94-get%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC"><span class="nav-number">3.</span> <span class="nav-text">Better way 16. in을 사용하고 딕셔너리 키가 없을 때 KeyError를 처리하기 보다는 get을 사용하라.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#in"><span class="nav-number">3.1.</span> <span class="nav-text">in</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-%EB%A9%94%EC%84%9C%EB%93%9C"><span class="nav-number">3.2.</span> <span class="nav-text">get 메서드</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in-KeyError"><span class="nav-number">3.3.</span> <span class="nav-text">in + KeyError</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setdefault-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%82%AC%EC%9A%A9"><span class="nav-number">3.4.</span> <span class="nav-text">setdefault 메서드 사용</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Better-way-17-%EB%82%B4%EB%B6%80-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C-%EC%9B%90%EC%86%8C%EA%B0%80-%EC%97%86%EB%8A%94-%EA%B2%BD%EC%9A%B0%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%A0-%EB%95%8C%EB%8A%94-setdefault-%EB%B3%B4%EB%8B%A4-defaultdict-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC"><span class="nav-number">4.</span> <span class="nav-text">Better way 17. 내부 상태에서 원소가 없는 경우를 처리할 때는 setdefault 보다 defaultdict 사용하라.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Better-way-18-missing-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%ED%82%A4%EC%97%90-%EB%94%B0%EB%9D%BC-%EB%8B%A4%EB%A5%B8-%EB%94%94%ED%8F%B4%ED%8A%B8-%EA%B0%92%EC%9D%84-%EC%83%9D%EC%84%B1%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%9D%84-%EC%95%8C%EC%95%84%EB%91%90%EB%9D%BC"><span class="nav-number">5.</span> <span class="nav-text">Better way 18. __missing__를 사용해 키에 따라 다른 디폴트 값을 생성하는 방법을 알아두라.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setdefault-%EC%82%AC%EC%9A%A9"><span class="nav-number">5.1.</span> <span class="nav-text">setdefault 사용</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#defaultdict-%EC%82%AC%EC%9A%A9"><span class="nav-number">5.2.</span> <span class="nav-text">defaultdict 사용</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zoe</p>
+  <div class="site-description" itemprop="description">끄적끄적</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songii00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songii00" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wks4j1004@gmail.com" title="E-Mail → mailto:wks4j1004@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="external nofollow noopener noreferrer" target="_blank"><img src="/assets/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://songii00.github.io/2021/03/01/2021-03-01-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2003/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+      <meta itemprop="name" content="Zoe">
+      <meta itemprop="description" content="끄적끄적">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zoe의 기술블로그">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          파이썬 코딩의 기술 03
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-03-01 17:48:32 / Modified: 17:58:56" itemprop="dateCreated datePublished" datetime="2021-03-01T17:48:32+09:00">2021-03-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/01/2021-03-01-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2003/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/01/2021-03-01-파이썬 코딩의 기술 03/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="chapter-2-리스트와-딕셔너리"><a href="#chapter-2-리스트와-딕셔너리" class="headerlink" title="chapter 2. 리스트와 딕셔너리"></a>chapter 2. 리스트와 딕셔너리</h3><h3 id="Better-way-15-딕셔너리-삽입-순서에-의존할-때는-조심하라"><a href="#Better-way-15-딕셔너리-삽입-순서에-의존할-때는-조심하라" class="headerlink" title="Better way 15. 딕셔너리 삽입 순서에 의존할 때는 조심하라."></a>Better way 15. 딕셔너리 삽입 순서에 의존할 때는 조심하라.</h3><a id="more"></a>
+
+<ul>
+<li>파이썬 3.6부터 딕셔너리가 삽입 순서를 보존하도록 동작이 개선 </li>
+<li>파이썬 3.7부터 파이썬 언어 명세에 포함 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">baby_names = &#123;</span><br><span class="line">    <span class="string">&#x27;cat&#x27;</span>: <span class="string">&#x27;kitten&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;dog&#x27;</span>: <span class="string">&#x27;puppy&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">print(<span class="built_in">list</span>(baby_names.keys()))</span><br><span class="line">print(<span class="built_in">list</span>(baby_names.values()))</span><br><span class="line">print(<span class="built_in">list</span>(baby_names.items()))</span><br><span class="line">print(<span class="built_in">list</span>(baby_names.popitem())) <span class="comment"># 마지막에 삽입된 원소 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [&#x27;cat&#x27;, &#x27;dog&#x27;]</span></span><br><span class="line"><span class="comment"># [&#x27;kitten&#x27;, &#x27;puppy&#x27;]</span></span><br><span class="line"><span class="comment"># [(&#x27;cat&#x27;, &#x27;kitten&#x27;), (&#x27;dog&#x27;, &#x27;puppy&#x27;)]</span></span><br><span class="line"><span class="comment"># [&#x27;dog&#x27;, &#x27;puppy&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>키워드 인자의 순서는 프로그래머가 함수를 호출할 때 사용한 인자 순서와 항상 일치 </li>
+<li>클래스도 인스턴스 딕셔너리에 dict 타입을 사용 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.alligator = <span class="string">&#x27;hatchling&#x27;</span></span><br><span class="line">        self.elephant = <span class="string">&#x27;calf&#x27;</span></span><br><span class="line"></span><br><span class="line">a = MyClass()</span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> a.__dict__.items():</span><br><span class="line">    print(<span class="string">f&#x27;<span class="subst">&#123;key&#125;</span> = <span class="subst">&#123;value&#125;</span>&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># alligator = hatchling</span></span><br><span class="line"><span class="comment"># elephant = calf</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>파이썬 3.7 부터는 dict 인스턴스에 들어 있는 내용을 이터레이션 할 때 키를 삽입한 순서대로 돌려받는 사실에 의존할 수 있다. </p>
+</blockquote>
+<ul>
+<li>딕셔너리가 삽입 순서를 유지하지만 항상 성립한다고 가정해서는 안됨 </li>
+<li>프로그래머가 list, dict 등의 표준 프로토콜을 흉내 내는 커스텀 컨테이너 타입을 쉽게 정의할수 있음 </li>
+</ul>
+<h4 id="덕-타이핑-Duck-Typing"><a href="#덕-타이핑-Duck-Typing" class="headerlink" title="덕 타이핑(Duck Typing)"></a>덕 타이핑(Duck Typing)</h4><ul>
+<li>“If it walks like a duck and it quacks like a duck, then it must be a duck. (오리처럼 걷고, 오리처럼 꽥꽥거리면, 그것은 틀림없이 오리다.)</li>
+<li>파이썬과 같은 동적타입의 언어에서 본질적으로 다른클래스라도 객체의 적합성은 객체의 실제 유형이 아니라 특정 메소드와 속성의 존재에 의해 결정</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://wikidocs.net/16076">https://wikidocs.net/16076</a></p>
+</blockquote>
+<ul>
+<li>collections.abc 모듈을 사용해 딕셔너리와 비슷하지만 내용을 알파벳 순서 대로 이터레이션 해주는 클래스를 새로 정의</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 콘테스트에서 우승한 동물을 출력, 알파벳 순으로 표시 </span></span><br><span class="line"></span><br><span class="line">votes = &#123;</span><br><span class="line">    <span class="string">&#x27;otter&#x27;</span>: <span class="number">1281</span>,</span><br><span class="line">    <span class="string">&#x27;polar bear&#x27;</span>: <span class="number">587</span>,</span><br><span class="line">    <span class="string">&#x27;fox&#x27;</span>: <span class="number">863</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">populate_ranks</span>(<span class="params">votes, ranks</span>):</span></span><br><span class="line">    names = <span class="built_in">list</span>(votes.keys())</span><br><span class="line">    names.sort(key= votes.get, reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> i, name <span class="keyword">in</span> <span class="built_in">enumerate</span>(names, <span class="number">1</span>):</span><br><span class="line">        ranks[name] = i</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_winner</span>(<span class="params">ranks</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">next</span>(<span class="built_in">iter</span>(ranks))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> MutableMapping</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SortedDict</span>(<span class="params">MutableMapping</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.data = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.data[key]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">        self.data[key] = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__delitem__</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="keyword">del</span> self.data[key]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        keys = <span class="built_in">list</span>(self.data.keys())</span><br><span class="line">        keys.sort()</span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> keys :</span><br><span class="line">            <span class="keyword">yield</span> key</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sorted_ranks = SortedDict()</span><br><span class="line">populate_ranks(votes, sorted_ranks)</span><br><span class="line">print(sorted_ranks.data)</span><br><span class="line">winner = get_winner(sorted_ranks)</span><br><span class="line">print(winner)</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#123;&#x27;otter&#x27;: 1, &#x27;fox&#x27;: 2, &#x27;polar bear&#x27;: 3&#125;</span></span><br><span class="line"><span class="comment"># fox</span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>파이썬 dict는 아니지만 딕셔너리와 비슷한 객체를 쉽게 만들수 있게 해준다. 이런 타입의 경우 키 삽입 순서가 그대로 보존된다고 가정할 수 없다. </p>
+</blockquote>
+<p><strong>step 1) ranks 딕셔너리가 어떤 특정 순서로 이터레이션 된다고 가정하지 않음</strong> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_winner</span>(<span class="params">ranks</span>):</span></span><br><span class="line">    <span class="keyword">for</span> name, rank <span class="keyword">in</span> ranks.items():</span><br><span class="line">        <span class="keyword">if</span> rank == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> name</span><br><span class="line">            </span><br><span class="line"><span class="comment"># otter</span></span><br></pre></td></tr></table></figure>
+<p><strong>step 2) ranks 의 타입이 원하는 타입인지 검사하는 코드 추가</strong> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_winner</span>(<span class="params">ranks</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">isinstance</span>(ranks, <span class="built_in">dict</span>):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">&#x27;dict 인스턴스가 필요합니다.&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">next</span>(<span class="built_in">iter</span>(ranks))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># TypeError: dict 인스턴스가 필요합니다.</span></span><br></pre></td></tr></table></figure>
+<p><strong>step 3) dict 인스턴스가 되도록 강제</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> Dict, MutableMapping</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">populate_ranks</span>(<span class="params">votes: Dict[<span class="built_in">str</span>, <span class="built_in">int</span>],</span></span></span><br><span class="line"><span class="function"><span class="params">                    ranks: Dict[<span class="built_in">str</span>, <span class="built_in">int</span>]</span>) -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">    names = <span class="built_in">list</span>(votes.keys())</span><br><span class="line">    names.sort(key=votes.get, reverse=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, name <span class="keyword">in</span> <span class="built_in">enumerate</span>(names, <span class="number">1</span>):</span><br><span class="line">        ranks[name] = i</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_winner</span>(<span class="params">ranks: Dict[<span class="built_in">str</span>,<span class="built_in">int</span>]</span>) -&gt; str:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">next</span>(<span class="built_in">iter</span>(ranks))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SortedDict</span>(<span class="params">MutableMapping[<span class="built_in">str</span>, <span class="built_in">int</span>]</span>):</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>딕셔너리와 비슷한 클래스는 조심스럽게 다루는 방법으로는 dict 인스턴스의 삽입 순서 보존에 의존하지 않고 코드를 작성하는 방법, 실행 시점에 명시적으로 dict 타입을 검사 하는 방법, 타입 애너테이션과 정적 분석을 사용해 dict 값을 요구하는 방법이 있다. </p>
+</blockquote>
+<br>
+
+<h3 id="Better-way-16-in을-사용하고-딕셔너리-키가-없을-때-KeyError를-처리하기-보다는-get을-사용하라"><a href="#Better-way-16-in을-사용하고-딕셔너리-키가-없을-때-KeyError를-처리하기-보다는-get을-사용하라" class="headerlink" title="Better way 16. in을 사용하고 딕셔너리 키가 없을 때 KeyError를 처리하기 보다는 get을 사용하라."></a>Better way 16. in을 사용하고 딕셔너리 키가 없을 때 KeyError를 처리하기 보다는 get을 사용하라.</h3><h4 id="in"><a href="#in" class="headerlink" title="in"></a>in</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">counters = &#123;</span><br><span class="line">    <span class="string">&#x27;품퍼니켈&#x27;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;샤워도우&#x27;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">key = <span class="string">&#x27;품퍼니켈&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> key <span class="keyword">in</span> counters:</span><br><span class="line">    count = counters[key]</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">counters[key] = count + <span class="number">1</span></span><br><span class="line">print(counters[key])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="get-메서드"><a href="#get-메서드" class="headerlink" title="get 메서드"></a>get 메서드</h4><ul>
+<li>간단한 타입의 값이 들어 있는 딕셔너리의 경우 get 메서드를 사용하는 방법이 가장 코드가 짧고 깔끔함 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">count = counters.get(key, <span class="number">0</span>)</span><br><span class="line">counters[key] = count + <span class="number">1</span></span><br><span class="line"><span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
+<h4 id="in-KeyError"><a href="#in-KeyError" class="headerlink" title="in + KeyError"></a>in + KeyError</h4><ul>
+<li>in 식과 KeyError로 더 짧게 쓸수 있지만 대입을 중복해 사용하여 가독성 떨어짐 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> counters:</span><br><span class="line">    counters[key] = <span class="number">0</span></span><br><span class="line">counters[key] += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> key <span class="keyword">in</span> counters:</span><br><span class="line">    counters[key] += <span class="number">1</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    counters[key] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    counters[key] += <span class="number">1</span></span><br><span class="line"><span class="keyword">except</span> KeyError:</span><br><span class="line">    counters[key] =<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="setdefault-메서드-사용"><a href="#setdefault-메서드-사용" class="headerlink" title="setdefault 메서드 사용"></a>setdefault 메서드 사용</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">votes = &#123;</span><br><span class="line">    <span class="string">&#x27;바게트&#x27;</span>: [<span class="string">&#x27;철수&#x27;</span>, <span class="string">&#x27;순이&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;치아바타&#x27;</span>: [<span class="string">&#x27;하니&#x27;</span>, <span class="string">&#x27;유리&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">key = <span class="string">&#x27;치아바타&#x27;</span></span><br><span class="line">who = <span class="string">&#x27;단이&#x27;</span></span><br><span class="line"></span><br><span class="line">names = votes.setdefault(key, [])</span><br><span class="line">names.append(who)</span><br><span class="line"></span><br><span class="line">print(names)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [&#x27;하니&#x27;, &#x27;유리&#x27;, &#x27;단이&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>딕셔너리 키가 없는 경우를 처리하는 방법으로 in 식을 사용하는 방법, KeyError 예외를 사용하는 방법, get 메서드를 사용하는 방법, setdefault 메서드를 사용하는 방법이 있다.</p>
+</blockquote>
+<blockquote>
+<p>카운터와 같이 기본적인 타입의 값이 들어가는 딕셔너리를 다룰 때는 get 메서드가 가장 좋고, 딕셔너리에 넣을 값을 만드는 비용이 비싸거나 만드는 과정에 예외가 발생할 수 있는 경우에도 get 메서드를 사용하는 편이 더 낫다. </p>
+</blockquote>
+<blockquote>
+<p>해결하려는 문제에 dict의 setdefault 메서드를 사용하는 방법이 가장 적합해 보인다면 setdefault 대신 defaultdict 를 사용할지 고려해보라.</p>
+</blockquote>
+<br>
+
+<h3 id="Better-way-17-내부-상태에서-원소가-없는-경우를-처리할-때는-setdefault-보다-defaultdict-사용하라"><a href="#Better-way-17-내부-상태에서-원소가-없는-경우를-처리할-때는-setdefault-보다-defaultdict-사용하라" class="headerlink" title="Better way 17. 내부 상태에서 원소가 없는 경우를 처리할 때는 setdefault 보다 defaultdict 사용하라."></a>Better way 17. 내부 상태에서 원소가 없는 경우를 처리할 때는 setdefault 보다 defaultdict 사용하라.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict <span class="comment"># 외부 함수 이므로 import 필요 </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Visits</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">         self.data = defaultdict(<span class="built_in">set</span>)</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, country, city</span>):</span></span><br><span class="line">        self.data[country].add(city)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">visits = Visits()</span><br><span class="line">visits.add(<span class="string">&#x27;영국&#x27;</span>, <span class="string">&#x27;바스&#x27;</span>)</span><br><span class="line">visits.add(<span class="string">&#x27;영국&#x27;</span>, <span class="string">&#x27;런던&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (visits.data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># defaultdict(&lt;class &#x27;set&#x27;&gt;, &#123;&#x27;영국&#x27;: &#123;&#x27;바스&#x27;, &#x27;런던&#x27;&#125;&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.daleseo.com/python-collections-defaultdict/">https://www.daleseo.com/python-collections-defaultdict/</a></p>
+</blockquote>
+<blockquote>
+<p>키로 어떤 값이 들어올지 모르는 딕셔너리를 관리해야 하는데 collections 내장 모듈에 있는 defaultdict가 필요에 맞아떨어진다면 defaultdict를 사용하라. </p>
+</blockquote>
+<blockquote>
+<p>임의의 키가 들어 있는 딕셔너리가 전달됐고 그 딕셔너리가 어떻게 생성됐는지 모르는 경우, 딕셔너리의 원소에 접근하려면 우선 get을 사용해야 한다.<br>하지만 setdefault가 더 짧은 코드를 만들어내는 몇가지 경우에는 setdefault를 사용하는 것도 고려해볼만 하다. </p>
+</blockquote>
+<br>
+
+<h3 id="Better-way-18-missing-를-사용해-키에-따라-다른-디폴트-값을-생성하는-방법을-알아두라"><a href="#Better-way-18-missing-를-사용해-키에-따라-다른-디폴트-값을-생성하는-방법을-알아두라" class="headerlink" title="Better way 18. __missing__를 사용해 키에 따라 다른 디폴트 값을 생성하는 방법을 알아두라."></a>Better way 18. __missing__를 사용해 키에 따라 다른 디폴트 값을 생성하는 방법을 알아두라.</h3><ul>
+<li>내장 dict 타입의 setdefault 메서드는 키가 없는 경우 짧은 코드로 처리가능하게 함 </li>
+<li>그중 대부분은 collections 내장 모듈에 있는 defaultdict 타입이 필요한 처리를 더 잘 해줌 </li>
+</ul>
+<h4 id="setdefault-사용"><a href="#setdefault-사용" class="headerlink" title="setdefault 사용"></a>setdefault 사용</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pictures = &#123;&#125;</span><br><span class="line">path = <span class="string">&#x27;profile_1234.png&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    handle = pictures.setdefault(path, <span class="built_in">open</span>(path, <span class="string">&#x27;a+b&#x27;</span>))</span><br><span class="line"><span class="keyword">except</span> OSError:</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">f&#x27;경로를 열 수 없습니다: <span class="subst">&#123;path&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="keyword">raise</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    handle.seek(<span class="number">0</span>)</span><br><span class="line">    image_data = handle.read()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>open 이 딕셔너리에 경로가 있는지 여부와 관계 없이 항상 호출됨 </li>
+<li>open 이 던지는 예외를 setdefault 가 던지는 예외와 혼동할 수 있음 </li>
+</ul>
+<blockquote>
+<p>디폴트 값을 만드는 계산 비용이 높거나 만드는 과정에서 예외가 발생할 수 있는 상황에서는 dict의 setdefault 메서드를 사용하지 말라. </p>
+</blockquote>
+<h4 id="defaultdict-사용"><a href="#defaultdict-사용" class="headerlink" title="defaultdict 사용"></a>defaultdict 사용</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line">pictures = &#123;&#125;</span><br><span class="line">path = <span class="string">&#x27;profile_1234.png&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">open_picture</span>(<span class="params">profile_path</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">open</span>(profile_path, <span class="string">&#x27;a+b&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span> OSError:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">f&#x27;경로를 열 수 없습니다: <span class="subst">&#123;profile_path&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line"></span><br><span class="line">pictures = defaultdict(open_picture)</span><br><span class="line">handle = pictures[path]</span><br><span class="line">handle.seek(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># TypeError: open_picture() missing 1 required positional argument: &#x27;profile_path&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>defaultdict 에 전달되는 함수는 인자를 받지 않는다. 따라서 접근에 사용한 키 값에 맞는 디폴트 값을 생성하는 것은 불가능 하다. </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pictures</span>(<span class="params"><span class="built_in">dict</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__missing__</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        value = open_picture(key)</span><br><span class="line">        self[key] = value</span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line">    </span><br><span class="line">pictures = Pictures()</span><br><span class="line">handle = pictures[path]</span><br><span class="line">handle.seek(<span class="number">0</span>)</span><br><span class="line">image_data = handle.read()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>dict에서 key로 값에 접근 시, key가 없으면 KeyError 예외 발생 </li>
+<li>__missing__가 구현된 경우만 KeyError 예외 발생 대신 __missing__을 호출</li>
+</ul>
+<blockquote>
+<p>디폴트 키를 만들때 어떤 키를 사용했는지 반드시 알아야 하는 상황이라면 직접 dict의 하위 클래스와 <strong>missing</strong> 메서드를 정의하면 된다. </p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+<!--
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Zoe
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://songii00.github.io/2021/03/01/2021-03-01-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2003/" title="파이썬 코딩의 기술 03">https://songii00.github.io/2021/03/01/2021-03-01-파이썬 코딩의 기술 03/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+-->
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/21/2021-02-21-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2002/" rel="prev" title="파이썬 코딩의 기술 02">
+                  <i class="fa fa-chevron-left"></i> 파이썬 코딩의 기술 02
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+          <!-- Google AdSense end -->
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zoe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+    <div class="pjax">
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jeans-blog.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://songii00.github.io/2021/03/01/2021-03-01-%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2003/";
+    this.page.identifier = "2021/03/01/2021-03-01-파이썬 코딩의 기술 03/";
+    this.page.title = "파이썬 코딩의 기술 03";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://jeans-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
