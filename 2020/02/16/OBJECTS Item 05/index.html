@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          책임 할당하기 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2020/02/16/OBJECTS Item 05/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#OBJECTS" title="OBJECTS">OBJECTS</a>
+                        
+                    </div>
+                    <h1>책임 할당하기</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2020-02-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“OBJECTS-5장”"><a href="#“OBJECTS-5장”" class="headerlink" title="“OBJECTS 5장”"></a>“OBJECTS 5장”</h3><hr>
+<ul>
+<li>데이터가 아닌 책임에 초점을 맞추자.</li>
+<li>GRASP 패턴 </li>
+</ul>
+<h3 id="책임-주도-설계를-향해"><a href="#책임-주도-설계를-향해" class="headerlink" title="책임 주도 설계를 향해"></a>책임 주도 설계를 향해</h3><ul>
+<li>데이터보다 행동을 먼저 결정하라</li>
+<li>협력이라는 문맥안에서 책임을 결정하라 </li>
+</ul>
+<span id="more"></span>
+<h4 id="데이터보다-행동을-먼저-결정하라"><a href="#데이터보다-행동을-먼저-결정하라" class="headerlink" title="데이터보다 행동을 먼저 결정하라"></a>데이터보다 행동을 먼저 결정하라</h4><ul>
+<li>객체에게 중요한 것은 데이터가 아니라 외부에 제공하는 행동임</li>
+<li>“이 객체가 수행해야 하는 책임은 무엇인가” 를 결정하느 후에 “이 책임을 수행하는데 필요한 데이터는 무엇인가”를 결정</li>
+<li>책임중심의 설계에서는 객체의 행동, 즉 책임을 결정한 후에 객체의 상태를 결정</li>
+</ul>
+<h4 id="협력이라는-문맥-안에서-책임을-결정하라"><a href="#협력이라는-문맥-안에서-책임을-결정하라" class="headerlink" title="협력이라는 문맥 안에서 책임을 결정하라"></a>협력이라는 문맥 안에서 책임을 결정하라</h4><ul>
+<li>책임은 객채의 입장이 아니라 객체가 참여하는 협력에 적합해야 함</li>
+<li>협력에 적합한 책임 : 메시지 전송자에게 적합한 책임</li>
+<li>메시지를 전송하는 클라이언트의 의도에 적합한 책임을 할당해야 함</li>
+<li>메시지를 결정 한 후에 객체를 선택</li>
+<li>객체가 메시지를 선택하는 것이 아니라 메시지가 객체를 선택하게 해야 함</li>
+</ul>
+<blockquote>
+<p>메시지를 전송해야 하는데 누구에게 전송해야 하지?</p>
+<p>책임 중심의 설계에서는 협력이라는 문맥 안에 객체가 수행할 책임에 초점을 맞춘다.</p>
+</blockquote>
+<h4 id="책임-주도-설계"><a href="#책임-주도-설계" class="headerlink" title="책임 주도 설계"></a>책임 주도 설계</h4><ul>
+<li>책임을 결정한 후에 책임을 수행할 객체를 결정하는 것 </li>
+</ul>
+<h3 id="책임-할당을-위한-GRASP-패턴"><a href="#책임-할당을-위한-GRASP-패턴" class="headerlink" title="책임 할당을 위한 GRASP 패턴"></a>책임 할당을 위한 GRASP 패턴</h3><ul>
+<li>크레이그 라만</li>
+<li>General Responsibility Assignment Software Pattern</li>
+<li>일반적인 책임 할당을 위한 소프트 웨어 패턴</li>
+<li>객체에게 책임을 할당할 때 지침으로 삼을 수 있는 원칙들의 집합을 패턴 형식으로 정리</li>
+</ul>
+<h4 id="도메인-개념에서-출발하기"><a href="#도메인-개념에서-출발하기" class="headerlink" title="도메인 개념에서 출발하기"></a>도메인 개념에서 출발하기</h4><ul>
+<li>어떤 책임을 할당해야 할 때 가장 먼저 고민해야 하는 유력한 후보</li>
+</ul>
+<p><img src="1.png" alt=""></p>
+<ul>
+<li>올바른 구현을 이끌어 낼 수 있는 도메인은 모델은 모두 정답</li>
+</ul>
+<h4 id="정보-전문가에게-책임을-할당하라"><a href="#정보-전문가에게-책임을-할당하라" class="headerlink" title="정보 전문가에게 책임을 할당하라"></a>정보 전문가에게 책임을 할당하라</h4><ol>
+<li>메시지를 전송할 객체는 무엇을 원하는가?</li>
+<li>메시지를 수신할 적합한 객체는 누구인가?</li>
+</ol>
+<ul>
+<li><p>INFORMATION EXPERT(정보 전문가) 패턴 : 책임을 수행할 정보를 알고 있는 객체에게 책임을 할당하는 것 </p>
+<ul>
+<li>필요한 정보를 가진 객체들로 책임이 분산</li>
+<li>응집력있고 이해가 쉬워짐</li>
+<li>객체가 자신이 소유하고 있는 정보와 관련된 작업을 수행한다는 일반적인 직관 표현</li>
+<li>정보는 데이터와 다름</li>
+<li>정보 전문가는 데이터를 반드시 저장하고 있을 필요는 없음 </li>
+<li>객체에게 책임을 할당할 때 가장 기본이 되는 책임 원칙</li>
+<li>객체란 상태와 행동을 함께 가지는 단위라는 객체지향의 가장 기본적 원리를 책임 할당의 관점에서 표현</li>
+</ul>
+</li>
+</ul>
+<p>  <img src="2.png" alt=""></p>
+<h4 id="높은-응집도와-낮은-결합도"><a href="#높은-응집도와-낮은-결합도" class="headerlink" title="높은 응집도와 낮은 결합도"></a>높은 응집도와 낮은 결합도</h4><ul>
+<li>설계는 트레이드오프 활동 </li>
+<li>동일한 기능을 구현할 수 있는 무수히 많은 설계 존재</li>
+</ul>
+<p><img src="3.png" alt=""></p>
+<ul>
+<li>DiscountCondition과 누가 협력해야 할까?</li>
+<li>Movie ? Screening?</li>
+<li>기능적 측면에서 두가지 중 어떤 방법을 선택하더라도 차이는 없음</li>
+<li>높은 응집도와 낮은 결합도는 객체에 책임을 할당할 때 항상 고려해야 하는 기본 원리</li>
+<li>LOW COUPLING(낮은 결합도)<ul>
+<li>설계의 전체적인 결합도가 낮게 유지되도록 책임을 할당</li>
+<li>Movie 와 DiscountCondition은 이미 결합 </li>
+<li>따라서 설계 전체적으로 결합도를 추가하지 않고 협력을 완성할수 있음</li>
+<li>Screeing이 DiscountCondition과 새로운 결합도가 추가</li>
+<li>Movie가 더 나은 설계 대안</li>
+</ul>
+</li>
+<li>HIGH COHESION(높은 응집도) 패턴<ul>
+<li>높은 응집도를 유지할 수 있게 책임을 할당</li>
+<li>Screeing은 영화 요금 계산과 관련된 책임을 추가 맡아야 함</li>
+<li>요금 계산 방식의 변경 경우 Screeing도 함께 변경되어야 함</li>
+<li>서로 다른 이유로 변경되는 책임을 짊어지게 됨 -&gt; 응집도 낮아짐</li>
+</ul>
+</li>
+<li>LOW COUPLING, HIGH COHESION 패턴은 책임과 협력의 품질을 검토하는데 사용할 수 있는 중요한 평가 기준</li>
+</ul>
+<h4 id="창조자에게-객체-생성-책임을-할당하라"><a href="#창조자에게-객체-생성-책임을-할당하라" class="headerlink" title="창조자에게 객체 생성 책임을 할당하라"></a>창조자에게 객체 생성 책임을 할당하라</h4><ul>
+<li>CREATOR (창조자) 패턴 : 객체를 생성할 책임을 어떤 객체에게 할당할지에 대한 지침 제공</li>
+<li>생성되는 객체와 연결되거나 관련될 필요가 있는 객체에 해당 객체를 생성할 책임을 맡기는 것 </li>
+</ul>
+<p><img src="4.png" alt=""></p>
+<ul>
+<li>Resercation의 CREATOR로 선택된 Screening</li>
+<li>협력과 책임이 제대로 동작하는지 확인할 수 있는 유일한 방법은 코드를 작성하고 실행해 보는 것 뿐</li>
+</ul>
+<blockquote>
+<p>올바르게 설계하고 있는지 궁금한가? 코드를 작성하라.</p>
+</blockquote>
+<h3 id="구현을-통한-검증"><a href="#구현을-통한-검증" class="headerlink" title="구현을 통한 검증"></a>구현을 통한 검증</h3><ul>
+<li>변경에 취약한 클래스란 코드를 수정해야 하는 이유를 하나 이상 가지는 클래스 </li>
+</ul>
+<blockquote>
+<p>변경의 이유에 따라 클래스를 분리해야 한다.</p>
+</blockquote>
+<ul>
+<li>일반적으로 설계를 개선하는 작업은 변경의 이유가 하나 이상인 클래스를 찾는 것으로 부터 시작</li>
+<li>코드를 통해 변경의 이유를 파악할 수 있는 첫 번째 방법은 인스턴스 변수가 초기화되는 시점<ul>
+<li>응집도가 높은 클래스를 인스턴스를 생성할 때 모든 속성을 함께 토기화</li>
+<li>응집도가 낮은 클래스는 객체의 속성 중 일부만 초기화하고 일부는 초기화되지 않음</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>함께 초기화 되는 속성을 기준으로 코드를 분리해야 한다. </p>
+</blockquote>
+<ul>
+<li>두번째는 메서드들이 인스턴스 변수를 사용하는 방식을 살펴봐야 함<ul>
+<li>모든 메서드가 객체의 모든 속성을 사용한다면 응집도 높음</li>
+<li>메서드들이 사용하는 속성에 따라 그룹이 나뉜다면 클래스의 응집도 낮음</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>속성 그룹과 해당 그룹에 접근하는 메서드 그룹을 기준으로 코드를 분리해야 한다. </p>
+</blockquote>
+<h4 id="다형성을-통해-분리하기"><a href="#다형성을-통해-분리하기" class="headerlink" title="다형성을 통해 분리하기"></a>다형성을 통해 분리하기</h4><ul>
+<li>역할 : 객체의 구체적인 타입을 추상화<ul>
+<li>역할을 대체할 클래스들 사이에서 구현을 공유해야하는 필요가 있다면 추상클래스 사용</li>
+<li>구현을 공유할 필요 없이 역할을 대체하는 객체들의 책임만 정의하고 싶다면 인터페이스 사용 </li>
+</ul>
+</li>
+</ul>
+<p><img src="5.png" alt=""></p>
+<blockquote>
+<p>객체의 타입에 따라 변하는 행동이 있다면 타입을 분리하고 변화하는 행동을 각 타입의 책임으로 할당하라는 것이다. GRASP 에서는 이를 POLYMORPHISM(다형성) 패턴이라고 부른다.</p>
+</blockquote>
+<p><img src="6.png" alt=""></p>
+<h4 id="변경으로부터-보호하기"><a href="#변경으로부터-보호하기" class="headerlink" title="변경으로부터 보호하기"></a>변경으로부터 보호하기</h4><ul>
+<li>PROTECTED VARIATIONS(변경 보호) 패턴<ul>
+<li>변경을 캡슐화하도록 책임을 할당하는 것 </li>
+<li>“설계에서 변하는 것이 무엇인지 고려하고 변하는 개념을 캡슐화하라.”</li>
+</ul>
+</li>
+<li>클래스를 변경에 따라 분리하고 인터페이스를 이용해 변경을 캡슐화하는 것은 설계의 결합도와 응집도를 향상시키는 매우 강력한 방법 </li>
+<li>하나의 클래스가 여러 타입의 행동을 구현하고 있다면 ? 클래스 분할, POLYMORPHISM 패턴에 따라 책임 분산</li>
+<li>예측 가능한 변경으로 여러 클래스들이 불안정해진다면? PROTECTED VARIATIONS 패턴에 따라 안정적인 인터페이그 뒤로 변경을 캡슐화</li>
+</ul>
+<h4 id="Movie-클래스-개선하기"><a href="#Movie-클래스-개선하기" class="headerlink" title="Movie 클래스 개선하기"></a>Movie 클래스 개선하기</h4><ul>
+<li><p>책임을 중심으로 협력을 설계할 때 얻을 수 있는 혜택</p>
+<ul>
+<li>모든 클래스의 내부 구현은 캡슐화 </li>
+<li>모든 클래스는 변경의 이유를 오직 하나만 가짐</li>
+<li>각 클래스는 응집도가 높고 다른 클래스와 최대한 느슨하게 결합</li>
+<li>클래스는 작고 오직 한 가지 일만 수행</li>
+<li>책임은 적절하게 분배</li>
+</ul>
+</li>
+</ul>
+<p>  <img src="7.png" alt=""></p>
+<ul>
+<li>데이터가 아닌 책임을 중심으로 설계하라</li>
+<li>객체에게 중요한 것은 상태가 아니라 행동</li>
+<li>객체지향 설계의 기본은 책임과 협력에 초점을 맞추는 것</li>
+</ul>
+<h4 id="변경과-유연성"><a href="#변경과-유연성" class="headerlink" title="변경과 유연성"></a>변경과 유연성</h4><ul>
+<li>설계를 주도하는 것은 변경</li>
+<li>변경에 대비하는 두가지 방법<ul>
+<li>코드를 이해하고 수정하기 쉽도록 최대한 단순하게 설계</li>
+<li>코드를 수정하지 않고도 변경을 수용할 수 있도록 코드를 유연하게 만들기 </li>
+</ul>
+</li>
+<li>합성</li>
+</ul>
+<p><img src="8.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Movie</span> <span class="variable">movie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Movie</span>(<span class="string">&quot;타이타닉&quot;</span>,</span><br><span class="line">        Duration.ofMinutes(<span class="number">210</span>),</span><br><span class="line">        Money.wons(<span class="number">2000</span>),</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">AmountDiscountPolicy</span>(...));</span><br><span class="line"></span><br><span class="line">movie.changeDiscountPolicy(<span class="keyword">new</span> <span class="title class_">PercentDiscountPolicy</span>(...));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>유연성에 대한 압박이 설계에 어떤 영향을 미치는지 보여줌</li>
+<li>유연성은 의존성 관리의 문제 </li>
+<li>의존성의 정도가 유연성의 정도를 결정 </li>
+</ul>
+<h3 id="책임-주도-설계의-대안"><a href="#책임-주도-설계의-대안" class="headerlink" title="책임 주도 설계의 대안"></a>책임 주도 설계의 대안</h3><p>이해하기 쉽고 수정하기 쉬운 소프트 웨어로 개선하기 위해 겉으로 보이는 동작은 바꾸지 않은 채 내부 구조를 변경하는 것</p>
+<p>: 리팩터링</p>
+<h4 id="메서드-응집도"><a href="#메서드-응집도" class="headerlink" title="메서드 응집도"></a>메서드 응집도</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReservationAgency</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Reservation <span class="title function_">reserve</span><span class="params">(Screening screening, Customer customer, <span class="type">int</span> audienceCount)</span> &#123;</span><br><span class="line">         <span class="type">Movie</span> <span class="variable">movie</span> <span class="operator">=</span> screening.getMovie();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 할인 가능 여부 확인</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">discountable</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(DiscountCondition condition : movie.getDiscountConditions())&#123;</span><br><span class="line">            <span class="keyword">if</span>(condition.getType() == DiscountConditionType.PERIOD)&#123;</span><br><span class="line">                discountable = screening.getWhenScreened().getDayOfWeek().equals(condition.getDayOfWeek())</span><br><span class="line">                        &amp;&amp; condition.getStartTime().compareTo(screening.getWhenScreened().toLocalTime()) &lt;= <span class="number">0</span></span><br><span class="line">                        &amp;&amp; condition.getEndTime().compareTo(screening.getWhenScreened().toLocalTime()) &gt;= <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                discountable = condition.getSequence() == screening.getSequence();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(discountable)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Money fee;</span><br><span class="line">        <span class="keyword">if</span>(discountable)&#123;</span><br><span class="line">            <span class="type">Money</span> <span class="variable">discountAmount</span> <span class="operator">=</span> Money.Zero;</span><br><span class="line">            <span class="keyword">switch</span> (movie.getMovieType())&#123;</span><br><span class="line">                <span class="keyword">case</span> NONE_DISCOUNT:</span><br><span class="line">                    discountAmount = Money.Zero;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AMOUNT_DISCOUNT:</span><br><span class="line">                    discountAmount = movie.getDiscountAmount();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> PERCENT_DISCOUNT:</span><br><span class="line">                    discountAmount = movie.getFee().times(movie.getDiscountPercent());</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            fee = movie.getFee().minus(discountAmount).times(audienceCount);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            fee = movie.getFee();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Reservation</span>(customer, screening, fee, audienceCount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>몬스터 메서드 </li>
+<li>긴 메서드는 응집도가 낮기 때문에 이해하기 어렵고 재사용하기 어려우며, 변경하기도 어려움<ul>
+<li>메서드가 명령문들의 그룹으로 구성되있고 각 그룹에 주석을 달아야 한다면? 메서드 응집도 낮음</li>
+<li>주석을 추가하는 대신 메서드를 작게 분리해서 각메서드의 응집도를 높여라 </li>
+</ul>
+</li>
+<li><p>메서드가 잘게 나눠져있을 떼 </p>
+<ul>
+<li><p>다른 메서드에서 사용될 확률이 높아짐</p>
+</li>
+<li><p>고수준의 메서드를 볼때 일련의 주석을 읽는 것 같은 느낌이 들게 함</p>
+</li>
+<li><p>오버라이딩 하는 것이 쉬움</p>
+</li>
+<li>이름을 지을 때 주의를 요함</li>
+</ul>
+</li>
+<li>객체로 책임을 분배할 떄 가장 먼저 할일은 메서드를 응집도 있는 수준으로 분해하는 것</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReservationAgency</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Reservation <span class="title function_">reserve</span><span class="params">(Screening screening, Customer customer,</span></span><br><span class="line"><span class="params">                               <span class="type">int</span> audienceCount)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">discountable</span> <span class="operator">=</span> checkDiscountable(screening);</span><br><span class="line">        <span class="type">Money</span> <span class="variable">fee</span> <span class="operator">=</span> calculateFee(screening, discountable, audienceCount);</span><br><span class="line">        <span class="keyword">return</span> createReservation(screening, customer, audienceCount, fee);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkDiscountable</span><span class="params">(Screening screening)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> screening.getMovie().getDiscountConditions().stream()</span><br><span class="line">                .anyMatch(condition -&gt; condition.isDiscountable(screening));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Money <span class="title function_">calculateFee</span><span class="params">(Screening screening, <span class="type">boolean</span> discountable,</span></span><br><span class="line"><span class="params">                               <span class="type">int</span> audienceCount)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (discountable) &#123;</span><br><span class="line">            <span class="keyword">return</span> screening.getMovie().getFee()</span><br><span class="line">                    .minus(calculateDiscountedFee(screening.getMovie()))</span><br><span class="line">                    .times(audienceCount);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span>  screening.getMovie().getFee();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Money <span class="title function_">calculateDiscountedFee</span><span class="params">(Movie movie)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span>(movie.getMovieType()) &#123;</span><br><span class="line">            <span class="keyword">case</span> AMOUNT_DISCOUNT:</span><br><span class="line">                <span class="keyword">return</span> calculateAmountDiscountedFee(movie);</span><br><span class="line">            <span class="keyword">case</span> PERCENT_DISCOUNT:</span><br><span class="line">                <span class="keyword">return</span> calculatePercentDiscountedFee(movie);</span><br><span class="line">            <span class="keyword">case</span> NONE_DISCOUNT:</span><br><span class="line">                <span class="keyword">return</span> calculateNoneDiscountedFee(movie);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Money <span class="title function_">calculateAmountDiscountedFee</span><span class="params">(Movie movie)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> movie.getDiscountAmount();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Money <span class="title function_">calculatePercentDiscountedFee</span><span class="params">(Movie movie)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> movie.getFee().times(movie.getDiscountPercent());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Money <span class="title function_">calculateNoneDiscountedFee</span><span class="params">(Movie movie)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> movie.getFee();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Reservation <span class="title function_">createReservation</span><span class="params">(Screening screening,</span></span><br><span class="line"><span class="params">                                          Customer customer, <span class="type">int</span> audienceCount, Money fee)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Reservation</span>(customer, screening, fee, audienceCount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>코드를 작은 메서드로 분해하면 전체적인 흐름을 이해하기 쉬워짐</li>
+<li>수정 후 코드는 변경이 쉬워짐 </li>
+</ul>
+<h4 id="객체를-자율적으로-만들자"><a href="#객체를-자율적으로-만들자" class="headerlink" title="객체를 자율적으로 만들자"></a>객체를 자율적으로 만들자</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.eternity.movie.step05;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.DayOfWeek;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalTime;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DiscountCondition</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> DiscountConditionType type;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> sequence;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> DayOfWeek dayOfWeek;</span><br><span class="line">    <span class="keyword">private</span> LocalTime startTime;</span><br><span class="line">    <span class="keyword">private</span> LocalTime endTime;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DiscountCondition</span><span class="params">(<span class="type">int</span> sequence)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.type = DiscountConditionType.SEQUENCE;</span><br><span class="line">        <span class="built_in">this</span>.sequence = sequence;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DiscountCondition</span><span class="params">(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.type = DiscountConditionType.PERIOD;</span><br><span class="line">        <span class="built_in">this</span>.dayOfWeek= dayOfWeek;</span><br><span class="line">        <span class="built_in">this</span>.startTime = startTime;</span><br><span class="line">        <span class="built_in">this</span>.endTime = endTime;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isDiscountable</span><span class="params">(Screening screening)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (type == DiscountConditionType.PERIOD) &#123;</span><br><span class="line">            <span class="keyword">return</span> isSatisfiedByPeriod(screening);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> isSatisfiedBySequence(screening);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isSatisfiedByPeriod</span><span class="params">(Screening screening)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> screening.getWhenScreened().getDayOfWeek().equals(dayOfWeek) &amp;&amp;</span><br><span class="line">                startTime.compareTo(screening.getWhenScreened().toLocalTime()) &lt;= <span class="number">0</span> &amp;&amp;</span><br><span class="line">                endTime.compareTo(screening.getWhenScreened().toLocalTime()) &gt;= <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isSatisfiedBySequence</span><span class="params">(Screening screening)</span> &#123;</span><br><span class="line">        <span class="type">return</span> <span class="variable">sequence</span> <span class="operator">=</span>= screening.getSequence();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>자신이 소유하고 있는 데이터를 자기 스스로가 처리하도록 만드는 것이 자울적인 객체를 만드는 지름길</p>
+</li>
+<li><p>메서드를 다른 클래스로 이동시킬 때 인자에 정의된 클래스 중 하나로 이동하는 경우가 일반적임</p>
+</li>
+<li><p>데이터를 사용하는 메서드를 데이터를 가진 클래스로 이동시키고 나면 캡슐화와 높은 응집도, 낮은 결합도를 가지는 설계를 얻게됨</p>
+<blockquote>
+<p> 책임 주도 설게 방법에 익숙하지 않다면? 일단 데이터 중심으로 구현 한 후 이를 리팩터링 하더라도 유사한 결과를 얻을 수 있다. </p>
+</blockquote>
+</li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/02/23/OBJECTS Item 06/" data-toggle="tooltip" data-placement="top" title="메시지와 인터페이스">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#OBJECTS" title="OBJECTS">OBJECTS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2020/02/16/OBJECTS%20Item%2005/";
+    var disqus_url = "https://songii00.github.io/2020/02/16/OBJECTS%20Item%2005/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

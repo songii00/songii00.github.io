@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          도메인 모델 시작 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2020/06/14/DDDStart!_Item_1/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#DDDStart!" title="DDDStart!">DDDStart!</a>
+                        
+                    </div>
+                    <h1>도메인 모델 시작</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2020-06-14
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“DDD-Start-1장”"><a href="#“DDD-Start-1장”" class="headerlink" title="“DDD Start! 1장”"></a>“DDD Start! 1장”</h3><hr>
+<h3 id="도메인"><a href="#도메인" class="headerlink" title="도메인"></a>도메인</h3><ul>
+<li>소프트웨어로 해결하고자 하는 문제 영역</li>
+<li>도메인은 여러 하위 도메인으로 구성 </li>
+</ul>
+<span id="more"></span>
+<p><img src="1.png" alt=""> </p>
+<p><br></p>
+<ul>
+<li>하위 도메인은 다른 하위 도메인들과 연동하여 완전한 기능을 제공 </li>
+<li>소프트웨어가 도메인의 모든 기능을 제공하지 않음 </li>
+</ul>
+<p><img src="2.png" alt=""> </p>
+<p><br></p>
+<ul>
+<li>하위 도메인을 어떻게 구성할지 여부는 상황에 따라 달라짐 </li>
+</ul>
+<p><br></p>
+<h3 id="도메인-모델"><a href="#도메인-모델" class="headerlink" title="도메인 모델"></a>도메인 모델</h3><ul>
+<li>특정 도메인을 개념적으로 표현한 것 </li>
+<li>도메인을 이해하는데 도움된다면 표현방식은 중요하지 않음 </li>
+<li>도메인 자체를 이해하기 위한 개념 모델 </li>
+<li>구현 모델이 필요함 </li>
+</ul>
+<p><img src="3" alt="">.jpg) </p>
+<blockquote>
+<p>도메인 모델을 사용하면 여러 관계자들이 동일한 모습으로 도메인을 이해하고 도메인 지식을 공유하는데 도움이 된다. </p>
+</blockquote>
+<p><br></p>
+<p><br></p>
+<h3 id="도메인-모델-패턴"><a href="#도메인-모델-패턴" class="headerlink" title="도메인 모델 패턴"></a>도메인 모델 패턴</h3><ul>
+<li>일반적인 애플리케이션의 아키텍처는 네개의 계층으로 구성 </li>
+</ul>
+<p><img src="4.png" alt=""> </p>
+<p><br></p>
+<ul>
+<li>도메인 모델 <ul>
+<li>아키텍쳐상의 도메인 계층을 객체 지향 기법으로 구현하는 패턴 </li>
+<li>도메인 계층을 구현할 때 사용하는 객체 모델 </li>
+</ul>
+</li>
+<li>도메인 모델 패턴 <ul>
+<li>도메인 규칙을 객체지향 기법으로 구현하는 패턴 </li>
+</ul>
+</li>
+<li>도메인 규칙 <ul>
+<li>도메인의 핵심 규칙 </li>
+<li>ex ) 주문 취소는 배송 전에만 할수있다. / 출고 전 배송지 변경할 수있다. </li>
+<li>핵심 규칙을 구현한 코드는 도메인 모델에만 위치</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h3 id="도메인-모델-도출"><a href="#도메인-모델-도출" class="headerlink" title="도메인 모델 도출"></a>도메인 모델 도출</h3><ul>
+<li>도메인에 대한 초기 모델 </li>
+<li>요구사항에서 출발 </li>
+</ul>
+<blockquote>
+<p>단순히 코드를 보기 좋게 작성하는 것 뿐만 아니라 도메인 관점에서 코드가 도메인을 잘 표현해야 비로소 코드의 가독성이 높아지며 문서로서 코드가 의미를 갖는다. </p>
+</blockquote>
+<p><br></p>
+<h3 id="엔티티와-밸류"><a href="#엔티티와-밸류" class="headerlink" title="엔티티와 밸류"></a>엔티티와 밸류</h3><ul>
+<li>요구사항에서 도출한 도메인은 크게 엔티티와 밸류로 구분 </li>
+</ul>
+<p><br></p>
+<h4 id="엔티티"><a href="#엔티티" class="headerlink" title="엔티티"></a>엔티티</h4><p><img src="5.png" alt=""> </p>
+<p><br></p>
+<ul>
+<li>고유하고 변하지 않는 식별자를 가짐 </li>
+</ul>
+<p><br></p>
+<h4 id="밸류-타입"><a href="#밸류-타입" class="headerlink" title="밸류 타입"></a>밸류 타입</h4><ul>
+<li>개념적으로 완전한 하나 </li>
+</ul>
+<p><img src="6.png" alt=""> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShippingInfo</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> Receiver receiver;</span><br><span class="line">  <span class="keyword">private</span> Address addredss;</span><br><span class="line">  .. 생성자, getter ... </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 데이터 변경기능을 제공하지 않는 불변 타입 </span></span><br><span class="line"><span class="comment">// 안전한 코드 작성 가능 </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Money</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="type">int</span> value;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Money</span><span class="params">(<span class="type">int</span> value)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.value = value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getValue</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>두 밸류가 같으려면 모든 속성이 같아야 함 </li>
+</ul>
+<p><br></p>
+<h4 id="엔티티-식별자와-밸류-타입"><a href="#엔티티-식별자와-밸류-타입" class="headerlink" title="엔티티 식별자와 밸류 타입"></a>엔티티 식별자와 밸류 타입</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Order</span> &#123;</span><br><span class="line">  <span class="comment">// OrderNo 타입 자체로 id가 주문번호임을 알 수 있다. </span></span><br><span class="line">  <span class="keyword">private</span> OrderNo id;</span><br><span class="line">  ... </span><br><span class="line">  <span class="keyword">public</span> OrderNo <span class="title function_">getId</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> id;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<Br>
+
+<h4 id="도메인-모델에-set-메서드-넣지-않기"><a href="#도메인-모델에-set-메서드-넣지-않기" class="headerlink" title="도메인 모델에 set 메서드 넣지 않기"></a>도메인 모델에 set 메서드 넣지 않기</h4><ul>
+<li>set 메서드는 단순히 상태값만 변경할지, 상태값에 따라 다른 처리를 위한 코드를 함께 구현할지 애매함</li>
+<li>도메인 객체를 생성할 때 완전한 상태가 아닐수 있음 </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">order.setOrderLine(lines);</span><br><span class="line">order.setShippingInfo(shippingInfo);</span><br><span class="line"><span class="comment">// 주문자를 설정하지 않은 상태에서 주문 완료 처리 </span></span><br><span class="line">order.setState(OrderState.PREPARING);</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>DTO <ul>
+<li>Data Transfer Object </li>
+<li>프레젠테이션 계층과 도메인 계층이 데이터를 서로 주고받을 때 사용하는 일종의 구조체 </li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h3 id="도메인-용어"><a href="#도메인-용어" class="headerlink" title="도메인 용어"></a>도메인 용어</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">OrderState</span> &#123;</span><br><span class="line">  PAYMENT_WAITING, PREPARING, SHIPPED, DELIVERING, DELIVERY_COMPLETED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>장점<ul>
+<li>코드를 도메인 용어로 해석하거나 도메인 용어로를 코드로해석하는 과정이 줄어듬</li>
+<li>코드 가독성을 높임</li>
+<li>버그 감소</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>도메인 용어에 알맞은 단어를 찾는 시간을 아까워 하지 말자.</p>
+</blockquote>
+<p><br></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/06/21/DI,DIP,IOC/" data-toggle="tooltip" data-placement="top" title="DI와 DIP - 익숙해서 놓치기 쉬운 개념 정리 1탄">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/05/08/OBJECTS Item 15/" data-toggle="tooltip" data-placement="top" title="디자인 패턴과 프레임워크">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#DDDStart!" title="DDDStart!">DDDStart!</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2020/06/14/DDDStart!_Item_1/";
+    var disqus_url = "https://songii00.github.io/2020/06/14/DDDStart!_Item_1/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

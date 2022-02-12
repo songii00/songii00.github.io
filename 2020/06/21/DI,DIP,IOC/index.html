@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          DI와 DIP - 익숙해서 놓치기 쉬운 개념 정리 1탄 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2020/06/21/DI,DIP,IOC/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#JAVA" title="JAVA">JAVA</a>
+                        
+                          <a class="tag" href="/tags/#SPRING" title="SPRING">SPRING</a>
+                        
+                    </div>
+                    <h1>DI와 DIP - 익숙해서 놓치기 쉬운 개념 정리 1탄</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2020-06-21
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“DI와-DIP”"><a href="#“DI와-DIP”" class="headerlink" title="“DI와 DIP”"></a>“DI와 DIP”</h3><hr>
+<p>사실 프로그래밍을 공부하는 사람들 중에 DI, DIP 개념을 못들어본 사람은 거의 없을 것이다. 설사 개념을 모르고 있다고 하더라도 우리가 무심코 사용한 코드 사이를 자세히 훑어본다면 숨겨진 개념들을 발견할 수 있을지도 모른다. 그만큼 너무나도 익숙한, 익숙해서 놓치기 쉬운 개념들을 정리해보자. </p>
+<p><br></p>
+<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><p><strong>DI</strong>, <strong>Dependency Injection</strong>, 직역하자면 의존성 주입이 된다. 여기서 의존성이라는 말이 나오는데, 의존성이 무엇인데 주입을 할까?  </p>
+<span id="more"></span>
+<p><br></p>
+<h4 id="의존성이란"><a href="#의존성이란" class="headerlink" title="의존성이란"></a>의존성이란</h4><p>프로그래밍에서 의존성(<strong>Dependency</strong>)을 쉽게 설명하자면 사람사이의 의존성과 같다. A라는 사람이 자동차가 고장나서 수리할 곳을 찾다가 집근처 유명 자동차 수리점을 찾게되었다. A는 해당 자동차 수리점에 자동차 수리를 부탁 결국 자동차는 말끔히 고쳐졌다. 여기서 자동차 수리점은 A가 수리를 맡긴 차에 의존하게 된다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span> &#123;</span><br><span class="line">      <span class="comment">// A가 수리를 맡긴 차</span></span><br><span class="line">      <span class="comment">// Car 클래스를 내부변수로 사용하면서 의존관계 형성</span></span><br><span class="line">      <span class="keyword">private</span> <span class="type">Car</span> <span class="variable">car</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Car</span>();</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(car.isBroken())&#123;</span><br><span class="line">          car.fix(); <span class="comment">// 자동차 수리</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="그렇다면-의존성-주입이란"><a href="#그렇다면-의존성-주입이란" class="headerlink" title="그렇다면 의존성 주입이란?"></a>그렇다면 의존성 주입이란?</h4><p>한마디로 의존성을 주입받겠다, 인수로 취하겠다는 것이다. 인수는 영어로 Argument로 함수로 전달되는 실제 값이다. 위 코드에서는 내부변수로 사용하고 있는 car 가 인수가 된다. 그렇다면 A는 여전히 해당 자동차 수리점에 자동차 수리를 부탁하고 싶은데 의존관계를 어떻게 맺는 것이 좋은 방법일까? 이것에 대해서 이미 다수의 좋은 방법들이 소개되어 있다. </p>
+<p><br></p>
+<h5 id="생성자-주입-Constructor-Injection"><a href="#생성자-주입-Constructor-Injection" class="headerlink" title="생성자 주입(Constructor Injection)"></a>생성자 주입(Constructor Injection)</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Car car;</span><br><span class="line">  <span class="comment">// 생성자를 통한 의존성 주입 </span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">CarRepairShop</span><span class="params">(Car car)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.car = car;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>대표적인 의존성 주입 방법으로 알려져 있다. 사실 이전에 생성자 주입보다는 필드 주입을 더 사용하는 편이였는데 인텔리제이에서 필드 주입을 위해 @Autowired를 사용할 때면 추천하지 않는 방법이라며 친절하게 경고를 띄워주기도 했다. 왜 인텔리제이가 경고를 했는지는 추후 별도 포스트를 통해 다뤄보도록 하겠다. </p>
+<p>여기서 중요한 것은 우리는 생성자를 통해 A가 수리를 맡긴 Car 를 주입받을 수 있다는 것이다. </p>
+<p><br></p>
+<h4 id="왜-그냥-생성해서-쓰면-안돼"><a href="#왜-그냥-생성해서-쓰면-안돼" class="headerlink" title="왜? 그냥 생성해서 쓰면 안돼?"></a>왜? 그냥 생성해서 쓰면 안돼?</h4><p>그렇다면 한가지 의문이 들수 있다. 왜 굳이 우리는 의존성을 주입받아야 할까? 왜 Car를 직접 생성해서 사용하지 않고 생성자나 필드, 다른 방법들을 통해서 주입받아야만 하는 것일까. </p>
+<p>그 대답을 위해 다시 CarRepairShop에 돌아가보자. 자동차를 너무나 사랑하는 A는 사실 대기업 임원의 자식으로 다수의 차들을 보유하고 있다. 하지만 슬프게도 그의 애정과 반비례하는 처참한 운전실력떄문에 차고의 차 중에 성한 차를 찾기 어려울 정도가 되었다. 결국 A는 그의 차고안의 차들을 모두 수리 맡기기로 결정했다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> List&lt;Car&gt; cars; </span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">CarRepairShop</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.cars = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">    <span class="built_in">this</span>.cars.add(<span class="keyword">new</span> <span class="title class_">Lamborghini</span>());</span><br><span class="line">    <span class="built_in">this</span>.cars.add(<span class="keyword">new</span> <span class="title class_">BMW</span>());</span><br><span class="line">  &#125;</span><br><span class="line"> 	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(Car car : cars)&#123;</span><br><span class="line">      <span class="keyword">if</span>(car.isBroken())&#123;</span><br><span class="line">      	car.fix(); <span class="comment">// 자동차 수리</span></span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>A의 차들을 모두 수리했고 A는 만족하며 아끼지 않고돈을 지불했다. 하지만 자동차 수리점이 여기서 잊고있었던 점은 A는 돈이 많다는 것이고 최신형 차들은 A의 차고에 하나 둘씩 쌓여갔다.</p>
+<p>위 코드에서 A가 다른차의 수리 맡기려면 어떻게 해야할까? 있는 차를 팔고 다른 차를 사면? 그떄마다 코드는 끊임없이 수정되어야 할 것이다. A의 변덕스러운 취향에 맞춰.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Car&gt; cars; </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CarRepairShop</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="built_in">this</span>.cars = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">      <span class="built_in">this</span>.cars.add(<span class="keyword">new</span> <span class="title class_">Lamborghini</span>());</span><br><span class="line">      <span class="built_in">this</span>.cars.add(<span class="keyword">new</span> <span class="title class_">BMW</span>());</span><br><span class="line">      <span class="comment">// 신형차 추가 </span></span><br><span class="line">      <span class="built_in">this</span>.cars.add(<span class="keyword">new</span> <span class="title class_">Audi</span>()); </span><br><span class="line">      <span class="built_in">this</span>.cars.add(<span class="keyword">new</span> <span class="title class_">Porsche</span>());</span><br><span class="line">    &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>A가 구입한 Audi와 Porsche가 추가되었다. 여기서 우리는 무언가 잘못됬다는 느낌을 받을 것이다. A가 맡긴 차들이 변동될때마다 CarRepairShop 클래스의 코드를 변경해야 하나? 답은 DI에 있다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> List&lt;Car&gt; cars; </span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">CarRepairShop</span><span class="params">(List&lt;Car&gt; cars)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.cars = cars;</span><br><span class="line">  &#125;</span><br><span class="line">  	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(Car car : cars)&#123;</span><br><span class="line">     	<span class="keyword">if</span>(car.isBroken())&#123;</span><br><span class="line">      	car.fix(); <span class="comment">// 자동차 수리</span></span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>위는 생성자 주입을 통한 의존성 주입 코드로 변경한 것이다. CarRepairShop은 더이상 A가 무슨 차를 살지 일일이 신경쓰지 않아도 된다. 그저 A가 차고에 맡긴 차들을 주입받아 수리하면 그만이다. </p>
+<p><br></p>
+<h4 id="결국"><a href="#결국" class="headerlink" title="결국"></a>결국</h4><p>의존성 주입이란 <strong>추상화를 해치지 않는 선에서 의존성을 어떻게 인수로 넘겨줄까 고민하는 방법</strong> 이다.</p>
+<p><br><br></p>
+<h3 id="DIP"><a href="#DIP" class="headerlink" title="DIP"></a>DIP</h3><p>Dependency Inversion Principle, 직역하면 의존성 역전 원리이다.  우리는 앞서 의존성 주입을 살펴보았다. 그렇다면 의존성 역전은 어떤 것일까? 생김새도 닮은 DI와 DIP는 의미하는 것도 비슷할까? </p>
+<p><br></p>
+<h4 id="답은"><a href="#답은" class="headerlink" title="답은?"></a>답은?</h4><p>DI는 DIP를 구현하는 방법중 하나라고 볼 수 있다. 하지만 DI를 사용하면서도 DIP와는 상관없는 경우도 있다. 일단 DIP를 먼저 살펴보자.</p>
+<p><br></p>
+<h4 id="DIP-란"><a href="#DIP-란" class="headerlink" title="DIP 란"></a>DIP 란</h4><p>DIP를 검색하면  나오는 대표적인 정의는 아래와 같다. </p>
+<p><br></p>
+<ul>
+<li><p>상위 모듈은 하위 모듈에 의존해서는 안된다. 상위 모듈과 하위 모듈 모두 추상화에 의존해야 한다.</p>
+</li>
+<li><p>추상화는 세부 사항에 의존해서는 안된다. 세부사항이 추상화에 의존해야 한다.</p>
+</li>
+</ul>
+<p>이해하기 쉽게 A를 다시 불러보자. </p>
+<p>A는 새로운 취미를 가졌다. 우연히 접한 오토바이에 매력을 느껴 오토바이 광이 된 A는 초보운전에 걸맞게 사고를 몰고다녔다. 결국 그의 차고엔 나날이 고장난 오토바이들이 쌓여갔다. 결국 A는 다시 자동차 수리점을 찾았다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> List&lt;Car&gt; cars; </span><br><span class="line">  <span class="keyword">private</span> List&lt;Motorcycle&gt; motorcycles;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">CarRepairShop</span><span class="params">(List&lt;Car&gt; cars, List&lt;Motorcycle&gt; motorcycles)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.cars = cars;</span><br><span class="line">    <span class="built_in">this</span>.motorcycles = motorcycles;</span><br><span class="line">  &#125;</span><br><span class="line">  	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(Car car : cars)&#123;</span><br><span class="line">      <span class="keyword">if</span>(car.isBroken())&#123;</span><br><span class="line">        car.fix(); <span class="comment">// 자동차 수리</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="keyword">for</span>(Motorcycle motorcycle : motorcycles)&#123;</span><br><span class="line">        <span class="keyword">if</span>(motorcycle.isBroken())&#123;</span><br><span class="line">         	motorcycle.fix(); <span class="comment">// 오토바이 수리 </span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>자동차 수리점은 기존에 오토바이 수리기능이 없었기 때문에 허겁지겁 내부변수를 추가하고, 생성자를 통해 인수로 오토바이들을 주입받았다. 그리고 fix() 메서드에 기존 자동차와 같이 수리하는 로직을 더했다. A는 흡족해하면서 오토바이를 찾아갔다. 그런데 여기서 잊기쉬운 점은 A는 돈이 매우많다는 사실이다. A는 이번에 자전거를 구입했다. 결과는 안봐도 뻔할 것이다. 최대 단골인 A를 놓치지 않기 위해 자동차 수리점은 그때마다 수리로직을 추가했다. 코드는 점점 길어졌고 새로운 종류가 하나씩 들어올때마다 수리점은 발칵 뒤짚혔다. </p>
+<p>이 모든 문제는 DIP를 위반하는데서 온다. CarRepairShop의 의존성을 살펴보자. </p>
+<p><img src="1.png" alt=""> </p>
+<p>CarRepairShop이 Car와 Motorcycle 의존하고 있다. 상위모듈이 하위모듈에 의존하고 있다. 이렇기 때문에 하위모듈이 추가되거나 변동될때마다 상위모듈 또한 함께 변동되어지게 된다. 의존성이 아래로 향하고 있다. </p>
+<p><br></p>
+<h4 id="그렇다면-의존성을-어떻게-역전해야-할까"><a href="#그렇다면-의존성을-어떻게-역전해야-할까" class="headerlink" title="그렇다면 의존성을 어떻게 역전해야 할까?"></a>그렇다면 의존성을 어떻게 역전해야 할까?</h4><p>방법은 이미 위에 나와있다. DIP를 준수해 추상화에 의존하면 된다. </p>
+<p>자동차 수리점으로 다시 돌아가보자. A의 잦은 변덕에 질릴대로 질린 자동차 수리점은 결국 묘수를 생각해 냈다. 수리 가능한 이동 수단을 Vehicle 라는 공통적인 인터페이스를 만든 후 A가 수리를 맡긴 이동수단들을 모두 Vehicle를 구현하도록 만든 것이다. 이 한 문장으로 인해 자동차 수리점은 평화를 되찾게 되었다. 코드로 살펴보자. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Vehicle</span>&#123;</span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">isBroken</span><span class="params">()</span>;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span> <span class="keyword">implements</span> <span class="title class_">Vehicle</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isBroken;    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isBroken</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.isBroken;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.isBroken = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Motorcycle</span> <span class="keyword">implements</span> <span class="title class_">Vehicle</span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Bike</span> <span class="keyword">implements</span> <span class="title class_">Vehicle</span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CarRepairShop</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Vehicle&gt; vehicles;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CarRepairShop</span><span class="params">(List&lt;Vehicle&gt; vehicles)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.vehicles = vehicles;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fix</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(Vehicle vehicle : vehicles)&#123;</span><br><span class="line">            <span class="keyword">if</span>(vehicle.isBroken())&#123;</span><br><span class="line">                vehicle.fix();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>CarRepairShop은 A가 구입한 이동수단 종류에 상관 없이 의존성을 주입받아 고쳐주는 일만 진행하면 된다. </p>
+<p><img src="2.png" alt=""> </p>
+<p>CarRepairShop과 하위모듈들은 모두 추상화인 Vehicle에 의존하고 있다. DIP를 만족시키는 설계이다. </p>
+<p><br></p>
+<h4 id="DI는-DIP와-어떤-관계일까"><a href="#DI는-DIP와-어떤-관계일까" class="headerlink" title="DI는 DIP와 어떤 관계일까?"></a>DI는 DIP와 어떤 관계일까?</h4><p>이부분에 있어서는 답을 내리는 대신 글을 쓰는데 도움을 얻은 블로그 주소를 추가 하도록 하겠다. </p>
+<p><br></p>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h6><blockquote>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@jang.wangsu/di-dependency-injection-%EC%9D%B4%EB%9E%80-1b12fdefec4f">https://medium.com/@jang.wangsu/di-dependency-injection-%EC%9D%B4%EB%9E%80-1b12fdefec4f</a><br><a target="_blank" rel="noopener" href="http://jwchung.github.io/DI는-IoC를-사용하지-않아도-된다">http://jwchung.github.io/DI는-IoC를-사용하지-않아도-된다</a><br><a target="_blank" rel="noopener" href="https://justhackem.wordpress.com/2016/05/13/dependency-inversion-terms/">https://justhackem.wordpress.com/2016/05/13/dependency-inversion-terms/</a></p>
+</blockquote>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/07/13/DDDStart!_Item_2/" data-toggle="tooltip" data-placement="top" title="아키텍처 개요">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/06/14/DDDStart!_Item_1/" data-toggle="tooltip" data-placement="top" title="도메인 모델 시작">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#JAVA" title="JAVA">JAVA</a>
+                        
+                          <a class="tag" href="/tags/#SPRING" title="SPRING">SPRING</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2020/06/21/DI,DIP,IOC/";
+    var disqus_url = "https://songii00.github.io/2020/06/21/DI,DIP,IOC/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

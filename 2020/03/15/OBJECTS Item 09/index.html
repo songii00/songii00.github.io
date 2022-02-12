@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          유연한 설계 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2020/03/15/OBJECTS Item 09/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#OBJECTS" title="OBJECTS">OBJECTS</a>
+                        
+                    </div>
+                    <h1>유연한 설계</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2020-03-15
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“OBJECTS-9장”"><a href="#“OBJECTS-9장”" class="headerlink" title="“OBJECTS 9장”"></a>“OBJECTS 9장”</h3><hr>
+<h3 id="개팡-폐쇄-원칙-Open-Closed-Principle-OCP"><a href="#개팡-폐쇄-원칙-Open-Closed-Principle-OCP" class="headerlink" title="개팡-폐쇄 원칙(Open-Closed Principle, OCP)"></a>개팡-폐쇄 원칙(Open-Closed Principle, OCP)</h3><blockquote>
+<p>소프트웨어 개체(클래스, 모듈, 함수 등등)은 확장에 대해 열려있어야 하고, 수정에 대해서는 닫혀 있어야 한다. </p>
+</blockquote>
+<ul>
+<li>확장에 대해 열려 있다 <ul>
+<li>애플리케이션의 요구사항이 변경될 때 이 변경에 맞게 새로운 <code>동작</code> 을 추가해서 애플리케이션의 기능을 확장할 수 있음</li>
+</ul>
+</li>
+<li>수정에 대해 닫혀 있다 <ul>
+<li>기존의 <code>코드</code>를 수정하지 않고도 애플리케이션의 동작을 추가하거나 변경할 수 있음</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+<h4 id="컴파일타임-의존성을-고정시키고-런타임-의존성을-변경하라"><a href="#컴파일타임-의존성을-고정시키고-런타임-의존성을-변경하라" class="headerlink" title="컴파일타임 의존성을 고정시키고 런타임 의존성을 변경하라"></a>컴파일타임 의존성을 고정시키고 런타임 의존성을 변경하라</h4><ul>
+<li>컴파일 타임 의존성<ul>
+<li>코드에서 드러나는 클래스들 사이의 관계 </li>
+</ul>
+</li>
+<li>런타임 의존성<ul>
+<li>실행 시에 협력에 참여하는 객체들 사이의 관계</li>
+</ul>
+</li>
+</ul>
+<p><img src="1.png" alt=""></p>
+<ul>
+<li>컴파일 타임 의존성 != 런타임 의존성 </li>
+<li>컴파일 타임 의존성은 유지하면서 런타임 의존성의 가능성을 확장하고 수정할 수 있는 구조 </li>
+</ul>
+<h4 id="추상화가-핵심이다"><a href="#추상화가-핵심이다" class="headerlink" title="추상화가 핵심이다"></a>추상화가 핵심이다</h4><ul>
+<li>추상화에 의존하는 것 </li>
+<li>추상화<ul>
+<li>핵심적인 부분만 남기고 불필요한 부분은 생략함으로써 복잡성을 극복하는 기법 </li>
+</ul>
+</li>
+<li>고정하고 변하지 않는 부분을 생략하는 추상화 메커니즘이 개방-폐쇄 원칙의 기반이됨</li>
+<li>폐쇄를 가능하게 하는 것은 <code>의존성의 방향</code><ul>
+<li>수정에 대한 영향을 최소화하기 위해서는 모든 요소가 추상화에 의존해야 함 </li>
+</ul>
+</li>
+</ul>
+<p><img src="2.png" alt=""></p>
+<blockquote>
+<p>추상화가 수정에 대해 닫혀 있을 수 있는 이유는 변경되지 않은 부분을 신중하게 결정하고 올바른 추상화를 주의 깊게 선택했기 때문이라는 사실을 기억하라.</p>
+</blockquote>
+<h3 id="생성-사용-분리"><a href="#생성-사용-분리" class="headerlink" title="생성 사용 분리"></a>생성 사용 분리</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Movie</span> &#123;</span><br><span class="line">   	...</span><br><span class="line">    <span class="keyword">private</span> DiscountPolicy discountPolicy;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Movie</span> <span class="params">(String title,</span></span><br><span class="line"><span class="params">                  Duration runningTime, Money fee)</span>&#123;</span><br><span class="line">     ...</span><br><span class="line">     <span class="comment">// 부적절한 곳에서 객체 생성</span></span><br><span class="line">     <span class="built_in">this</span>.discountPolicy = <span class="keyword">new</span> <span class="title class_">AmountDiscountPolicy</span>(...);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> Money <span class="title function_">calculateMovieFee</span><span class="params">(Screening screening)</span>&#123;</span><br><span class="line">      	<span class="comment">// discountPolicy 객체 사용 </span></span><br><span class="line">        <span class="keyword">return</span> fee.minus(discountPolicy.calculateDiscountAmount(screening));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>결합도 Up -&gt; 개방-폐쇄 원칙을 따르는 구조 설계 어려워짐</li>
+<li>알아야 하는 지식 많아지면 -&gt; 결합도 Up</li>
+<li>문제는 객체 생성이 아니라 부적절한 곳에서 객체를 생성한다는 것</li>
+<li>동일한 클래스 안에서 객체 생성과 사용이라는 두가지 이질적인 목적을 가진 코드가 공존하는 문제 </li>
+</ul>
+<p><img src="3.png" alt=""></p>
+<ul>
+<li>하나는 객체를 생성, 다른 하나는 객체를 사용하도록 두가지 책임을 서로 다른 객체로 분리 </li>
+<li><code>생성과 사용을 분리</code></li>
+</ul>
+<blockquote>
+<p>소프트웨어 시스템은 (응용프로그램 객체를 제작하고 의존성을 서로 “연결”하는 ) 시작 단계와 (시작 단계 이후에 이어지는 )실행 단계를 분리해야 한다.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Money <span class="title function_">getAvatarFee</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Movie</span> <span class="variable">avatar</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Movie</span>(<span class="string">&quot;아바타&quot;</span>, </span><br><span class="line">                                 Duration.ofMinutes(<span class="number">120</span>), </span><br><span class="line">                                 Money.wons(<span class="number">10000</span>),</span><br><span class="line">                                 <span class="keyword">new</span> <span class="title class_">AmountDiscountPolicy</span>());</span><br><span class="line">        <span class="keyword">return</span> avatar.getFee();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="4.png" alt=""></p>
+<h4 id="FACTORY-추가하기"><a href="#FACTORY-추가하기" class="headerlink" title="FACTORY 추가하기"></a>FACTORY 추가하기</h4><ul>
+<li>FACTORY : 생성과 사용을 분리하기 위해 객체 생성에 특화된 객체 </li>
+<li>객체 생성 책임을 할당할만한 도메인 객체가 존재하지 않을 때 선택할 수 있는  PURE FABRICATION</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Movie <span class="title function_">createAvatarMovie</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Movie</span>(<span class="string">&quot;아바타&quot;</span>, </span><br><span class="line">                         Duration.ofMinutes(<span class="number">120</span>), </span><br><span class="line">                         Money.wons(<span class="number">10000</span>), </span><br><span class="line">                         <span class="keyword">new</span> <span class="title class_">AmountDiscountPolicy</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Factory factory;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Client</span><span class="params">(Factory factory)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Money <span class="title function_">getAvatarFee</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Movie</span> <span class="variable">avatar</span> <span class="operator">=</span> factory.createAvatarMovie();</span><br><span class="line">        <span class="keyword">return</span> avatar.getFee();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="5.png" alt=""></p>
+<h5 id="순수한-가공물에게-책임-할당하기"><a href="#순수한-가공물에게-책임-할당하기" class="headerlink" title="순수한 가공물에게 책임 할당하기"></a>순수한 가공물에게 책임 할당하기</h5><ul>
+<li>표현적 분해(representational decomposition)<ul>
+<li>도메인에 존재하는 사물 또는 개념을 표현하는 객체들을 이용해 시스템을 분해하는 것 </li>
+<li>도메인과 소프트웨어 사이의 표현적 차이를 최소화</li>
+</ul>
+</li>
+<li>행위적 분해(behavioral decomposition)<ul>
+<li>PURE FABRICATION(순수한 가공물) <ul>
+<li>책임을 할당하기 위해 창조되는 도메인과 무관한 인공적인 객체 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>인공적으로 창조한 객체 &gt; 도메인 개념을 반영하는 객체 in 애플리케이션 </li>
+</ul>
+<blockquote>
+<p>애플리케이션 모델은 사용자에게 반응하고, 실행을 제어하며, 외부 리소스에 연결하는 컴퓨터 객체를 이용해 도메인 모델을 보충한다. </p>
+<p>먼저 도메인 본질적인 개념을 표현하는 추상화를 이용해 애플리케이션을 구축하기 시작하라. 만약 도메인 개념이 만족스럽지 못하다면 주저하지 말고 인공적인 객체를 창조하라. </p>
+</blockquote>
+<h3 id="의존성-주입-Dependency-Injection"><a href="#의존성-주입-Dependency-Injection" class="headerlink" title="의존성 주입(Dependency Injection)"></a>의존성 주입(Dependency Injection)</h3><ul>
+<li>의존성 주입<ul>
+<li>객체가 아닌 외부의 독립적인 객체가 인스턴스를 생성한 후 이를 전달해서 의존성을 해결하는 방법</li>
+</ul>
+</li>
+<li>생성자 주입<ul>
+<li>객체를 생성하는 시점에 생성자를 통한 의존성 해결</li>
+</ul>
+</li>
+<li>setter 주입<ul>
+<li>객체 생성 후 setter 메서드를 통한 의존성 해결</li>
+<li>장점 <ul>
+<li>의존성 대상을 런타임에 변경 </li>
+</ul>
+</li>
+<li>단점<ul>
+<li>객체가 올바르게 생성되기 위해 어떤 의존성이 필수적인지를 명시적으로 표현할 수 없음 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>메서드 주입<ul>
+<li>메서드 실행 시 인자를 이용한 의존성 해결 </li>
+<li>메서드가 의존성을 필요로 하는 유일한 경우</li>
+</ul>
+</li>
+<li>인터페이스 주입 <ul>
+<li>인터페이스를 통한 의존성 해결 </li>
+</ul>
+</li>
+</ul>
+<h4 id="숨겨진-의존성은-나쁘다"><a href="#숨겨진-의존성은-나쁘다" class="headerlink" title="숨겨진 의존성은 나쁘다"></a>숨겨진 의존성은 나쁘다</h4><ul>
+<li>SERVICE LOCATION 패턴 <ul>
+<li>의존성을 해결할 객체들을 보관하는 일종의 저장소 </li>
+<li>의존성 주입 외 의존성을 해결할 수 있는 대표적인 방법 </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Movie</span> &#123;</span><br><span class="line">   	...</span><br><span class="line">    <span class="keyword">private</span> DiscountPolicy discountPolicy;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Movie</span> <span class="params">(String title,</span></span><br><span class="line"><span class="params">                  Duration runningTime,</span></span><br><span class="line"><span class="params">                  Money fee)</span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="built_in">this</span>.discountPolicy = ServiceLocator.discountPolicy();</span><br><span class="line">    &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServiceLocator</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">ServiceLocator</span> <span class="variable">soleInstance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServiceLocator</span>();</span><br><span class="line">    <span class="keyword">private</span> DiscountPolicy discountPolicy;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> DiscountPolicy <span class="title function_">discountPolicy</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> soleInstance.discountPolicy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">provide</span><span class="params">(DiscountPolicy discountPolicy)</span>&#123;</span><br><span class="line">        soleInstance.discountPolicy = discountPolicy;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">ServiceLocator</span><span class="params">()</span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AmountDiscountPolicy</span></span><br><span class="line">ServiceLocator.provide(<span class="keyword">new</span> <span class="title class_">AmountDiscountPolicy</span>());</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Movie</span>(<span class="string">&quot;아바타&quot;</span>, Duration.ofMinutes(<span class="number">120</span>), Money.wons(<span class="number">10000</span>));</span><br><span class="line"><span class="comment">// PercentDiscountPolicy</span></span><br><span class="line">ServiceLocator.provide(<span class="keyword">new</span> <span class="title class_">PercentDiscountPolicy</span>());</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Movie</span>(<span class="string">&quot;아바타&quot;</span>, Duration.ofMinutes(<span class="number">120</span>), Money.wons(<span class="number">10000</span>));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>단점<ul>
+<li>의존성을 감춤</li>
+<li>의존성을 구현 내부로 감출 경우 의존성과 관련된 문제가 컴파일 타임이 아닌 런타임에 가서야 발견 </li>
+<li>문제점을 발견할 수 있는 시점을 코드 작성 시점이 아니라 실행 시점으로 미룸</li>
+<li>각 단위 테스트는 서로 고립되어야 한다는 단위 테스트 기본 원칙 위반 </li>
+</ul>
+</li>
+<li>모든 문제의 원인은 숨겨진 의존성이 캡슐화를 위반했기 때문 <blockquote>
+<p>명시적인 의존성이 숨겨진 의존성보다 좋다는 것이다.</p>
+<p>가급적 의존성을 객체의 퍼블릭 인터페이스에 노출 하라.</p>
+<p>의존성을 구현 내부에 숨기면 숨길수록 코드를 이해하기도, 수정하기도 어려워 진다.</p>
+<p>접근해야 할 객체가 있다면 필요한 객체를 인수로 넘겨줄 수 없는지부터 생각해보자.</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="의존성-역전-원칙"><a href="#의존성-역전-원칙" class="headerlink" title="의존성 역전 원칙"></a>의존성 역전 원칙</h4><h4 id="추상화와-의존성-역전"><a href="#추상화와-의존성-역전" class="headerlink" title="추상화와 의존성 역전"></a>추상화와 의존성 역전</h4><ul>
+<li>상위 수준의 클래스는 어떤 식으로든 하위 수준의 클래스에 의존해서는 안됨 </li>
+</ul>
+<p><img src="6.png" alt=""></p>
+<ul>
+<li>추상화에 의존하라</li>
+<li>의존성 역전 원칙(DIP)<ul>
+<li>상위 수준의 모듈은 하위 수준의 모듈에 의존해서는 안된다. 둘 모두 추상화에 의존해야 한다.</li>
+<li>추상화는 구체적인 사항에 의존해서는 안된다 구체적인 사항은 추상화에 의존해야 한다. </li>
+</ul>
+</li>
+</ul>
+<h4 id="의존성-역전-원칙과-패키지"><a href="#의존성-역전-원칙과-패키지" class="headerlink" title="의존성 역전 원칙과 패키지"></a>의존성 역전 원칙과 패키지</h4><ul>
+<li>컴파일 타임 의존성 <ul>
+<li>코드의 컴파일이 성공하기 위해 존재해야 하는 코드를 정의하는 것 </li>
+</ul>
+</li>
+</ul>
+<p><img src="7.png" alt=""></p>
+<ul>
+<li>SEPARATED INTERFACE 패턴 <ul>
+<li>추상화를 별도의 독립적인 패키지가 아닌 클라이언트가 속한 패키지에 포함</li>
+<li>재사용될 필요가 없는 클래스들을 별도의 독립적인 패키지에 모아야 함 </li>
+</ul>
+</li>
+<li>유연하고 재사용 가능하며 컨텍스트에 독립적인 설계는 전통적인 패러다임이 고수하는 의존성의 방향을 역전 시킴</li>
+<li>전통적인 패러다임 <ul>
+<li>상위 수준 모듈 -&gt; 하위 수준 모듈에 의존</li>
+<li>인터페이스가 하위 수준 모듈에 속함</li>
+</ul>
+</li>
+<li>객체지향 패러다임 <ul>
+<li>상위 수준 모듈, 하위 수준 모듈이 모두 추상화에 의존</li>
+<li>인터페이스가 상위 수준 모듈에 속함 </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>의존성을 역전시켜야 한다.</p>
+</blockquote>
+<h3 id="유연성에-대한-조언"><a href="#유연성에-대한-조언" class="headerlink" title="유연성에 대한 조언"></a>유연성에 대한 조언</h3><h4 id="유연한-설계는-유연성이-필요할-때만-옳다"><a href="#유연한-설계는-유연성이-필요할-때만-옳다" class="headerlink" title="유연한 설계는 유연성이 필요할 때만 옳다"></a>유연한 설계는 유연성이 필요할 때만 옳다</h4><blockquote>
+<p> 유연하고 재사용 가능한 설계란 런타임 의존성과 컴파일 타임 의존성의 차이를 인식하고 동일한 컴파일 타임 의존성으로부터 다양한 런타임 의존성을 만들 수 있는 코드를 가지는 설계를 의미한다. </p>
+</blockquote>
+<ul>
+<li>설계의 미덕 = <code>단순함</code>,<code>명확함</code></li>
+<li>미래의 변경이 일어날지도 모른다는 막연한 불안감을 불필요하게 복잡한 설계를 낳음 </li>
+</ul>
+<blockquote>
+<p>아직 일어나지 않는 변경은 변경이 아니다.</p>
+</blockquote>
+<ul>
+<li>유연함은 단순성과 명확성의 희생 위에서 자라남</li>
+<li>불필요한 유연성은 불필요한 복잡성을 낳음</li>
+<li>유연성은 코드를 읽는 사람들이 복잡함을 수용할 수 있을 때만 가치가 있음 </li>
+<li>프로그램(텍스트 공간에 흩뿌려진) 과 진행 과정 사이를 가능한 한 일치시켜야 함 </li>
+</ul>
+<h4 id="협력과-책임이-중요하다"><a href="#협력과-책임이-중요하다" class="headerlink" title="협력과 책임이 중요하다"></a>협력과 책임이 중요하다</h4><ul>
+<li>객체의 협력과 책임이 중요 </li>
+<li>설계를 유연하게 만들기 위헤서는 <code>역할</code>, <code>책임</code>, <code>협력</code>에 초점을 맞춰야함</li>
+<li>객체를 생성하는 방법에 대한 결정은 모든 책임이 자리 잡은 후 마지막 시점에 내리는 것이 적절</li>
+<li>객체가 무엇이 되고 싶은지를 알게 될 때까지 객체들은 어떻게 인스턴스화 할 것인지에 대해 전혀 신경 쓰지 않음 </li>
+<li>너무 일찍 결정하는 것은 비생산적임</li>
+</ul>
+<blockquote>
+<p>역할, 책임, 협력에 먼저 집중하라.</p>
+</blockquote>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/03/20/OBJECTS Item 10/" data-toggle="tooltip" data-placement="top" title="상속과 코드 재사용">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/03/08/OBJECTS Item 08/" data-toggle="tooltip" data-placement="top" title="의존성 관리하기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#OBJECTS" title="OBJECTS">OBJECTS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2020/03/15/OBJECTS%20Item%2009/";
+    var disqus_url = "https://songii00.github.io/2020/03/15/OBJECTS%20Item%2009/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

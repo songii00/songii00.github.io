@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          @GeneratedValue(strategy = GenerationType.IDENTITY) : 기본키 영속성 관리 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2020/03/25/GeneratedValue 기본키 영속성 관리/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#JPA" title="JPA">JPA</a>
+                        
+                    </div>
+                    <h1>@GeneratedValue(strategy = GenerationType.IDENTITY) : 기본키 영속성 관리</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2020-03-25
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“JPA”"><a href="#“JPA”" class="headerlink" title="“JPA”"></a>“JPA”</h3><hr>
+<h3 id="기본키-매핑"><a href="#기본키-매핑" class="headerlink" title="기본키 매핑"></a>기본키 매핑</h3><p>JPA 는 크게 직접 할당과 자동생성 으로 기본키를 매핑한다. 여기서 살펴볼 애노테이션은 @GeneratedValue(strategy = GenerationType.IDENTITY) 이다.</p>
+<ul>
+<li><p>직접 할당: @Id만 사용</p>
+</li>
+<li><p>자동 생성(@GeneratedValue)</p>
+<ul>
+<li>IDENTITY : 데이터베이스에 위임(MYSQL)<ul>
+<li>Auto_Increment </li>
+</ul>
+</li>
+<li>SEQUENCE : 데이터베이스 시퀀스 오브젝트 사용(ORACLE)<ul>
+<li>@SequenceGenerator 필요</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>TABLE : 키 생성용 테이블 사용, 모든 DB에서 사용<ul>
+<li>@TableGenerator 필요</li>
+</ul>
+</li>
+<li>AUTO : 방언에 따라 자동 지정, 기본값</li>
+</ul>
+</li>
+</ul>
+<h3 id="GeneratedValue-strategy-GenerationType-IDENTITY"><a href="#GeneratedValue-strategy-GenerationType-IDENTITY" class="headerlink" title="@GeneratedValue(strategy = GenerationType.IDENTITY)"></a>@GeneratedValue(strategy = GenerationType.IDENTITY)</h3><p>일단 사용법은 간단하다. 기본키 생성을 DB에 위임하도록 어노테이션을 달아주면 끝이다.</p>
+<h4 id="상품-엔티티"><a href="#상품-엔티티" class="headerlink" title="상품 엔티티"></a>상품 엔티티</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 상품 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Product</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span></span><br><span class="line">    <span class="keyword">private</span> Long productId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 상품명</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String productName;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 가격</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Product</span><span class="params">()</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Product</span><span class="params">(String productName, <span class="type">int</span> price)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.productName = productName;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="실행-코드"><a href="#실행-코드" class="headerlink" title="실행 코드"></a>실행 코드</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">transaction.begin();</span><br><span class="line"></span><br><span class="line"><span class="type">Product</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Product</span>(<span class="string">&quot;A&quot;</span>, <span class="number">1000</span>);</span><br><span class="line"><span class="type">Product</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Product</span>(<span class="string">&quot;B&quot;</span>, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">entityManager.persist(a);</span><br><span class="line">entityManager.persist(b);</span><br><span class="line"></span><br><span class="line">transaction.commit();</span><br></pre></td></tr></table></figure>
+<p>다음과 같이 실행된다면 우리는 DB 상에서 제대로 값이 들어가진 것을 확인 할 수 있다. </p>
+<p><img src="1.png" alt=""></p>
+<h3 id="영속성-컨텍스트는-어떻게-관리되고-있을까"><a href="#영속성-컨텍스트는-어떻게-관리되고-있을까" class="headerlink" title="영속성 컨텍스트는 어떻게 관리되고 있을까?"></a>영속성 컨텍스트는 어떻게 관리되고 있을까?</h3><p>그런데 Auto_Increment 로 생성된 값은 직접 DB에 인서트 되고 나서야 알수 있다. </p>
+<p>그럼 commit 하기 전에는 자동생성된 기본키 값을 사용하지 못하는 걸까?</p>
+<p>결과부터 말하자면 <code>사용할 수 있다</code></p>
+<p>위 물음을 해결하기 위해서는 JPA 의 동작방식에 관한 세가지 사실을 먼저 생각해보자.</p>
+<p><img src="2.png" alt=""></p>
+<ul>
+<li>영속성 컨텍스트로 관리하려면 무조건 pk 값이 필요</li>
+<li>JPA 는 entityManager.persist() 을 호출함으로써 영속성 컨텍스트의 쓰기 지연 SQL 저장소에 insert 쿼리를 저장</li>
+<li>transaction.commit() 이 호출된 후, DB에 insert 쿼리를 날림</li>
+</ul>
+<p>이러한 사실에 근거하여 아래와 같은 코드를 실행시키면 콘솔창에서 어떤 화면을 볼수 있을까? commit 하기 전에 productId를 가져왔으니 a와 b의 productId는 null 이될까? JPA는 영속성 컨텍스트를 어떻게 관리하고 있을까?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">transaction.begin();</span><br><span class="line"></span><br><span class="line"><span class="type">Product</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Product</span>(<span class="string">&quot;A&quot;</span>, <span class="number">1000</span>);</span><br><span class="line"><span class="type">Product</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Product</span>(<span class="string">&quot;B&quot;</span>, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;///////////////////&quot;</span>);</span><br><span class="line">entityManager.persist(a);</span><br><span class="line">System.out.println(<span class="string">&quot;a product id : &quot;</span> + a.getProductId());</span><br><span class="line">entityManager.persist(b);</span><br><span class="line">System.out.println(<span class="string">&quot;b product id : &quot;</span> + b.getProductId());</span><br><span class="line">System.out.println(<span class="string">&quot;///////////////////&quot;</span>);</span><br><span class="line"></span><br><span class="line">transaction.commit();</span><br></pre></td></tr></table></figure>
+<h4 id="실행화면"><a href="#실행화면" class="headerlink" title="실행화면"></a>실행화면</h4><p>콘솔창에 출력되는 화면은 아래와 같다. </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">///////////////////</span><br><span class="line">Hibernate: </span><br><span class="line">    /* insert hellojpa.Product</span><br><span class="line">        */ insert </span><br><span class="line">        into</span><br><span class="line">            Product</span><br><span class="line">            (productId, price, productName) </span><br><span class="line">        values</span><br><span class="line">            (null, ?, ?)</span><br><span class="line">a product id : 1</span><br><span class="line">Hibernate: </span><br><span class="line">    /* insert hellojpa.Product</span><br><span class="line">        */ insert </span><br><span class="line">        into</span><br><span class="line">            Product</span><br><span class="line">            (productId, price, productName) </span><br><span class="line">        values</span><br><span class="line">            (null, ?, ?)</span><br><span class="line">b product id : 2</span><br><span class="line">///////////////////</span><br></pre></td></tr></table></figure>
+<p>정상적으로 productId 값이 출력되어 짐을 볼 수 있다. JPA 는 @GeneratedValue(strategy = GenerationType.IDENTITY) 에 한하여 플로우를 변경한다. </p>
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><p>@GeneratedValue(strategy = GenerationType.IDENTITY) 사용했을 때,</p>
+<ul>
+<li>transaction.commit()을 호출할 때가 아니라 entityManager.persist() 가 호출될 때 바로 DB에 insert 쿼리 를 날림</li>
+<li>JPA 내부에서 Insert 쿼리 실행 후 바로 생성된 productId 값을 리턴 받음</li>
+<li>productId 를 PK 로 영속성 컨텍스트에 저장 </li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/04/06/OBJECTS Item 11/" data-toggle="tooltip" data-placement="top" title="합성과 유연한 설계">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/03/20/OBJECTS Item 10/" data-toggle="tooltip" data-placement="top" title="상속과 코드 재사용">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#JPA" title="JPA">JPA</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2020/03/25/GeneratedValue%20%EA%B8%B0%EB%B3%B8%ED%82%A4%20%EC%98%81%EC%86%8D%EC%84%B1%20%EA%B4%80%EB%A6%AC/";
+    var disqus_url = "https://songii00.github.io/2020/03/25/GeneratedValue%20%EA%B8%B0%EB%B3%B8%ED%82%A4%20%EC%98%81%EC%86%8D%EC%84%B1%20%EA%B4%80%EB%A6%AC/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
