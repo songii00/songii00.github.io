@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          인그레스와 레이블/어노테이션 - 쿠버네티스 기본편 (4) - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2021/02/15/쿠버네티스 기본편 (4)/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        
+                    </div>
+                    <h1>인그레스와 레이블/어노테이션 - 쿠버네티스 기본편 (4)</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2021-02-15
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“인그레스-쿠버네티스-기본편-4-”"><a href="#“인그레스-쿠버네티스-기본편-4-”" class="headerlink" title="“인그레스 - 쿠버네티스 기본편 (4)”"></a>“인그레스 - 쿠버네티스 기본편 (4)”</h3><p><br></p>
+<h3 id="인그레스"><a href="#인그레스" class="headerlink" title="인그레스"></a>인그레스</h3><span id="more"></span>
+<h4 id="정의"><a href="#정의" class="headerlink" title="정의"></a>정의</h4><ul>
+<li>클러스터 외부에서 안으로 접근하는 요청들을 어떻게 처리할지 정의해둔 규칙 모음</li>
+<li>실제로 동작시키는 것은 인그레스 컨트롤러 </li>
+</ul>
+<h4 id="사용목적"><a href="#사용목적" class="headerlink" title="사용목적"></a>사용목적</h4><ul>
+<li>클러스터 외부에서 안에 있는 파드에 접근</li>
+<li>서비스와의 차이점은 주로 L7 영역의 통신을 담당해서 처리</li>
+<li>Service LoadBalancing</li>
+<li>Canary Upgrade </li>
+<li>SSL 인증서 처리</li>
+<li>도메인 가상 호스팅 </li>
+</ul>
+<h4 id="Service-LoadBalancing"><a href="#Service-LoadBalancing" class="headerlink" title="Service LoadBalancing"></a>Service LoadBalancing</h4><p><img src="1.png" alt=""></p>
+<h5 id="플로우"><a href="#플로우" class="headerlink" title="플로우"></a>플로우</h5><ul>
+<li>쇼핑 페이지 / 고객센터 / 주문서비스를 파드별로 생성 </li>
+<li>하나의 서비스가 문제 생길시 다른 서비스에 영향 안받음 </li>
+<li>pod에 서비스를 연결 </li>
+<li>각각의 도메인에 패스를 나눠서 접근하도록 하고싶을때 일반적으로 패스와 각 서비스 ip를 이어줄수 있는 l4나 l7스위치가 필요</li>
+<li>쿠버네티스에서는 인그레스가 그 역할을 대신해줌</li>
+</ul>
+<blockquote>
+<p>별도의 ip 로드밸런싱 장비가 필요 없음</p>
+</blockquote>
+<p><br> </p>
+<h4 id="Canary-upgrade"><a href="#Canary-upgrade" class="headerlink" title="Canary upgrade"></a>Canary upgrade</h4><blockquote>
+<p>“옛날 광부들이 광산에 유독가스가 있는지 확인하려고 가스에 민감한 카나리아와 함께 광산에 들어간 사실에 아이디어를 얻었다. 신규 파드를 배포할떄 한꺼번에 앱 컨테이너 전체를 교체하지 않고 기존 버전을 유지한 채로 일부 버전만 신규 파드로 교체한다.”</p>
+</blockquote>
+<p><img src="2.png" alt=""></p>
+<ul>
+<li>인그레스를 사용하면 카나리 업그레이드를 쉽게 할수 있음 </li>
+<li>트래픽을 파드별로 분산할수 있음 </li>
+<li>헤더값 별로 트래픽 조절 가능</li>
+</ul>
+<p><br></p>
+<h3 id="인그레스-컨트롤러"><a href="#인그레스-컨트롤러" class="headerlink" title="인그레스 컨트롤러"></a>인그레스 컨트롤러</h3><h4 id="인그레스-1"><a href="#인그레스-1" class="headerlink" title="인그레스"></a>인그레스</h4><ul>
+<li>인그레스를 만들었다고 해서 바로 실행되지 않음 </li>
+<li>실행할 구현체가 없음 </li>
+<li>설정 내용대로 동작하게 하는 실제 주체가 바로 인그레스 컨트롤러 </li>
+<li>별도 플러그인 설치 필요  </li>
+<li>nginx, kong 대표적  </li>
+</ul>
+<h4 id="구조"><a href="#구조" class="headerlink" title="구조"></a>구조</h4><p><img src="3.png" alt=""></p>
+<h5 id="플로우-1"><a href="#플로우-1" class="headerlink" title="플로우"></a>플로우</h5><ul>
+<li>nginx 생성시 namespace 생성 </li>
+<li>그 위에 deployment, replicaSet 생성 </li>
+<li>실제 ingress 구현체인 pod 생성 </li>
+<li>pod가 ingress가 있는지 보고 있으면 해당 서비스에 연결</li>
+<li>룰에 따라 해당 서비스에 트래픽 전달 </li>
+<li>외부에서 접근할수 있는 서비스 생성후 pod에 연결 </li>
+<li>ingress 에 지정한 도메인으로 접근 </li>
+<li>service를 통해 nginx pod로 트래픽이 들어옴</li>
+<li>ingress 룰에 따라 지정된 service와 pod에 접근 가능 </li>
+</ul>
+<h4 id="기능"><a href="#기능" class="headerlink" title="기능"></a>기능</h4><h5 id="Service-LoadBalancing-1"><a href="#Service-LoadBalancing-1" class="headerlink" title="Service LoadBalancing"></a>Service LoadBalancing</h5><p><img src="4.png" alt=""></p>
+<h5 id="플로우-2"><a href="#플로우-2" class="headerlink" title="플로우"></a>플로우</h5><ul>
+<li>각각의 업무별로 pod, service 만들기 </li>
+<li>인그레스 컨트롤러 자체도 쿠버네티스 클러스터 위에서 동작</li>
+<li>인그레스 컨트롤러에 접근하려고 NodePort 타입의 서비스 생성 </li>
+<li>마스터의 host ip 인 192.168.0.30의 30431 포트로 접근시 pod 80번 포트로 트래픽 전달 </li>
+<li>인그레스를 각 패스에 의도하는 서비스로 매칭</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">service-loadbalancing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">http:</span></span><br><span class="line">  <span class="attr">paths:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/</span></span><br><span class="line">  <span class="attr">backend:</span></span><br><span class="line">  <span class="attr">serviceName:</span> <span class="string">svc-shopping</span></span><br><span class="line">  <span class="attr">servicePort:</span> <span class="number">8080</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/customer</span></span><br><span class="line">  <span class="attr">backend:</span></span><br><span class="line">  <span class="attr">serviceName:</span> <span class="string">svc-customer</span></span><br><span class="line">  <span class="attr">servicePort:</span> <span class="number">8080</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/order</span></span><br><span class="line">  <span class="attr">backend:</span></span><br><span class="line">  <span class="attr">serviceName:</span> <span class="string">svc-order</span></span><br><span class="line">  <span class="attr">servicePort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+<h5 id="Canary-Upgrade"><a href="#Canary-Upgrade" class="headerlink" title="Canary Upgrade"></a>Canary Upgrade</h5><p><img src="5.png" alt=""></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.app.com">www.app.com</a> 사용자 접근하면 svc-v1 서비스 연결 </li>
+<li>앱 운영중인 상태로 카나리 업그레이드를 테스트 할 pod, service 띄움</li>
+<li>ingress 하나 더 생성  <ul>
+<li>@weight:10% 도메인으로 접근하는 트래픽의 10퍼센트는 v2 pod로 접근 </li>
+<li>Language: 접근하는 언어 가 kr일 때 v2로 접근 </li>
+</ul>
+</li>
+<li>다양한 애노테이션 달수 있음 </li>
+</ul>
+<p>Ingress - Default</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">www.app.com</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">          <span class="attr">serviceName:</span> <span class="string">svc-v1</span></span><br><span class="line">          <span class="attr">servicePort:</span> <span class="number">8080</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Ingress - Weight</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">canary-v2</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/canary:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/canary-weight:</span> <span class="string">&quot;10&quot;</span> <span class="comment">#도메인으로 접근하는 트래픽의 10퍼센트는 v2로 접근 </span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">www.app.com</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">          <span class="attr">serviceName:</span> <span class="string">svc-v2</span></span><br><span class="line">          <span class="attr">servicePort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+<p>Ingress - Header</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">canary-kr</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/canary:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/canary-by-header:</span> <span class="string">&quot;Accept-Language&quot;</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/canary-by-header-value:</span> <span class="string">&quot;kr&quot;</span> <span class="comment">#접근하는 언어 가 kr일 때 v2로 접근 </span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">www.app.com</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">backend:</span></span><br><span class="line">          <span class="attr">serviceName:</span> <span class="string">svc-v2</span></span><br><span class="line">          <span class="attr">servicePort:</span> <span class="number">8080</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &quot;Accept-Language: kr&quot; www.app.com:30431/version</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h5><p><img src="6.png" alt=""></p>
+<ul>
+<li>인증서 관리 </li>
+<li>pod 자체에 인증서를 제공하기 힘들때 사용하면 좋음 </li>
+<li>인그레스로 SSL 인증서를 설정하면 파드 각각에 SSL 설정을 따로 할 필요가 없어 편함</li>
+<li>사용자가 도메인 이름 앞에 https를 붙여야만 접근 가능 </li>
+<li>443 포트로 연결 </li>
+<li>secret 안에 데이터 값으로 인증서를 가지고 있음</li>
+<li>SSL 인증서 만료 시 인그레스의 인증서만 업데이트하면 됨 </li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://jinn-blog.tistory.com/95">https://jinn-blog.tistory.com/95</a></p>
+</blockquote>
+<p><br></p>
+<h3 id="레이블과-어노테이션"><a href="#레이블과-어노테이션" class="headerlink" title="레이블과 어노테이션"></a>레이블과 어노테이션</h3><ul>
+<li>쿠버네티스에서 자원들의 메타데이터를 관리하는데 사용 </li>
+<li>레이블은 셀렉터와 함께 특정 레이블이 있는 자원들을 선택할때 주로 사용 <ul>
+<li>사용자가 오브젝트를 생성할떄 해당 오브젝트를 구분하는 용도    </li>
+</ul>
+</li>
+<li>어노테이션은 주석 성격의 메타데이터를 기록하는데 사용<ul>
+<li>레이블처럼 사용자가 원하는 값을 설정하기보다는 쿠버네티스 시스템에서 필요한 정보들을 표시하는데 사용 </li>
+</ul>
+</li>
+</ul>
+<h3 id="레이블"><a href="#레이블" class="headerlink" title="레이블"></a>레이블</h3><ul>
+<li>키/값 쌍으로 구성 </li>
+<li>사용자가 클러스터 안에 오브젝트를 만들 때 메타데이터로 설정 </li>
+<li>생성 후 언제든지 수정 가능 </li>
+<li>각 리소스는 레이블을 가질 수 있고, 레이블 검색 조건에 따라서 특정 레이블을 가지고 있는 리소스만을 선택</li>
+<li>레이블을 선택하여 특정 리소스만 배포하거나 업데이트 가능 </li>
+<li>레이블로 선택된 리소스만 Service에 연결하거나 네트워크 접근 권한을 부여 할수 있음 </li>
+<li>쿠버네티스는 레이블만으로 관리 대상을 구분</li>
+<li>레이블을 변경하면 인식할수 없음</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;metadata&quot;:</span> &#123;</span><br><span class="line"><span class="attr">&quot;labels&quot;:</span> &#123;</span><br><span class="line"><span class="string">&quot;key1&quot;</span> <span class="string">:</span> <span class="string">&quot;value1&quot;</span>,</span><br><span class="line"><span class="string">&quot;key2&quot;</span> <span class="string">:</span> <span class="string">&quot;value2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="셀렉터"><a href="#셀렉터" class="headerlink" title="셀렉터"></a>셀렉터</h4><ul>
+<li>오브젝트 스펙에서 selector 라고 정의하고 레이블 조건을 적어 놓으면 됨</li>
+<li>레이블을 선택할때 사용 </li>
+<li>쿠버네티스에서는 두 가지 셀렉터를 제공 : 등호기반(equality-based), 집합기반(Set based selector)</li>
+</ul>
+<h5 id="등호기반-equality-based"><a href="#등호기반-equality-based" class="headerlink" title="등호기반(equality-based)"></a>등호기반(equality-based)</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">environment</span> <span class="string">=</span> <span class="string">dev</span></span><br><span class="line"><span class="string">tier</span> <span class="type">!=</span> <span class="string">frontend</span></span><br></pre></td></tr></table></figure>
+<h5 id="집합기반-Set-based-selector"><a href="#집합기반-Set-based-selector" class="headerlink" title="집합기반(Set based selector)"></a>집합기반(Set based selector)</h5><ul>
+<li>이보다 향상된 셀렉터로 집합의 개념</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">environment</span> <span class="string">in</span> <span class="string">(production,qa)</span> <span class="comment">#environment가 production 또는 qa 인 경우</span></span><br><span class="line"><span class="string">tier</span> <span class="string">notin</span> <span class="string">(frontend,backend)</span> <span class="comment">#environment가 frontend도 아니고 backend도 아닌 리소스를 선택</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">my-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">selector:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">  <span class="attr">targetPort:</span> <span class="number">9376</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://bcho.tistory.com/1256">https://bcho.tistory.com/1256</a></p>
+</blockquote>
+<p><br></p>
+<h3 id="어노테이션"><a href="#어노테이션" class="headerlink" title="어노테이션"></a>어노테이션</h3><ul>
+<li>레이블과 마찬가지로 키-값 쌍으로 구성 </li>
+<li>레이블처럼 사용자가 설정 가능 </li>
+<li>쿠버네티스 시스템이 필요한 정보를 담고있음 </li>
+<li>쿠버네티스 클라이언트나 라이브러리가 자원을 관리하는데 활용 </li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">annotations:</span></span><br><span class="line">  <span class="attr">manager:</span> <span class="string">&quot;myadmin&quot;</span></span><br><span class="line">  <span class="attr">contact:</span> <span class="string">&quot;010-0000-0000&quot;</span></span><br><span class="line">  <span class="attr">release-version:</span> <span class="string">&quot;v1.0&quot;</span></span><br></pre></td></tr></table></figure>
+<h4 id="레이블-vs-어노테이션"><a href="#레이블-vs-어노테이션" class="headerlink" title="레이블 vs 어노테이션"></a>레이블 vs 어노테이션</h4><blockquote>
+<p>“리소스 그룹을 가리켜야 할 경우 레이블을 사용하고, 쿠버네티스 내부에서 사용하지는 않지만 외부 툴에서 사용하는 데이터이거나 프로젝트 담당자 등을 적는 사람에게 도움이 되는 데이터일경우 애노테이션을 사용하자.”</p>
+</blockquote>
+<p><br></p>
+<h3 id="컨피그맵"><a href="#컨피그맵" class="headerlink" title="컨피그맵"></a>컨피그맵</h3><ul>
+<li>컨테이너에 필요한 환경 설정을 컨테이너와 분리해서 제공하는 기능 </li>
+<li>컨테이너는 변하지 않는 자원</li>
+<li>다른 설정으로 컨테이너를 실행해야 할때 사용 </li>
+</ul>
+<p><img src="7.png" alt=""></p>
+<h4 id="플로우-3"><a href="#플로우-3" class="headerlink" title="플로우"></a>플로우</h4><ul>
+<li>개발환경과 상용환경</li>
+<li>컨테이너 안의 서비스 이미지에 있는 값을 바꾼다는건 컨테이너 이미지를 각각 관리하겠다는 의미 </li>
+<li>큰 용량의 이미지를 여러개 관리하기 힘듬</li>
+<li>컨피그맵과 시크릿을 사용하여 환경에 따라 변하는 값들을 외부에서 결정하게 함 </li>
+<li>컨피그맵은 일반적인 상수 분리할떄 사용 </li>
+<li>시크릿은 키와 같은 보안적인 관리 필요한 값 </li>
+<li>pod 생성시 두 오브젝트(컨피그맵과 시크릿)를 연결할 수 있음 </li>
+<li>컨테이너의 환경변수에 데이터가 들어감 </li>
+</ul>
+<h4 id="사용방법"><a href="#사용방법" class="headerlink" title="사용방법"></a>사용방법</h4><h5 id="상수"><a href="#상수" class="headerlink" title="상수"></a>상수</h5><ul>
+<li>컨피그맵의 정보를 pod로 전달하기 위해서 환경변수를 사용</li>
+</ul>
+<p><img src="8.png" alt=""></p>
+<h5 id="ConfigMap"><a href="#ConfigMap" class="headerlink" title="ConfigMap"></a>ConfigMap</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">cm-dev</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">SSH:</span> <span class="string">&#x27;false&#x27;</span> <span class="comment"># 키 value는 모두 스트링 값 </span></span><br><span class="line">  <span class="attr">User:</span> <span class="string">dev</span></span><br></pre></td></tr></table></figure>
+<h5 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-1</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">kubetm/init</span></span><br><span class="line">    <span class="attr">envFrom:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">cm-dev</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">secretRef:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">sec-dev</span></span><br></pre></td></tr></table></figure>
+<h5 id="파일"><a href="#파일" class="headerlink" title="파일"></a>파일</h5><p><img src="9.png" alt=""></p>
+<ul>
+<li>key : 파일 이름 </li>
+<li>value : 파일 내용  </li>
+<li>configMap 내용 변경시 파드 안의 환경변수 안에 영향 없음 </li>
+<li>파드가 재생성 되야지만 수정되어짐</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Content&quot; &gt;&gt; file-c.txt</span><br><span class="line">kubectl create configmap cm-file --from-file=./file-c.txt</span><br></pre></td></tr></table></figure>
+<h5 id="Pod-1"><a href="#Pod-1" class="headerlink" title="Pod"></a>Pod</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-file</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">kubetm/init</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">file-c</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">configMapKeyRef:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">cm-file</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">file-c.txt</span> <span class="comment"># 키 매핑 </span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">file-s</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">secretKeyRef:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">sec-file</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">file-s.txt</span></span><br></pre></td></tr></table></figure>
+<h5 id="파일-마운트"><a href="#파일-마운트" class="headerlink" title="파일 마운트"></a>파일 마운트</h5><p><img src="10.png" alt=""></p>
+<ul>
+<li>컨피그맵의 정보를 pod로 전달하기 위해 Pod의 디스크 볼륨으로 마운트 </li>
+<li>컨피그맵의 내용이 변하게 되면 pod 안의 환경변수 값도 변하게 됨 </li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-mount</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">kubetm/init</span></span><br><span class="line">    <span class="attr">volumeMounts:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">file-volume</span></span><br><span class="line">      <span class="attr">mountPath:</span> <span class="string">/mount</span> <span class="comment">#마운트 포인트 </span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">file-volume</span></span><br><span class="line">    <span class="attr">configMap:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">cm-file</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><p><a target="_blank" rel="noopener" href="https://www.inflearn.com/course/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EC%B4%88/dashboard">https://www.inflearn.com/course/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EC%B4%88/dashboard</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/02/05/파이썬 코딩의 기술 01/" data-toggle="tooltip" data-placement="top" title="파이썬 코딩의 기술 01">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2021/02/15/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EA%B8%B0%EB%B3%B8%ED%8E%B8%20(4)/";
+    var disqus_url = "https://songii00.github.io/2021/02/15/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EA%B8%B0%EB%B3%B8%ED%8E%B8%20(4)/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

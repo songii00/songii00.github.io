@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          파이썬 코딩의 기술 01 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2021/02/05/파이썬 코딩의 기술 01/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                    <h1>파이썬 코딩의 기술 01</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2021-02-05
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="Better-way-6-인덱스를-사용하는-대신-대입을-사용해-데이터를-언패킹하라"><a href="#Better-way-6-인덱스를-사용하는-대신-대입을-사용해-데이터를-언패킹하라" class="headerlink" title="Better way 6. 인덱스를 사용하는 대신 대입을 사용해 데이터를 언패킹하라."></a>Better way 6. 인덱스를 사용하는 대신 대입을 사용해 데이터를 언패킹하라.</h3><h4 id="tuple-튜플"><a href="#tuple-튜플" class="headerlink" title="tuple 튜플"></a>tuple 튜플</h4><ul>
+<li>불변한 순서가 있는 객체의 집합 </li>
+<li>한번 생성되면 값 변경 불가 </li>
+<li>딕셔너리의 키-값 쌍과 비슷하게 두값으로 이루어짐</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pair = (<span class="string">&#x27;약과&#x27;</span>, <span class="string">&#x27;호박엿&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(pair[<span class="number">0</span>])</span><br><span class="line">pair[<span class="number">1</span>] = <span class="string">&#x27;한과&#x27;</span></span><br></pre></td></tr></table></figure>
+<h4 id="언패킹-풀기-구문"><a href="#언패킹-풀기-구문" class="headerlink" title="언패킹(풀기) 구문"></a>언패킹(풀기) 구문</h4><ul>
+<li>한문장 안에 여러값 대입 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">item = (<span class="string">&#x27;호박엿&#x27;</span>, <span class="string">&#x27;식혜&#x27;</span>)</span><br><span class="line">first, second = item <span class="comment"># 언패킹</span></span><br><span class="line"><span class="built_in">print</span>(first, <span class="string">&#x27;&amp;&#x27;</span>, second)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>언패킹은 튜플보다 시작적 잡음 적음 </li>
+<li>언패킹을 사용하면 임시변수 정의하지 않고 값을 바꿀수 있음 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bublle_sort</span>(<span class="params">a</span>):</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(a)): <span class="comment"># 0부터 a의 길이 미만의 숫자를 포함하는 range 객체 생성</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(a)):</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[i-<span class="number">1</span>]:</span><br><span class="line">            a[i-<span class="number">1</span>], a[i] = a[i], a[i-<span class="number">1</span>] <span class="comment"># 맞바꾸기</span></span><br><span class="line"></span><br><span class="line">names = [<span class="string">&#x27;프레즐&#x27;</span>, <span class="string">&#x27;당근&#x27;</span>, <span class="string">&#x27;쑥갓&#x27;</span>, <span class="string">&#x27;베이컨&#x27;</span>]</span><br><span class="line">bublle_sort(names)</span><br><span class="line"><span class="built_in">print</span>(names)</span><br></pre></td></tr></table></figure>
+<h4 id="enumerate-내장-함수와-언패킹-사용"><a href="#enumerate-내장-함수와-언패킹-사용" class="headerlink" title="enumerate 내장 함수와 언패킹 사용"></a>enumerate 내장 함수와 언패킹 사용</h4><ul>
+<li>enumberate : 인덱스 번호와 컬렉션의 원소를 tuple 형태로 반환</li>
+<li>f-string 포매팅은 파이썬 버전 3.6 부터 사용</li>
+<li>f’문자열 {변수} 문자열’</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">snacks = [(<span class="string">&#x27;베이컨&#x27;</span>, <span class="number">350</span>), (<span class="string">&#x27;도넛&#x27;</span>, <span class="number">240</span>), (<span class="string">&#x27;머핀&#x27;</span>, <span class="number">190</span>)]</span><br><span class="line"><span class="keyword">for</span> rank, (name, calories) <span class="keyword">in</span> <span class="built_in">enumerate</span>(snacks, <span class="number">1</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;#<span class="subst">&#123;rank&#125;</span>: <span class="subst">&#123;name&#125;</span> 은 <span class="subst">&#123;calories&#125;</span> 칼로리 입니다. &#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="패킹과-언패킹"><a href="#패킹과-언패킹" class="headerlink" title="패킹과 언패킹"></a>패킹과 언패킹</h4><ul>
+<li>패킹(packing) : 하나의 변수에 여러값을 할당하는 것</li>
+<li>언패킹(unpacking) : 하나의 변수에 여러개의 값이 담겨있을때 각각의 변수에 할당</li>
+</ul>
+<blockquote>
+<p>파이썬은 한 문장 안에서 여러 값을 대입할 수 있는 언패킹이라는 특별한 문법 제공 한다.<br>파이썬 언패킹은 일반화돼 있으므로 모든 이터러블에 적용 가능. 이터러블이 여러 계층으로 내포된 경우에도 언패킹을 적용할 수 있다.<br>인덱스를 사용해 시퀀스 내부에 접근하는 대신 언패킹을 사용해 시각적인 잡음을 줄이고 코드를 더 명확하게 만들라. </p>
+</blockquote>
+<p><br></p>
+<h3 id="Better-way-7-range-보다는-enumerate를-사용하라"><a href="#Better-way-7-range-보다는-enumerate를-사용하라" class="headerlink" title="Better way 7. range 보다는 enumerate를 사용하라."></a>Better way 7. range 보다는 enumerate를 사용하라.</h3><h4 id="range"><a href="#range" class="headerlink" title="range"></a>range</h4><ul>
+<li>정수 집합을 이터레이션하는 루프가 필요할때 유용 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flavor_list = [<span class="string">&#x27;바닐라&#x27;</span>, <span class="string">&#x27;초콜릿&#x27;</span>, <span class="string">&#x27;피칸&#x27;</span>, <span class="string">&#x27;딸기&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> flavor <span class="keyword">in</span> flavor_list:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;flavor&#125;</span> 맛있어요.&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">flavor_list = [<span class="string">&#x27;바닐라&#x27;</span>, <span class="string">&#x27;초콜릿&#x27;</span>, <span class="string">&#x27;피칸&#x27;</span>, <span class="string">&#x27;딸기&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flavor_list)):</span><br><span class="line">    flavor = flavor_list[i]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;i+<span class="number">1</span>&#125;</span>: <span class="subst">&#123;flavor&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>list 길이를 알아야 하고 인덱스를 사용해 배열에 접근해야함 </li>
+<li>단계가 여러개라 코드 읽기 어려움 </li>
+</ul>
+<h4 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate"></a>enumerate</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, flavor <span class="keyword">in</span> <span class="built_in">enumerate</span>(flavor_list):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;i+<span class="number">1</span>&#125;</span>: <span class="subst">&#123;flavor&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>range의 단점을 해결할 수 있는 enumerate 내장 함수 제공 </li>
+<li>enumerate가 넘겨주는 쌍을 for문에서 간결하게 언패킹 </li>
+</ul>
+<blockquote>
+<p>enumerate를 사용하면 이터레이터에 대해 루프를 돌면서 이터레이터에서 가져오는 원소의 인덱스까지 얻는 코드를 간결하게 작성할 수 있다.<br>range에 대해 루프를 돌면서 시퀀스의 원소를 인덱스로 가져오기보다는 enumerate를 사용하라.<br>enumerate의 두번째 파라미터로 어디부터 원소를 가져오기 시작할지 지정할수 있다.(디폴트는 0이다.)</p>
+</blockquote>
+<p><br></p>
+<h3 id="Better-way-8-여러-이터레이터에-대해-나란히-루프를-수행하려면-zip을-사용하라"><a href="#Better-way-8-여러-이터레이터에-대해-나란히-루프를-수행하려면-zip을-사용하라" class="headerlink" title="Better way 8. 여러 이터레이터에 대해 나란히 루프를 수행하려면 zip을 사용하라."></a>Better way 8. 여러 이터레이터에 대해 나란히 루프를 수행하려면 zip을 사용하라.</h3><h4 id="리스트-컴프리헨션"><a href="#리스트-컴프리헨션" class="headerlink" title="리스트 컴프리헨션"></a>리스트 컴프리헨션</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">names = [<span class="string">&#x27;Cecila&#x27;</span>, <span class="string">&#x27;남궁민수&#x27;</span>, <span class="string">&#x27;zoe&#x27;</span>]</span><br><span class="line">counts = [<span class="built_in">len</span>(n) <span class="keyword">for</span> n <span class="keyword">in</span> names]</span><br><span class="line"><span class="built_in">print</span>(counts)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>반복되거나 특정 조건을 만족하는 리스트를 보다 쉽게 만들어 내기 위한 방법</li>
+<li>대괄호 [] 로 감싸고 내부에 for문과 if 문을 사용하여 반복하며 조건에 만족하는 것만 리스트로 생성</li>
+<li>사용하는 이유는 직관적이고, 여러줄의 코드를 압축해 한줄로 만들어줌 </li>
+<li>리스트나 딕셔너리, Set의 자료 구조를 보다 쉽게 검색, 추출할 수 있게 하는 문법</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://bio-info.tistory.com/28">https://bio-info.tistory.com/28</a><br><a target="_blank" rel="noopener" href="https://nowonbun.tistory.com/651">https://nowonbun.tistory.com/651</a></p>
+</blockquote>
+<p>step 1)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">names = [<span class="string">&#x27;Cecila&#x27;</span>, <span class="string">&#x27;남궁민수&#x27;</span>, <span class="string">&#x27;zoe&#x27;</span>]</span><br><span class="line">counts = [<span class="built_in">len</span>(n) <span class="keyword">for</span> n <span class="keyword">in</span> names]</span><br><span class="line">max_count = <span class="number">0</span></span><br><span class="line">longest_name = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(names)):</span><br><span class="line">    count = counts[i]</span><br><span class="line">    <span class="keyword">if</span> count &gt; max_count:</span><br><span class="line">        longest_name = names[i]</span><br><span class="line">        max_count = count</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(longest_name)</span><br></pre></td></tr></table></figure>
+<p>step 2) enumerate 사용 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, name <span class="keyword">in</span> <span class="built_in">enumerate</span>(names):</span><br><span class="line">    count = counts[i]</span><br><span class="line">    <span class="keyword">if</span> count &gt; max_count:</span><br><span class="line">        longest_name = name</span><br><span class="line">        max_count = count</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(longest_name)</span><br></pre></td></tr></table></figure>
+<p>step 3) zip 사용 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name, count <span class="keyword">in</span> <span class="built_in">zip</span>(names, counts):</span><br><span class="line">    <span class="keyword">if</span> count &gt; max_count:</span><br><span class="line">        longest_name = name</span><br><span class="line">        max_count = count</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(longest_name)</span><br></pre></td></tr></table></figure>
+<p>step 4) zip_longest </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name, count <span class="keyword">in</span> itertools.zip_longest(names, counts):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;name&#125;</span>: <span class="subst">&#123;count&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>zip 내장함수를 사용해 여러 이터레이터를 나란히 이터레이션할 수 있다.<br>zip은 튜플을 지연계산하는 제네레이터를 만든다. 따라서 무한히 긴 입력에도 zip 을 쓸수 있다.<br>입력 이터레이터의 길이가 서로 다르면 zip은 아무런 경고도 없이 가장 짧은 이터레이터 길이까지만 튜플을 내놓고 더 긴 이터레이터의 나머지 원소는 무시한다.<br>가장 짧은 이터레이터에 맞춰 길이를 제한하지 않고 길이가 서로 다른 이터레이터에 대해 루프를 수행하려면 itertools 내장모듈의 zip_longes 함수를 사용하라. </p>
+</blockquote>
+<p><br></p>
+<h3 id="Better-way-9-for나-while-루프-뒤에-else-블록을-사용하지-말라"><a href="#Better-way-9-for나-while-루프-뒤에-else-블록을-사용하지-말라" class="headerlink" title="Better way 9. for나 while 루프 뒤에 else 블록을 사용하지 말라."></a>Better way 9. for나 while 루프 뒤에 else 블록을 사용하지 말라.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>): <span class="comment"># 0부터 3미만 숫자까지 range를 만듬</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;loop&#x27;</span>, i)</span><br><span class="line"><span class="keyword">else</span>: <span class="comment"># 반복 수행되는 루프 블록 바로 다음에 else 블록 추가 가능</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Else block!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>루프가 정상적으로 완료되지 않으면 이 블록을 실행하라 는 뜻이 아님</li>
+<li>파이썬에서 루프와 같은 간단한 구성 요소는 그 자체로 의미가 명확해야 함 </li>
+</ul>
+<blockquote>
+<p>루프 뒤에 오는 else 블록은 루프가 반복되는 도중에 break를 만나지 않은 경우에만 실행된다.<br>동작이 직관적이지 않고 혼동을 야기할 수 있으므로 루프 뒤에 else 블록을 사용하지 말라. </p>
+</blockquote>
+<p><br></p>
+<h3 id="Better-way-10-대입식을-사용해-반복을-피하라"><a href="#Better-way-10-대입식을-사용해-반복을-피하라" class="headerlink" title="Better way 10. 대입식을 사용해 반복을 피하라."></a>Better way 10. 대입식을 사용해 반복을 피하라.</h3><h4 id="왈러스-연산자"><a href="#왈러스-연산자" class="headerlink" title="왈러스 연산자"></a>왈러스 연산자</h4><ul>
+<li>대입식을 영어로 왈러스 연산자 </li>
+<li>파이썬 3.8 새로 도입 </li>
+<li>코드 중복 문제 해결  </li>
+<li>대입문이 쓰일 수 없는 위치에서 변수에 값을 대입할 수 있으므로 유용 </li>
+</ul>
+<blockquote>
+<p>a:=b (a 왈러스 b) </p>
+</blockquote>
+<p>case A : step 1) </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">fresh_fruit = &#123;</span><br><span class="line"><span class="string">&#x27;사과&#x27;</span>: <span class="number">10</span>,</span><br><span class="line"><span class="string">&#x27;바나나&#x27;</span>: <span class="number">8</span>,</span><br><span class="line"><span class="string">&#x27;레몬&#x27;</span>: <span class="number">5</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_lemonade</span>(<span class="params">count</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;레몬에이드 만듬 <span class="subst">&#123;count&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">out_of_stock</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;재고 벗어남&#x27;</span>)</span><br><span class="line"></span><br><span class="line">count = fresh_fruit.get(<span class="string">&#x27;레몬&#x27;</span>, <span class="number">0</span>) <span class="comment"># count 변수는 if문 안에서만 사용</span></span><br><span class="line"><span class="keyword">if</span> count:</span><br><span class="line">    make_lemonade(count)</span><br><span class="line"><span class="keyword">else</span>:  <span class="comment"># 레몬이 없으면 0</span></span><br><span class="line">    out_of_stock()</span><br></pre></td></tr></table></figure>
+<p>case A : step 2) 대입문으로 개선</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">make_lemonade</span>(<span class="params">count</span>): <span class="comment"># 레몬에이드 만듬</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;레몬에이드 만듬 <span class="subst">&#123;count&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">out_of_stock</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;재고 벗어남&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> count := fresh_fruit.get(<span class="string">&#x27;레몬&#x27;</span>,<span class="number">0</span>):</span><br><span class="line">    make_lemonade(count)</span><br><span class="line"><span class="keyword">else</span>:  <span class="comment"># 레몬이 없으면 0</span></span><br><span class="line">    out_of_stock()</span><br></pre></td></tr></table></figure>
+<p>case B : step 1) </p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">count = fresh_fruit.get(<span class="string">&#x27;바나나&#x27;</span>, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">if</span> count &gt;= <span class="number">2</span>:</span><br><span class="line">    pieces = slice_bananas(count)</span><br><span class="line">    to_enjoy = make_smoothies(pieces)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    count = fresh_fruit.get(<span class="string">&#x27;사과&#x27;</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> count &gt;=<span class="number">4</span>:</span><br><span class="line">        to_enjoy = make_cider(count)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        count = fresh_fruit.get(<span class="string">&#x27;레몬&#x27;</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> count:</span><br><span class="line">            to_enjoy = make_lemonade(count)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            to_enjoy = <span class="string">&#x27;아무것도 없음&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>python에는 switch/case 문이 없음 </li>
+<li>일반적으로 if, elif, else 문을 깊게 내포 </li>
+</ul>
+<p>case B : step 2) 왈러스 연산자 사용</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (count := fresh_fruit.get(<span class="string">&#x27;바나나&#x27;</span>, <span class="number">0</span>)) &gt;= <span class="number">2</span>:</span><br><span class="line">    pieces = slice_bananas(count)</span><br><span class="line">    to_enjoy = make_smoothies(pieces)</span><br><span class="line"><span class="keyword">elif</span> (count := fresh_fruit.get(<span class="string">&#x27;사과&#x27;</span>, <span class="number">0</span>)) &gt;= <span class="number">4</span>:</span><br><span class="line">    to_enjoy = make_cider(count)</span><br><span class="line"><span class="keyword">elif</span> (count := fresh_fruit.get(<span class="string">&#x27;레몬&#x27;</span>, <span class="number">0</span>)):</span><br><span class="line">    to_enjoy = make_lemonade(count)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    to_enjoy = <span class="string">&#x27;아무것도 없음&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>왈러스 연산자 사용해 switch/case 문과 같은 다중 선택 전용 구문과 비슷한 해법</li>
+</ul>
+<p><br></p>
+<blockquote>
+<p>대입식에서는 왈러스 연산자를 사용해 하나의 식 안에서 변수 이름에 값을 대입하면서 이 값을 평가할 수 있고 중복을 줄일수 있다.<br>대입식이 더 큰 식의 일부분으로 쓰일 때는 괄호로 둘러싸야 한다.<br>파이썬에서는 switch/case 문이나 do/while 루프를 쓸 수 없지만, 대입식을 사용하면 이런 기능을 더 깔끔하게 흉내 낼 수 있다.<br>코드가 못생기게 보이기 시작한다면 왈러스 연산자를 사용해 가능 한 그런 요소를 없애기 위해 노력할 것을 권장한다. </p>
+</blockquote>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/02/15/쿠버네티스 기본편 (4)/" data-toggle="tooltip" data-placement="top" title="인그레스와 레이블/어노테이션 - 쿠버네티스 기본편 (4)">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/01/27/쿠버네티스 기본편 (3)/" data-toggle="tooltip" data-placement="top" title="클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2021/02/05/%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2001/";
+    var disqus_url = "https://songii00.github.io/2021/02/05/%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%BD%94%EB%94%A9%EC%9D%98%20%EA%B8%B0%EC%88%A0%2001/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

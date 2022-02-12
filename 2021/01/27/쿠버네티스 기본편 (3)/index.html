@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3) - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2021/01/27/쿠버네티스 기본편 (3)/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        
+                    </div>
+                    <h1>클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3)</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2021-01-27
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“클러스터-네트워킹-구성-쿠버네티스-기본편-3-”"><a href="#“클러스터-네트워킹-구성-쿠버네티스-기본편-3-”" class="headerlink" title="“클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3)”"></a>“클러스터 네트워킹 구성 - 쿠버네티스 기본편 (3)”</h3><h3 id="파드-네트워킹"><a href="#파드-네트워킹" class="headerlink" title="파드 네트워킹"></a>파드 네트워킹</h3><span id="more"></span>
+<ul>
+<li>파드 컨테이너 간 통신과 파드 끼리의 통신으로 크게 나눌수 있음</li>
+<li>쿠버네티스는 파드마다 각각의 IP를 할당받음</li>
+<li>여러대의 노드를 사용해 클러스터 구성 후 노드별로 실행한 파드들이 IP를 이용해 통신 </li>
+</ul>
+<p><img src="2.png" alt=""></p>
+<ul>
+<li>pod 생성시 pod network 범위 내에서 고유 ip 를 가지고 있는 인터페이스 생성됨</li>
+<li>pod 에 속한 컨테이너 들은 하나의 인터페이스를 공유</li>
+<li>같은 파드에 속한 컨테이너들은 모두 IP 하나를 가짐 </li>
+<li>파드에 접근할 때는 파드의 IP 이용, 파드 안 컨테이너 사이의 구분은 포트를 이용 </li>
+<li>두 파드들 간의 통신은 network plugin 담당 </li>
+</ul>
+<h4 id="pause-container"><a href="#pause-container" class="headerlink" title="pause container"></a>pause container</h4><p><img src="4.png" alt=""></p>
+<ul>
+<li>pod의 네트워크 담당 컨테이너로 pod 생성 시 자동생성 됨</li>
+<li>리눅스에 네트워크 네임스페이스를 별도로 생성해서 가상의 인터페이스 만들고 관련 컨테이너들에게 공유<ul>
+<li>pause 컨테이너 네트워크 네임스페이스를 pod 내 모든 컨테이너들이 공유해서 사용</li>
+<li>puase contrainer 생성 시 host network interface에 가상 인터페이스가 하나 생김</li>
+<li>pause container interface와 연결 </li>
+<li>pod 만들 때마다 가상 인터페이스와 1:1 매칭 </li>
+</ul>
+</li>
+<li>외부에서 pod로 들어오는 트래픽을 받고 특정 컨테이너로 트래픽을 전달하는것이 가능 해짐</li>
+<li>파드 하나에 여러개 컨테이너 생성 시 컨테이너 각각 할당된 IP 변하지 않음 </li>
+<li>같은 파드 안 컨테이너는 로컬 IP 주소(127.0.0.1)로 서로 통신 가능 </li>
+</ul>
+<blockquote>
+<p>네트워크 네임스페이스 만들기 : <a target="_blank" rel="noopener" href="https://www.joinc.co.kr/w/man/12/NetworkNamespace">https://www.joinc.co.kr/w/man/12/NetworkNamespace</a><br>pause container 더 알아보기 : <a target="_blank" rel="noopener" href="https://jordy.kr/the-kubernetes-pause-container/">https://jordy.kr/the-kubernetes-pause-container/</a></p>
+</blockquote>
+<h4 id="파드-간-통신"><a href="#파드-간-통신" class="headerlink" title="파드 간 통신"></a>파드 간 통신</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://jonnung.dev/kubernetes/2020/02/24/kubernetes-pod-networking/">https://jonnung.dev/kubernetes/2020/02/24/kubernetes-pod-networking/</a><br><a target="_blank" rel="noopener" href="https://ikcoo.tistory.com/11">https://ikcoo.tistory.com/11</a></p>
+</blockquote>
+<p><br></p>
+<h3 id="서비스-네트워킹"><a href="#서비스-네트워킹" class="headerlink" title="서비스 네트워킹"></a>서비스 네트워킹</h3><p><img src="3.png" alt=""></p>
+<ul>
+<li>보통 여러개의 pod를 실행, pod 앞에 service를 두고 사용 </li>
+<li>실제 클러스터 안에서 통신할때는 서비스의 IP를 거침</li>
+<li>pod에 service를 붙이게 되면 고유의 ip 생성</li>
+<li>service 생성과 동시에 kube-dns에 서비스 이름과 ip 등록</li>
+<li>api-server &gt; kube-proxy 서비스의 ip가 어느 pod와 연결되있는지에 대한 정보 전달<ul>
+<li>kube-proxy는 worker 노드들마다 pod형태로 띄워져 있음 </li>
+</ul>
+</li>
+<li>service ip를 pod ip로 바꾸는 NAT 기능 필요(proxy mode 세가지 user space, iptables, ipvs)</li>
+<li>pod가 서비스 호출 시 kube-nds를 통해 서비스 ip 얻음</li>
+<li>서비스 ip 를 NAT 영역으로 호출 </li>
+<li>pod 정보들을 가지고 network plugin을 통해 해당 pod로 전달</li>
+<li>서비스 삭제 시 api-server가 감지 &gt; kube-proxy 설정 삭제 요청 </li>
+</ul>
+<blockquote>
+<p>서비스 네트워킹 이해하기 : <a target="_blank" rel="noopener" href="https://coffeewhale.com/k8s/network/2019/05/11/k8s-network-02/">https://coffeewhale.com/k8s/network/2019/05/11/k8s-network-02/</a></p>
+</blockquote>
+<h3 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h3><p><img src="5.png" alt=""></p>
+<ul>
+<li>서비스 생성 시 클러스터 IP나 노드 포트로 접근할수 있게 실제 조작 </li>
+<li>endpoint 라는 오브젝트에서 실제 연결상태 담당 </li>
+<li>api-server가 endpoint 감시 &gt; kube-proxy server가 pod ip로 포워딩된다는 정보 전달 </li>
+<li>클러스터 노드마다 실행되면서 클러스터 내부 IP로 연결하려는 요청을 적절한 파드로 전달 </li>
+</ul>
+<h4 id="userspace-mode"><a href="#userspace-mode" class="headerlink" title="userspace mode"></a>userspace mode</h4><ul>
+<li>iptables 리눅스 워커 노드에 기본 설치</li>
+<li>service cidr로 트래픽 유입 시 kube-proxy 로 전달</li>
+<li>요청을 파드들에게 나누어줄때 라운드 로빈 사용 </li>
+<li>파드 하나로의 연결 요청 실패 시 자동으로 다른 파드에 연결 재시도</li>
+</ul>
+<p>단점 </p>
+<ul>
+<li>모든 트래픽이 kube-proxy 로 유입</li>
+<li>성능, 안정성 좋지 않아 거의 사용하지 않음 </li>
+</ul>
+<h4 id="iptables-mode"><a href="#iptables-mode" class="headerlink" title="iptables mode"></a>iptables mode</h4><ul>
+<li>kube-proxy 가 iptables 에 매핑정보 직접 등록</li>
+<li>iptables에서 직접 pod ip로 변환</li>
+<li>직접 클라이언트 트래픽을 받지 않음 </li>
+<li>쿠버네티스 기본 모드 </li>
+<li>userspace mode 보다 성능, 안정성 뛰어남</li>
+<li>iptables에 업데이트 하는 규칙이 수천개 단위라면 성능 이슈 발생 할수도 있음</li>
+<li>연결 요청 실패 시 재시도 처리 없음</li>
+</ul>
+<h4 id="IPVS-mode"><a href="#IPVS-mode" class="headerlink" title="IPVS mode"></a>IPVS mode</h4><ul>
+<li>리눅스 커널에 있는 L4 로드 밸런싱 기술 </li>
+<li>리눅스 커널 안 네트워크 관련 프레임워크인 넷필터에 포함 </li>
+<li>iptables 와 같은 역할 해줌 </li>
+<li>데이터 구조를 해시 테이블로 저장 </li>
+<li>많은 로드밸런싱 알고리즘 존재 </li>
+<li>낮은 부하 상태에서는 비슷하지만 부하 커질수록 성능 좋아짐</li>
+</ul>
+<blockquote>
+<p>프록시 모드 더 알아보기 : <a target="_blank" rel="noopener" href="https://arisu1000.tistory.com/27839">https://arisu1000.tistory.com/27839</a><br>서비스 프록시 심화 : <a target="_blank" rel="noopener" href="https://ssup2.github.io/theory_analysis/Kubernetes_Service_Proxy/">https://ssup2.github.io/theory_analysis/Kubernetes_Service_Proxy/</a></p>
+</blockquote>
+<p><br></p>
+<h3 id="쿠버네티스-DNS"><a href="#쿠버네티스-DNS" class="headerlink" title="쿠버네티스 DNS"></a>쿠버네티스 DNS</h3><ul>
+<li>쿠버네티스는 클러스터 안에서만 사용하는 DNS 설정 가능 </li>
+<li>파드 사이에서 통신할때 IP가 아닌 도메인 사용 가능 </li>
+<li>IP로 통신하도록 설정했다면 IP 대역이 다를때 템플릿에서 해당 IP 대역을 사용하도록 수정한후 다른 클러스터에 적용해야 함 </li>
+<li>클러스터나 API 게이트 웨이를 호출할 서비스를 찾는 서비스 디스커버리용도로 사용 가능 </li>
+<li>kube-dns &gt; 1.13 부터 CoreDNS가 기본 DNS 로 설정 </li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://da-nika.tistory.com/191">https://da-nika.tistory.com/191</a><br><a target="_blank" rel="noopener" href="https://arisu1000.tistory.com/27859">https://arisu1000.tistory.com/27859</a><br><a target="_blank" rel="noopener" href="https://jonnung.dev/kubernetes/2020/05/11/kubernetes-dns-about-coredns/">https://jonnung.dev/kubernetes/2020/05/11/kubernetes-dns-about-coredns/</a></p>
+</blockquote>
+<p><br></p>
+<h6 id="출처"><a href="#출처" class="headerlink" title="출처 "></a>출처 <br/></h6><p><a target="_blank" rel="noopener" href="https://www.inflearn.com/course/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EC%B4%88/dashboard">https://www.inflearn.com/course/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EA%B8%B0%EC%B4%88/dashboard</a></p>
+<p><br></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/02/05/파이썬 코딩의 기술 01/" data-toggle="tooltip" data-placement="top" title="파이썬 코딩의 기술 01">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/01/27/쿠버네티스 기본편 (2)/" data-toggle="tooltip" data-placement="top" title="쿠버네티스 아키텍처 - 쿠버네티스 기본편 (2)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2021/01/27/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EA%B8%B0%EB%B3%B8%ED%8E%B8%20(3)/";
+    var disqus_url = "https://songii00.github.io/2021/01/27/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EA%B8%B0%EB%B3%B8%ED%8E%B8%20(3)/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
