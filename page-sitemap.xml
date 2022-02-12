@@ -10,6 +10,15 @@
     
     
     <url>
+        <loc>https://songii00.github.io/404.html</loc>
+        <lastmod>2022-02-12T03:30:14.422Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
         <loc>https://songii00.github.io/tags/</loc>
         <lastmod>2022-02-11T13:43:26.816Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -21,15 +30,6 @@
     <url>
         <loc>https://songii00.github.io/archives/</loc>
         <lastmod>2022-02-11T13:43:26.809Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://songii00.github.io/404.html</loc>
-        <lastmod>2022-02-11T13:43:26.803Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
