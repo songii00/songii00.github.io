@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="Rw8iTPmlG2WXcRwX4Lonlx4h9PXpMWxYuRx1ktlvWTY" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          객체, 설계 - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2020/01/14/OBJECTS Item 01/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#OBJECTS" title="OBJECTS">OBJECTS</a>
+                        
+                    </div>
+                    <h1>객체, 설계</h1>
+                    <h2 class="subheading">OBJECTS - Item 01</h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2020-01-14
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="“OBJECTS-1장”"><a href="#“OBJECTS-1장”" class="headerlink" title="“OBJECTS 1장”"></a>“OBJECTS 1장”</h3><hr>
+<h3 id="이론-실무"><a href="#이론-실무" class="headerlink" title="이론? 실무?"></a>이론? 실무?</h3><blockquote>
+<p>이론이 먼저일까, 실무가 먼저일까? - 로버트 L.글래스</p>
+</blockquote>
+<p>결론은 이론보다 실무가 먼저다. </p>
+<ul>
+<li>실무의 발전 -&gt; 이론이 모습을 갖춰감 -&gt; 해당 분야가 성숙해지는 시점에서야 이론이 실무를 추월</li>
+<li>소프트웨어 분야는 아직 걸음마 단계에 머물러 있으므로 이론보다 실무가 더 앞서있으며, 중요</li>
+</ul>
+<span id="more"></span>
+<h3 id="01-티켓-판매-애플리케이션-구현하기"><a href="#01-티켓-판매-애플리케이션-구현하기" class="headerlink" title="01 티켓 판매 애플리케이션 구현하기"></a>01 티켓 판매 애플리케이션 구현하기</h3><p><img src="1.png" alt=""></p>
+<p>​    </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Invitation</span> &#123; <span class="comment">// 초대장</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime when; <span class="comment">// 초대일자</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Ticket</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Long fee; <span class="comment">// 요금</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Bag</span> &#123;</span><br><span class="line">    <span class="comment">// 관람객 - 초대장, 현금, 티켓 만 소지할 수 있음</span></span><br><span class="line">    <span class="comment">// 소지품을 보관할 가방</span></span><br><span class="line">    <span class="keyword">private</span> Long amount; <span class="comment">// 현금</span></span><br><span class="line">    <span class="keyword">private</span> Invitation invitation; <span class="comment">// 초대장</span></span><br><span class="line">    <span class="keyword">private</span> Ticket ticket; <span class="comment">// 티켓</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasInvitation</span><span class="params">()</span>&#123; <span class="comment">// 초대장 여부 판단</span></span><br><span class="line">        <span class="keyword">return</span> invitation != <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasTicket</span><span class="params">()</span>&#123; <span class="comment">// 티켓 여부 판단</span></span><br><span class="line">        <span class="keyword">return</span> ticket != <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">minusAmount</span><span class="params">(Long amount)</span>&#123; <span class="comment">// 현금 증가 혹은 감소</span></span><br><span class="line">        <span class="built_in">this</span>.amount -= amount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">plusAmount</span><span class="params">(Long amount)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.amount += amount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTicket</span><span class="params">(Ticket ticket)</span>&#123; <span class="comment">// 초대장을 티켓으로 교환</span></span><br><span class="line">        <span class="built_in">this</span>.ticket = ticket;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Audience</span> &#123; <span class="comment">// 관람객</span></span><br><span class="line">    <span class="keyword">private</span> Bag bag; <span class="comment">// 가방을 소지</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketOffice</span> &#123; <span class="comment">// 매표소</span></span><br><span class="line">    <span class="keyword">private</span> Long amount; <span class="comment">// 티켓의 판매 금액이 보관</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Ticket&gt; tickets = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(); <span class="comment">// 교환해 줄 티켓 목록</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">minusAmount</span><span class="params">(Long amount)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.amount -= amount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">plusAmount</span><span class="params">(Long amount)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.amount += amount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Ticket <span class="title function_">getTicket</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tickets.remove(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketSeller</span> &#123; <span class="comment">// 판매원</span></span><br><span class="line">    <span class="comment">// 매표소에서 초대장을 티켓으로 교환해주거나 티켓을 판매</span></span><br><span class="line">    <span class="keyword">private</span> TicketOffice ticketOffice;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Theater</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> TicketSeller ticketSeller;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">enter</span><span class="params">(Audience audience)</span>&#123; <span class="comment">// 입장 </span></span><br><span class="line">        <span class="keyword">if</span>(audience.getBag().hasInvitation())&#123; <span class="comment">// 관람객의 초대장 확인 </span></span><br><span class="line">            <span class="comment">// 이벤트 당첨 관람객</span></span><br><span class="line">            <span class="comment">// 판매원에게 티켓을 받음 </span></span><br><span class="line">            <span class="type">Ticket</span> <span class="variable">ticket</span> <span class="operator">=</span> ticketSeller.getTicketOffice().getTicket(); </span><br><span class="line">            <span class="comment">// 관람객의 가방에 티켓을 넣어줌 </span></span><br><span class="line">            audience.getBag().setTicket(ticket);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 이벤트 미당첨 관람객</span></span><br><span class="line">            <span class="comment">// 판매원에게 티켓을 받음 </span></span><br><span class="line">            <span class="type">Ticket</span> <span class="variable">ticket</span> <span class="operator">=</span> ticketSeller.getTicketOffice().getTicket();</span><br><span class="line">            <span class="comment">// 관람객 가방에서 티켓 금액만큼 차감 </span></span><br><span class="line">            audience.getBag().minusAmount(ticket.getFee());</span><br><span class="line">            <span class="comment">// 매표소에 금액 증가 </span></span><br><span class="line">            ticketSeller.getTicketOffice().plusAmount(ticket.getFee());</span><br><span class="line">            <span class="comment">// 관람객의 가방에 티켓을 넣어줌 </span></span><br><span class="line">            audience.getBag().setTicket(ticket);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 입장 끝 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="02-무엇이-문제인가"><a href="#02-무엇이-문제인가" class="headerlink" title="02 무엇이 문제인가"></a>02 무엇이 문제인가</h3><blockquote>
+<p>모든 소프트웨어 모듈에는 세가지 목적이 있다. </p>
+<p>첫번째 목적은 실행 중에 제대로 동작하는 것이다. ..</p>
+<p>두번째 목적은 변경을 위해 존재하는 것이다. 대부분의 모듈은 생명주기 동안 변경되기 때문에 간단한 작업만으로도 변경이 가능해야 한다. …</p>
+<p>모듈의 세번째 목적은 코드를 읽는 사람과 의사소통 하는 것이다.  - 로버트 마틴</p>
+</blockquote>
+<p>결국 마틴에 따르면 모든 모듈은 제대로 실행되어야 하고, 변경에 용이해야 하며, 이해하기 쉬어야 한다.</p>
+<h4 id="예상을-빗나가는-코드"><a href="#예상을-빗나가는-코드" class="headerlink" title="예상을 빗나가는 코드"></a>예상을 빗나가는 코드</h4><p>앞의 프로그램은 불행하게도 두번째와 세번째 목적을 만족시키지 못한다.</p>
+<ul>
+<li>이해 가능한 코드란 그 동작이 우리의 예상을 크게 벗어나지 않는 코드이다.</li>
+<li>앞의 예제는 관람객과 판매원이 소극장의 통제를 받는 수동적인 존재이다.</li>
+<li>여러가지 세부적인 내용들을 한꺼번에 기억하고 있어야 한다.<ul>
+<li>Theater 의 enter 메서드 살펴보기</li>
+<li>audience 가 bag을 가지고 있고, bag 안에는 현금, 티켓이 들어있으며, TicketSeller 가 TicketOffice 에서 티켓을 판매하고 TicketOffice 안에 돈과 티켓이 보관되어 있다는 사실을 모두 기억해야 함</li>
+</ul>
+</li>
+<li>audience와 ticketseller를 변경할 경우 theater도 함께 변경해야함 </li>
+</ul>
+<h4 id="변경에-취약한-코드"><a href="#변경에-취약한-코드" class="headerlink" title="변경에 취약한 코드"></a>변경에 취약한 코드</h4><p>만약 관람객이 가방을 들고 다니지 않는다면 ?</p>
+<p>현금이 아니라 신용카드로 결제한다면?</p>
+<p><strong>“이것은 객체 사이의 의존성(dependency) 과 관련된 문제이다.”</strong></p>
+<ul>
+<li>의존성은 변경에 대한 영향을 암시</li>
+<li>어떤 객체가 변경될 때 그 객체에 의존하는 다른 객체도 함께 변경될 수 잇음.</li>
+<li>애플리케이션의 기능을 구현하는 최소한의 의존성만 유지하고 불필요한 의존성을 제거해야 함.</li>
+</ul>
+<p><img src="2.png" alt=""></p>
+<p><strong><em>“객체 사이의 의존성이 과한 경우를 가리켜 결합도(coupling)이 높다고 말한다. 반대로 객체들이 합리적인 수준으로 의존할 경우에 결합도가 낮다고 한다.”</em></strong></p>
+<ul>
+<li>두 객체 사이의 결합도가 Up -&gt; 함께 변경될 가능성도 Up -&gt; 변경이 어려워짐</li>
+<li>설계의 목표는 결합도를 낮춰 변경이 용이한 설계를 만드는것</li>
+</ul>
+<h3 id="03-설계-개선하기"><a href="#03-설계-개선하기" class="headerlink" title="03 설계 개선하기"></a>03 설계 개선하기</h3><p>관람객과 판매원을 자율적인 존재로 만들자.</p>
+<h4 id="자율성을-높이자"><a href="#자율성을-높이자" class="headerlink" title="자율성을 높이자"></a>자율성을 높이자</h4><ul>
+<li><p>문제점 : Theater 가 audience와 ticketSeller , Audience 소유의 Bag, TicketSeller 가 근무하는 TicketOffice 모두 접근 가능</p>
+</li>
+<li><p>해결방법 : Audience 와 TicketSeller 가 직접 Bag과 TicketOffice 를 처리하는 자율적인 존재가 되도록 설계 변경</p>
+</li>
+</ul>
+<p>첫번째는 Threater 내부의 enter 메서드에서 TicketOffice 에 접근하는 모든 코드를 TicketSeller로 숨기기</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketSeller</span> &#123; <span class="comment">// 판매원</span></span><br><span class="line">    <span class="comment">// 매표소에서 초대장을 티켓으로 교환해주거나 티켓을 판매</span></span><br><span class="line">    <span class="keyword">private</span> TicketOffice ticketOffice;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sellTo</span><span class="params">(Audience audience)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(audience.getBag().hasInvitation())&#123; <span class="comment">// 관람객의 초대장 확인</span></span><br><span class="line">            <span class="comment">// 이벤트 당첨 관람객</span></span><br><span class="line">            <span class="comment">// 판매원에게 티켓을 받음</span></span><br><span class="line">            <span class="type">Ticket</span> <span class="variable">ticket</span> <span class="operator">=</span> ticketOffice.getTicket();</span><br><span class="line">            <span class="comment">// 관람객의 가방에 티켓을 넣어줌</span></span><br><span class="line">            audience.getBag().setTicket(ticket);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 이벤트 미당첨 관람객</span></span><br><span class="line">            <span class="comment">// 판매원에게 티켓을 받음</span></span><br><span class="line">            <span class="type">Ticket</span> <span class="variable">ticket</span> <span class="operator">=</span> ticketOffice.getTicket();</span><br><span class="line">            <span class="comment">// 관람객 가방에서 티켓 금액만큼 차감</span></span><br><span class="line">            audience.getBag().minusAmount(ticket.getFee());</span><br><span class="line">            <span class="comment">// 매표소에 금액 증가</span></span><br><span class="line">            ticketOffice.plusAmount(ticket.getFee());</span><br><span class="line">            <span class="comment">// 관람객의 가방에 티켓을 넣어줌</span></span><br><span class="line">            audience.getBag().setTicket(ticket);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Theater</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> TicketSeller ticketSeller;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">enter</span><span class="params">(Audience audience)</span>&#123; <span class="comment">// 입장</span></span><br><span class="line">        ticketSeller.sellTo(audience);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>외부에서 ticketOffice 에 직접 접근할수 없음</li>
+<li>TicketSeller는 ticketOffice 에서 티켓을 꺼내거나 판매요금을 적립하는 일을 스스로 수행</li>
+<li>Theater 는 ticketOffice 내부의 TicketSeller의 존재를 모름</li>
+</ul>
+<p><strong>“개념적이나 물리적으로 객체 내부의 세부사항을 감추는 것을 캡슐화(encapsulation)라고 부른다.”</strong></p>
+<ul>
+<li>Theater는 오직 TicketSeller의 인터페이스에만 의존</li>
+<li>TicketSeller 내부의 TIcketOffice 인스턴스를 포함하고 있는 것은 구현 영역에 속함</li>
+<li>객체를 인터페이스와 구현으로 나누고 인터페이스만 공개하는 것은 객체 사이의 결합도를 낮추고 변경하기 쉬운 코드를 작성하기 위한 가장 기본적인 설계원칙</li>
+</ul>
+<p><img src="3.png" alt=""></p>
+<p>두번째는 Audience 의 캡슐화 개선하기이다. </p>
+<ul>
+<li>TicketSeller 의 Audience 의 getBag 메서드를 호출 -&gt; Audience 내부의 Bag 인스턴스에 직접 접근</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Audience</span> &#123; <span class="comment">// 관람객</span></span><br><span class="line">    <span class="keyword">private</span> Bag bag; <span class="comment">// 가방을 소지</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Long <span class="title function_">buy</span><span class="params">(Ticket ticket)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(bag.hasInvitation())&#123; <span class="comment">// 관람객의 초대장 확인</span></span><br><span class="line">            <span class="comment">// 이벤트 당첨 관람객</span></span><br><span class="line">            <span class="comment">// 관람객의 가방에 티켓을 넣어줌</span></span><br><span class="line">           bag.setTicket(ticket);</span><br><span class="line">           <span class="keyword">return</span> <span class="number">0L</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 이벤트 미당첨 관람객</span></span><br><span class="line">            <span class="comment">// 관람객의 가방에 티켓을 넣어줌</span></span><br><span class="line">            bag.setTicket(ticket);</span><br><span class="line">            <span class="comment">// 관람객 가방에서 티켓 금액만큼 차감</span></span><br><span class="line">            bag.minusAmount(ticket.getFee());</span><br><span class="line">            <span class="keyword">return</span> ticket.getFee();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketSeller</span> &#123; <span class="comment">// 판매원</span></span><br><span class="line">    <span class="comment">// 매표소에서 초대장을 티켓으로 교환해주거나 티켓을 판매</span></span><br><span class="line">    <span class="keyword">private</span> TicketOffice ticketOffice;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sellTo</span><span class="params">(Audience audience)</span>&#123;</span><br><span class="line">       ticketOffice.plusAmount(audience.buy(ticketOffice.getTicket()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TicketSeller 와 Audience 사이의 결합도 낮아짐</li>
+<li>내부 구현의 캡슐화로 Audience 의 구현을 수정하더라도 TicketSeller 에 영향을 미치지 않음</li>
+</ul>
+<p><img src="4.png" alt=""></p>
+<h4 id="어떻게-한것인가"><a href="#어떻게-한것인가" class="headerlink" title="어떻게 한것인가"></a>어떻게 한것인가</h4><p>자기 자신의 문제를 스스로 해결하도록 코드를 변경하였다. 객체의 자율성을 높이는 방향으로 설계를 개선하였으며, 그결과 이해하기 쉽고 유연한 설계를 얻을 수 있다.</p>
+<h4 id="캡슐화와-응집도"><a href="#캡슐화와-응집도" class="headerlink" title="캡슐화와 응집도"></a>캡슐화와 응집도</h4><p><strong>“핵심은 객체 내부의 상태를 캡슐화하고 객체 간에 오직 메세지를 통해서만 상호작용 하도록 만드는 것이다.”</strong></p>
+<p>밀접하게 연관된 작업만을 수행하고 연관성 없는 작업은 다른 객체에게 위임하는 객체를 가르켜 응집도가 높다고 말한다. 따라서 객체의 응집도를 높이기 위해서 객체 스스로 자신의 데이터를 책임져야 한다.</p>
+<h4 id="절차지향과-객체지향"><a href="#절차지향과-객체지향" class="headerlink" title="절차지향과 객체지향"></a>절차지향과 객체지향</h4><ul>
+<li>수행하기 전 코드에서 Theater 는 enter 메서드 안에서 관람객을 입장시키는 절차를 구현</li>
+<li>Audience, TicketSeller, Bag, TicketOffice 는 관람객을 입장시키는데 필요한 정보를 제공</li>
+<li>모든 처리는 Theater 의 enter 메서드에서 존재</li>
+<li>Theater의 enter 메서드는 -&gt; 프로세스</li>
+<li>Audience, TicketSeller, Bag, TicketOffice -&gt; 데이터</li>
+</ul>
+<p><strong>“프로세스와 데이터를 별도의 모듈에 위치시키는 방식을 절차적 프로그래밍(Procedural Programming) 이라고 부른다.”</strong></p>
+<ul>
+<li>수정 후 코드는 데이터를 사용하는 프로세스가 데이터를 소유하고 있는 Audience 와 TicketSeller 내부로 옮겨짐</li>
+</ul>
+<p><strong>“데이터와 프로세스가 동일한 모듈 내부에 위치하도록 프로그래밍 하는 방식을 객체지향 프로그래밍(Object-Oriented Programming)이라고 부른다.”</strong></p>
+<ul>
+<li>캡슐화를 이용해 의존성을 적절히 관리</li>
+<li>객체 사이의 결합도를 낮춤</li>
+<li>객체지향이 절차지향에 비해 좀더 유연함</li>
+<li>객체 내부의 변경이 외부에 파급되지 않도록 제어할 수 있어 변경이 수월</li>
+</ul>
+<h4 id="책임의-이동-shift-of-responsibility"><a href="#책임의-이동-shift-of-responsibility" class="headerlink" title="책임의 이동 (shift of responsibility)"></a>책임의 이동 (shift of responsibility)</h4><p><img src="5.png" alt=""></p>
+<p><img src="6.png" alt=""></p>
+<ul>
+<li>Theater에 몰려있던 책임이 개별 객체로 이동함</li>
+</ul>
+<blockquote>
+<p>“이것이 바로 책임의 이동을 의미하는 것이다.”</p>
+</blockquote>
+<ul>
+<li>설계를 어렵게 만드는 것은 의존성임.</li>
+<li>불필요한 의존성을 제거하고 객체 사이의 결합도를 낮춰야 함 -&gt; 캡슐화</li>
+<li>자율성 Up, 응집도 Up </li>
+</ul>
+<h4 id="더-개선할-수-있다"><a href="#더-개선할-수-있다" class="headerlink" title="더 개선할 수 있다"></a>더 개선할 수 있다</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Bag</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Long amount;</span><br><span class="line">    <span class="keyword">private</span> Invitation invitation; </span><br><span class="line">    <span class="keyword">private</span> Ticket ticket; </span><br><span class="line"></span><br><span class="line">  	<span class="comment">// Bag 내부에서만 사용되므로 public -&gt; private 으로 변경</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">hasInvitation</span><span class="params">()</span>&#123; <span class="comment">// 초대장 여부 판단</span></span><br><span class="line">        <span class="keyword">return</span> invitation != <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">hasTicket</span><span class="params">()</span>&#123; <span class="comment">// 티켓 여부 판단</span></span><br><span class="line">        <span class="keyword">return</span> ticket != <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">minusAmount</span><span class="params">(Long amount)</span>&#123; <span class="comment">// 현금 증가 혹은 감소</span></span><br><span class="line">        <span class="built_in">this</span>.amount -= amount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">plusAmount</span><span class="params">(Long amount)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.amount += amount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">setTicket</span><span class="params">(Ticket ticket)</span>&#123; <span class="comment">// 초대장을 티켓으로 교환</span></span><br><span class="line">        <span class="built_in">this</span>.ticket = ticket;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Long <span class="title function_">hold</span><span class="params">(Ticket ticket)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(hasInvitation())&#123; <span class="comment">// 관람객의 초대장 확인</span></span><br><span class="line">            <span class="comment">// 이벤트 당첨 관람객</span></span><br><span class="line">            <span class="comment">// 가방에 티켓 넣음</span></span><br><span class="line">            setTicket(ticket);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0L</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 이벤트 미당첨 관람객</span></span><br><span class="line">            <span class="comment">// 가방에 티켓 넣음</span></span><br><span class="line">            setTicket(ticket);</span><br><span class="line">            <span class="comment">// 가방에서 티켓 금액만큼 차감</span></span><br><span class="line">            minusAmount(ticket.getFee());</span><br><span class="line">            <span class="keyword">return</span> ticket.getFee();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Audience</span> &#123; <span class="comment">// 관람객</span></span><br><span class="line">    <span class="keyword">private</span> Bag bag; <span class="comment">// 가방을 소지</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Long <span class="title function_">buy</span><span class="params">(Ticket ticket)</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> bag.hold(ticket);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Bag 을 자율적인 존재로 변경 -&gt; Bag 내부 상태에 접근하는 모든 로직을 Bag 안으로 캡슐화 -&gt; 결합도 Down</li>
+<li>Audience 를 Bag의 구현이 아닌 인터페이스에 의존하도록 수정</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketOffice</span> &#123; <span class="comment">// 매표소</span></span><br><span class="line">    <span class="keyword">private</span> Long amount; <span class="comment">// 티켓의 판매 금액이 보관</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Ticket&gt; tickets = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(); <span class="comment">// 교환해 줄 티켓 목록</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// private 접근 제한자로 변경</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">minusAmount</span><span class="params">(Long amount)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.amount -= amount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">plusAmount</span><span class="params">(Long amount)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.amount += amount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Ticket <span class="title function_">getTicket</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tickets.remove(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sellTicketTo</span><span class="params">(Audience audience)</span>&#123;</span><br><span class="line">        plusAmount(audience.buy(getTicket()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketSeller</span> &#123; <span class="comment">// 판매원</span></span><br><span class="line">    <span class="comment">// 매표소에서 초대장을 티켓으로 교환해주거나 티켓을 판매</span></span><br><span class="line">    <span class="keyword">private</span> TicketOffice ticketOffice;</span><br><span class="line">		<span class="comment">// ticketOffice가 자율적임</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sellTo</span><span class="params">(Audience audience)</span>&#123;</span><br><span class="line">       ticketOffice.sellTicketTo(audience);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="7.png" alt=""></p>
+<ul>
+<li>TicketSeller 가 TicketOffice 의 구현이 아닌 인터페이스에만 의존하게됨</li>
+<li>다만 TicketOffice와 Audience 사이의 의존성이 추가됨</li>
+<li>TicketOffice의 자율성 높아짐 -&gt; 의존성의 추가 -&gt; 높은 결합도 -&gt; 변경하기 어려운 설계</li>
+<li>어떤 방법이 더 좋은 방법일까?</li>
+</ul>
+<blockquote>
+<p>첫째, 어떤 기능을 설계하는 방법은 한가지 이상일 수 있다. 둘째, 동일한 기능을 한 가지 이상의 방법으로 설계할 수 있기 때문에 결국 설계는 트레이드오프의 산물이다.</p>
+</blockquote>
+<h4 id="그래-거짓말이다"><a href="#그래-거짓말이다" class="headerlink" title="그래 거짓말이다!"></a>그래 거짓말이다!</h4><ul>
+<li>의인화<ul>
+<li>능동적이고 자율적인 존재로 소프트웨어 객체를 설계하는 원칙 </li>
+<li>현실에서는 생명이 없는 수동적인 존재일 지라도, 객체지향의 세계로 넘어오는 순간 지능과 의지를 가진 존재로 태어남</li>
+</ul>
+</li>
+</ul>
+<h3 id="04-객체지향-설계"><a href="#04-객체지향-설계" class="headerlink" title="04 객체지향 설계"></a>04 객체지향 설계</h3><h4 id="설계가-왜-필요한가"><a href="#설계가-왜-필요한가" class="headerlink" title="설계가 왜 필요한가"></a>설계가 왜 필요한가</h4><blockquote>
+<p>설계란 코드를 배치하는 것이다.</p>
+</blockquote>
+<ul>
+<li>설계는 코드를 작성하는 매 순간 코드를 어떻게 배치할 것인지를 결정하는 과정에서 나옴.</li>
+<li>좋은 설계란 두가지 요구사항을 만족해야 함<ul>
+<li>오늘완성해야 하는 기능을 구현하는 코드를 짬과 동시에 내일 쉽게 변경할 수 있는 코드를 짜야 함</li>
+<li>요구사항은 항상 변경되기 때문에 변경을 수용할 수 있는 설계가 중요</li>
+<li>코드를 변경할 때 버그를 수반하므로 변경에 유연하게 대응할 수 있는 설계가 중요</li>
+</ul>
+</li>
+</ul>
+<h4 id="객체지향-설계"><a href="#객체지향-설계" class="headerlink" title="객체지향 설계"></a>객체지향 설계</h4><ul>
+<li>변경에 유연하게 대응할 수 있는 코드 -&gt; 이해하기 쉬운 코드 </li>
+<li>훌륭한 객체지향 설계란 협력하는 객체 사이의 의존성을 적절하게 관리하는 설계</li>
+<li>데이터와 프로세스를 하나의 덩어리로 모으는 것은 훌륭한 객체지향 설계로 가는 첫걸음</li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/01/19/SpringBatchTest만들기/" data-toggle="tooltip" data-placement="top" title="SpringBatch Testcase 예제 살펴보기">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/11/28/CleanArchitecture Item 34/" data-toggle="tooltip" data-placement="top" title="빠져 있는 장">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#OBJECTS" title="OBJECTS">OBJECTS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2020/01/14/OBJECTS%20Item%2001/";
+    var disqus_url = "https://songii00.github.io/2020/01/14/OBJECTS%20Item%2001/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
