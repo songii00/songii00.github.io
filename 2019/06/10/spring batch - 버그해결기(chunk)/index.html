@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="Rw8iTPmlG2WXcRwX4Lonlx4h9PXpMWxYuRx1ktlvWTY" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          spring batch - 버그해결기(chunk) - Songi | Song&#39;s Tech Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://songii00.github.io/2019/06/10/spring batch - 버그해결기(chunk)/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3299276415784548"
+         crossorigin="anonymous"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Song&#39;s Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#spring batch" title="spring batch">spring batch</a>
+                        
+                          <a class="tag" href="/tags/#bug" title="bug">bug</a>
+                        
+                    </div>
+                    <h1>spring batch - 버그해결기(chunk)</h1>
+                    <h2 class="subheading">chunk 무한지옥 해결법</h2>
+                    <span class="meta">
+                        Posted by Songi on
+                        2019-06-10
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="문제상황"><a href="#문제상황" class="headerlink" title="문제상황"></a>문제상황</h3><p>Spring Batch를 이용해 대량의 데이터 전송 로직을 구성중 대량의 데이터를 페이징 처리 후 chunk를 반복하며 전송해야 하는 상황이 생겼다.   </p>
+<p>이때 구성 흐름은 reader에서 데이터를 읽고 writer에서 FeignClient를 이용해 전송한후, StepExecutionListener를 통해 로깅 처리를 한다. 그 후 다시 reader를 통해 다시 다음 인덱스의 데이터를 읽고, writer로 전송한다. 읽어올 데이터가 없을 때까지 해당 chunk를 반복한 후 데이터가 없을때 다음 스텝을 진행한다. </p>
+<p>문제는 reader-&gt;writer를 반복 후 더 이상 읽어올 데이터가 없으면 listener가 실행될 거라고 생각했지만, 현실은 chunk의 무한반복 문제가 발생했다는 것이다. 코드를 보면서 살펴보자.</p>
+<h4 id="코드예시"><a href="#코드예시" class="headerlink" title="코드예시"></a>코드예시</h4><p>Reader<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> KopisRequest <span class="title function_">read</span><span class="params">()</span> &#123;</span><br><span class="line">log.info(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Item Read&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 응답 객체 생체</span></span><br><span class="line"><span class="type">ResponsePram</span> <span class="variable">responseParam</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ResponsePram</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 페이징 처리 데이터</span></span><br><span class="line"><span class="comment">// startSearchIndex 부터 1000개의 데이터를 읽어</span></span><br><span class="line">List&lt;ResponseDetail&gt; responseDetailList = DetailService.getDetailList(</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">ResponseDetail</span>.Search(startSearchIndex, <span class="number">1000</span>));</span><br><span class="line">        </span><br><span class="line">increaseSearchIndex(responseDetailList.size()); <span class="comment">// startSearchIndex를 읽어온 데이터 수만큼 증가</span></span><br><span class="line">responseParam.setItems(responseDetailList); <span class="comment">// 반환 객체에 저장</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> responseParam; <span class="comment">// 객체 반환</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Reader는 ItemReader와 ItemStream을 구현했다. </p>
+<p>read 메서드가 실행되면 페이징 처리된 데이터인 ResponseDetail 객체 정보를 startSearchIndex(시작 인덱스)부터 1000개 읽어온다.<br>예를 들어 startSearchIndex가 1이라면 1부터 1000개의 데이터를 읽어오는 쿼리를 실행한다. 그후, startSearchIndex 를 1000개 증가시켜 1001로 설정한다. 마지막으로 responseParam 에 읽어온 ResponseDetailList를 저장 후 반환한다. </p>
+<p>writer는 예제 코드는 없지만 간단히 reader에서 읽어온 데이터를 전송하는 역할만 수행한다고 하자. </p>
+<p>위 step이 실행된다면 어떻게 될까. 결과적으로만 말하면 read-&gt;write-&gt;read-&gt;write의 무한 반복이다. 위의 코드가 실행되는 순간 이미 chunk 무한지옥의 늪에 빠졌다고 할수있다. </p>
+<p>도대체 왜 chunk는 끝나질 않는걸까?</p>
+<h3 id="이유"><a href="#이유" class="headerlink" title="이유"></a>이유</h3><p>답은 ChunkOrientedTasklet에 있다. ChunkOrientedTasklet는 chunk단위로 작업하기 위한 전체 코드가 위치한 곳이다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ChunkOrientedTasklet</span>&lt;I&gt; <span class="keyword">implements</span> <span class="title class_">Tasklet</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">INPUTS_KEY</span> <span class="operator">=</span> <span class="string">&quot;INPUTS&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChunkProcessor&lt;I&gt; chunkProcessor;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChunkProvider&lt;I&gt; chunkProvider;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="variable">buffering</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Log</span> <span class="variable">logger</span> <span class="operator">=</span> LogFactory.getLog(ChunkOrientedTasklet.class);</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> RepeatStatus <span class="title function_">execute</span><span class="params">(StepContribution contribution, ChunkContext chunkContext)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        Chunk&lt;I&gt; inputs = (Chunk)chunkContext.getAttribute(<span class="string">&quot;INPUTS&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (inputs == <span class="literal">null</span>) &#123;</span><br><span class="line">            inputs = <span class="built_in">this</span>.chunkProvider.provide(contribution);</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.buffering) &#123;</span><br><span class="line">                chunkContext.setAttribute(<span class="string">&quot;INPUTS&quot;</span>, inputs);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.chunkProcessor.process(contribution, inputs);</span><br><span class="line">        <span class="built_in">this</span>.chunkProvider.postProcess(contribution, inputs);</span><br><span class="line">        <span class="keyword">if</span> (inputs.isBusy()) &#123;</span><br><span class="line">            logger.debug(<span class="string">&quot;Inputs still busy&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> RepeatStatus.CONTINUABLE;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            chunkContext.removeAttribute(<span class="string">&quot;INPUTS&quot;</span>);</span><br><span class="line">            chunkContext.setComplete();</span><br><span class="line">            <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">                logger.debug(<span class="string">&quot;Inputs not busy, ended: &quot;</span> + inputs.isEnd());</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">return</span> RepeatStatus.continueIf(!inputs.isEnd());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>여기서 chunkProvider.provide()로 Reader에서 Chunk size만큼 데이터를 가져온다. 그 후, chunkProcessor.process() 에서 Reader에서 받은 데이터 Processor, Writer를 거치게 된다. </p>
+<p>아래의 코드는 read를 담당하는 provide 메서드이다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Chunk&lt;I&gt; <span class="title function_">provide</span><span class="params">(<span class="keyword">final</span> StepContribution contribution)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">final</span> Chunk&lt;I&gt; inputs = <span class="keyword">new</span> <span class="title class_">Chunk</span>();</span><br><span class="line">        <span class="built_in">this</span>.repeatOperations.iterate(<span class="keyword">new</span> <span class="title class_">RepeatCallback</span>() &#123;</span><br><span class="line">            <span class="keyword">public</span> RepeatStatus <span class="title function_">doInIteration</span><span class="params">(RepeatContext context)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                <span class="type">Object</span> <span class="variable">item</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    item = SimpleChunkProvider.<span class="built_in">this</span>.read(contribution, inputs);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (SkipOverflowException var4) &#123;</span><br><span class="line">                    <span class="keyword">return</span> RepeatStatus.FINISHED;</span><br><span class="line">                &#125;</span><br><span class="line">    </span><br><span class="line">                <span class="keyword">if</span> (item == <span class="literal">null</span>) &#123;</span><br><span class="line">                    inputs.setEnd();</span><br><span class="line">                    <span class="keyword">return</span> RepeatStatus.FINISHED;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    inputs.add(item);</span><br><span class="line">                    contribution.incrementReadCount();</span><br><span class="line">                    <span class="keyword">return</span> RepeatStatus.CONTINUABLE;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> inputs;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>위 코드는 inputs이 ChunkSize만큼 쌓일때까지 read()를 호출한다. 이 read() 는 내부를 보면 실제로는 ItemReader.read를 호출하게 된다. </p>
+<p>여기서 중요한 부분은 read를 통해 읽어온 데이터가 null이 되지 않으면 RepeatStatus.CONTINUABLE 을 리턴한다는 것이다. RepeatStatus.CONTINUABLE 를 반환하면 해당 chunk는 다시 반복되게 되는데 이때문에 위 예제의 Reader 에서는 chunk가 끝나지 않는 것이다.</p>
+<h4 id="개선코드-예시"><a href="#개선코드-예시" class="headerlink" title="개선코드 예시"></a>개선코드 예시</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> KopisRequest <span class="title function_">read</span><span class="params">()</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Item Read&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 응답객체 생성 </span></span><br><span class="line">    <span class="type">ResponsePram</span> <span class="variable">responseParam</span> <span class="operator">=</span><span class="keyword">new</span> <span class="title class_">ResponsePram</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 페이징 처리 데이터</span></span><br><span class="line">    <span class="comment">// startSearchIndex 부터 1000개의 데이터를 읽어온다.</span></span><br><span class="line">    List&lt;ResponseDetail&gt; responseDetailList = DetailService.getDetailList(</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">ResponseDetail</span>.Search(startSearchIndex, <span class="number">1000</span>));</span><br><span class="line">     </span><br><span class="line">    <span class="comment">// 만약 읽어온 리스트가 비어있다면 null을 반</span></span><br><span class="line">    <span class="keyword">if</span> (CollectionUtils.isEmpty(responseDetailList)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    increaseSearchIndex(responseDetailList.size()); <span class="comment">// startSearchIndex를 1000만큼 증가시킨다.</span></span><br><span class="line">    responseParam.setItems(responseDetailList); <span class="comment">// 반환 객체에 저장</span></span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> responseParam; <span class="comment">// 객체 반환</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>만약 조회한 리스트가 없다면 null을 반환하는 로직을 추가하는 것만으로 무한반복 지옥에서 탈출할 수 있다.</p>
+<p>Tasklet이 아니라 chunk를 사용해야 할때, ItemReader를 구현해서 사용해야 할때, 위 상황을 명심하자. 또한 혹시 더좋은  방법이 있다면 블로그의 댓글기능이 아직 구현되있지 않으므로 Contact의 메세지를 부탁드리며 이상으로 버그 해결기는 마치도록 하겠다.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/08/10/세미조인/" data-toggle="tooltip" data-placement="top" title="세미조인">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/05/05/Rest Template/" data-toggle="tooltip" data-placement="top" title="RestTemplate">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#spring batch" title="spring batch">spring batch</a>
+                        
+                          <a class="tag" href="/tags/#bug" title="bug">bug</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jeans-blog";
+    var disqus_identifier = "https://songii00.github.io/2019/06/10/spring%20batch%20-%20%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0(chunk)/";
+    var disqus_url = "https://songii00.github.io/2019/06/10/spring%20batch%20-%20%EB%B2%84%EA%B7%B8%ED%95%B4%EA%B2%B0%EA%B8%B0(chunk)/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songii00">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Song&#39;s Tech Blog 2022 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="/">Songi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://songii00.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145886411-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://songii00.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

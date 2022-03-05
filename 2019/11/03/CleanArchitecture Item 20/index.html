@@ -13,11 +13,11 @@
 
     <title>
         
-          경계 해부학 - Songi | Song&#39;s Tech Blog
+          업무 규칙 - Songi | Song&#39;s Tech Blog
         
     </title>
 
-    <link rel="canonical" href="https://songii00.github.io/2019/11/03/CleanArchitecture Item 18/">
+    <link rel="canonical" href="https://songii00.github.io/2019/11/03/CleanArchitecture Item 20/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -168,8 +168,8 @@
                           <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
-                    <h1>경계 해부학</h1>
-                    <h2 class="subheading">Clean Architecture - Item 18</h2>
+                    <h1>업무 규칙</h1>
+                    <h2 class="subheading">Clean Architecture - Item 20</h2>
                     <span class="meta">
                         Posted by Songi on
                         2019-11-03
@@ -191,125 +191,50 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>시스템 아키텍처는 일련의 소프트웨어 컴포넌트와 그 컴포넌트들을 분리하는 경계에 의해 정의된다. 가장 흔한 경계의 예들을 살펴보자.</p>
-<p><img src="9.jpeg" alt="factory method pattern"></p>
-<span id="more"></span>
-<h3 id="런타임에-경계-횡단하기"><a href="#런타임에-경계-횡단하기" class="headerlink" title="런타임에 경계 횡단하기"></a>런타임에 경계 횡단하기</h3><p>: 경계 한쪽에 있는 기능에서 반대편 기능을 호출하여 데이터를 전달하는 일</p>
-<p>적절한 위치에서 경계를 횡단하게 하는 비결은 <strong>소스코드 의존성 관리</strong>에 있다.</p>
+                <h3 id="업무규칙"><a href="#업무규칙" class="headerlink" title="업무규칙"></a>업무규칙</h3><p>: 사업적으로 수익을 얻거나 비용을 줄일 수 있는 규칙, 또는 절차</p>
+<p>즉 컴퓨터상으로 구현했는지와 상관없이 사업적으로 수익을 얻거나, 비용을 줄일 수 있어야 한다. 심지어 사람이 수동으로 직접 수행하더라도 마찬가지다.</p>
+<h4 id="핵심-업무-규칙"><a href="#핵심-업무-규칙" class="headerlink" title="핵심 업무 규칙"></a>핵심 업무 규칙</h4><p>: 사업 자체에 핵심적이며 규칙을 자동화하는 시스템이 없더라도 그대로 존재</p>
+<p>ex) 대출에 N% 이자를 부과한다는 사실은 은행이 돈을 버는 업무 규칙. 컴퓨터로 계산 혹은 사람이 직접 계산하던지 하등의 관계가 없다.</p>
+<h4 id="핵심-업무-데이터"><a href="#핵심-업무-데이터" class="headerlink" title="핵심 업무 데이터"></a>핵심 업무 데이터</h4><p>: 핵심 업무 규칙이 요구하는 데이터. </p>
+<p>시스템이 자동화되지 않은 경우에도 존재한다.</p>
+<p>ex) 대출에 필요한 대출잔액, 이자율, 지급 일정 같은 데이터.</p>
+<h4 id="엔티티"><a href="#엔티티" class="headerlink" title="엔티티"></a>엔티티</h4><p>핵심 규칙 + 핵심 데이터 = 객체 (엔티티)</p>
+<h3 id="엔티티-1"><a href="#엔티티-1" class="headerlink" title="엔티티"></a>엔티티</h3><p>시스템 내부 객체로써 핵심 업무 데이터를 기반으로 동작하는 일련의 핵심 업무 규칙을 구체화한다. 핵심 업무 데이터를 직접 포함하거나, 쉽게 접근 할 수 있다. 또한 인터페이스는 핵심 업무 데이터를 기반으로 동작하는 핵심 업무 규칙을 구현한 함수들로 구성된다. </p>
+<p><img src="16.png" alt="factory method pattern"></p>
+<p>대출을 뜻하는 Loan 엔티티의 UML 클래스로 세가지의 핵심 업무 데이터를 포함하며, 세가지 핵심 업무 규칙을 인터페이스로 제공한다. </p>
+<p>엔티티를 생성 할 때 업무에서 핵심적인 기능을 구현하는 소프트웨어는 모으고, 구축 중인 나머지 모든 고려사항과 분리시킨다. 이 클래스는 업무의 대표잘오서 독립적으로 존재하며, 데이터베이스, 사용자 인터페이스, 프레임워크 등의 고려사항에 인해 오염되서는 안된다. </p>
 <blockquote>
-<p>소스코드 모듈 하나 변경 -&gt; 이를 의존하는 다른 소스 코드 모듈 변경  -&gt; 재컴파일 -&gt; 재배포 </p>
+<p>핵심 업무 데이터와 핵심 업무 규칙을 하나로 묶어서 별도의 소프트웨어 모듈로 만들어야 한다.</p>
 </blockquote>
-<p>경계는 이러한 변경이 전파되는 것을 막는 방화벽을 구축하고 관리하는 수단으로써 존재한다. </p>
-<h3 id="두려운-단일체"><a href="#두려운-단일체" class="headerlink" title="두려운 단일체"></a>두려운 단일체</h3><p><img src="8.jpg" alt="factory method pattern"></p>
-<p>아키텍터 경계 중 가장 단순하며 흔한 형태는 <strong>물리적으로 엄격하게 구분되지 않는 형태</strong> 이다.</p>
-<ul>
-<li><p>단일 프로세서에서 같은 주소 공간을 공유</p>
-</li>
-<li><p>나름의 규칙에 따라 분리되 있을 뿐 </p>
+<h3 id="유스케이스"><a href="#유스케이스" class="headerlink" title="유스케이스"></a>유스케이스</h3><p>: 자동화된 시스템이 사용되는 방법</p>
+<p><img src="17.png" alt="factory method pattern"></p>
+<h6 id="유스케이스-다이어그램"><a href="#유스케이스-다이어그램" class="headerlink" title="유스케이스 다이어그램"></a><center>유스케이스 다이어그램</center></h6><ul>
+<li>엔티티 내의 핵심 업무 규칙과는 반대로, 애플리케이션에 특화된 업무 규칙을 설명한다. </li>
+<li>유스케이스는 엔티티 내부의 핵심 업무 규칙을 어떻게, 언제 호출할지를 명시하는 규칙을 담는다. 즉 엔티티를 제어한다.</li>
+<li>또한 유스케이스는 사용자 인터페이스를 기술하지 않는다. 유스케이스만 보고서는 웹을 통해 전달되는지, 콘솔 기반인지 아니면 순수한 서비스인지 알 수 없다. </li>
+<li>즉 유스케이스는 시스템이 사용자에게 어떻게 보이는지를 설명하지 않는다. 오직 애플리케이션에 특화된 규칙만을 설명하며 사용자와 엔티티 사이의 상호작용을 규정한다. </li>
+<li>유스케이스는 객체다. 업무규칙을 구현하는 하나 이상의 함수를 제공하며 데이터 요소를 포함한다. </li>
+<li>엔티티는 자신을 제어하는 유스케이스에 대해 아무것도 알지 못한다. </li>
+</ul>
 <blockquote>
-<p>소스 수준 분리 모드</p>
+<p>엔티티 - 고수준 개념, 다양한 애플리케이션에 사용될 수 있도록 일반화. </p>
 </blockquote>
-</li>
-</ul>
-<p>배포의 관점에서 단일체는 <em>단일 실행 파일</em>이다.  </p>
-<p>ex ) 실행 가능한 jar 파일로 묶인 일련의 자바 클래스 파일 </p>
-<p>이처럼 배포의 관점에서 볼때 단일체의 경계는 드러나지 않지만 그 안에 포함된 다양한 컴포넌트를 개발하고, 바이너리로 만드는 과정을 독립적으로 수행할 수 있게 하는일은 대단히 가치있는 일이다. </p>
-<h4 id="동적-다형성-vs-정적-다형성"><a href="#동적-다형성-vs-정적-다형성" class="headerlink" title="동적 다형성 vs 정적 다형성"></a>동적 다형성 vs 정적 다형성</h4><p><strong>동적인 다형성</strong></p>
-<ul>
-<li><p>클래스의 상속을 통해서 하나의 타입에 서로 다른 타입을 넣어 서로 다른 타입처럼 인식되는 것을 뜻함</p>
-</li>
-<li><p>런타임에 인식</p>
-</li>
-</ul>
-<p><strong>정적인 다형성</strong></p>
-<p><img src="10.png" alt="factory method pattern"></p>
-<ul>
-<li><p>정적인 다형성은 타입의 이름은 같지만 옵션( &lt; &gt; 같은것)을 주어 같은 이름이지만 옵션에 따라 다른 타입으로 인식되는 것을 뜻한다. ex) 제네릭, 템플릿</p>
-</li>
-<li><p>컴파일 타임에 이루어짐</p>
-</li>
-</ul>
-<h6 id="템플릿-더-알아보기"><a href="#템플릿-더-알아보기" class="headerlink" title="템플릿 더 알아보기"></a>템플릿 더 알아보기</h6><blockquote>
-<p><a target="_blank" rel="noopener" href="https://thrillfighter.tistory.com/408">https://thrillfighter.tistory.com/408</a></p>
+<blockquote>
+<p>유스케이스 - 저수준 개념 , 단일 애플리케이션에 특화, 시스템의 입력과 출력에 보다 가깝게 위치</p>
 </blockquote>
-<h4 id="경계-횡단"><a href="#경계-횡단" class="headerlink" title="경계 횡단"></a>경계 횡단</h4><p>가장 단순한 형태의 경계 횡단은 저수준 클라이언트에서 고수준 서비스로 향하는 함수 호출이다. </p>
-<p><img src="1.png" alt="factory method pattern"></p>
-<p>제어의 흐름은 왼쪽에서 오른쪽으로 경계를 횡단한다.  </p>
-<p>고수준 클라이언트가 저수준 서비스를 호출해야 한다면 동적 다형성을 사용하여 제어흐름과는 반대 방향으로 의존성을 역전시킬 수 있다. 이렇게 되면 런타임 의존성은 컴파일 타임 의존성과는 반대가 된다. </p>
-<p><img src="2.png" alt="factory method pattern"></p>
-<p>제어흐름은 왼쪽 -&gt; 오른쪽으로 경계를 횡단한다. 고수준 Client는 Service 인터페이스를 통해 저수준 ServiceImpl의 f() 함수를 호출한다. 주목해야 할 점은 경계를 횡단할 때 의존성은 모두 오-&gt;왼쪽으로 고수준 컴포넌트를 향한다는 점이다. </p>
-<h4 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h4><p>정적 링크된 모노리틱 구조의 실행파일일 지라도 이처럼 분리하면 프로젝트를 진행하는데 많은도움이 된다. 팀들은 독립적으로 컴포넌트를 작업하고 고수준 컴포넌트는 저수준 세부사항으로부터 독립적으로 유지된다.</p>
-<p>단일체에서 컴포넌트 간 통신은 함수 호출에 이므로 매우 빠르고 값싸다. 때문에 소스 수준에서 결합이 분리되면 경계를 가로지르는 통신은 상당히 빈번할 수 있다. </p>
-<h3 id="배포형-컴포넌트"><a href="#배포형-컴포넌트" class="headerlink" title="배포형 컴포넌트"></a>배포형 컴포넌트</h3><p><img src="11.jpg" alt="factory method pattern"></p>
-<p>아키텍처의 경계가 물리적으로 드러나는 가장 단순한 형태는 <strong>동적 링크 라이브러리</strong> 이다. </p>
-<p>ex) .NET, DLL, 자바 jar 등</p>
-<p>컴포넌트를 이 형태로 배포하면 따로 컴파일 하지 않고 곧바로 사용할 수 있다. 이는 <strong>배포 수준 결합 분리 모드</strong>에 해당한다. </p>
-<p>이는 배포 과정만 차이가 날 뿐, 배포 수준의 컴포넌트는 단일체와 동일하다. 일반적으로 모든 함수가 동일한 프로세서와 주소 공간에 위치하며 컴포넌트를 분리하거나 의존성을 관리하는 전략도 단일체와 동일하다.</p>
-<p>단일체와 마찬가지로 컴포넌트의 경계를 가로지르는 통신은 함수호출이므로 매우 값싸다. 동적 링크와 런타임 로딩으로 인해 최초 함수 호출은 오래 걸릴 수 있지만, 대체로 이들 경계를 가로지르는 통신은 매우 빈번할 것이다.</p>
-<h4 id="동적-링크-vs-정적-링크"><a href="#동적-링크-vs-정적-링크" class="headerlink" title="동적 링크 vs 정적 링크"></a>동적 링크 vs 정적 링크</h4><p><strong>정적 링크</strong></p>
-<p><img src="3.png" alt="factory method pattern"></p>
+<h3 id="요청-및-응답-모델"><a href="#요청-및-응답-모델" class="headerlink" title="요청 및 응답 모델"></a>요청 및 응답 모델</h3><p>유스케이스는 입력 데이터를 받아 출력 데이터를 생성한다. 제대로 된 유스케이스 객체라면 데이터를 사용자나 다른 컴포넌트와 주고받는 방식에 대해 전혀 눈치챌 수 없어야 한다.</p>
+<p>유스케이스는 단순한 요청 데이터 구조를 입력으로 받고, 단순 응답 데이터 구조를 출력으로 반환한다. 이들 데이터 구조는 어떤 것에도 의존하지 않는다.</p>
+<p>요청 응답 모델이 독립적이여야 하며, 엔티티 객체를 가리키는 참조를 요청 및 응답 데이터 구조에 포함해서는 안된다. </p>
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><p>업무 규칙은, </p>
 <ul>
-<li><p>컴파일 시 라이브러리가 참조되어 실행 파일과 함께 만들어짐</p>
-</li>
-<li><p>실행파일 만들 때 라이브러리를 같이 포함시켜서 .exe파일을 만드는 것</p>
-</li>
-<li><p>컴파일을 하면 링커가 프로그램이 필요로 하는 부분을 라이브러리에서 찾아 실행파일에다가 바로 복사</p>
-</li>
-<li><p>실행 파일에 복사됨으로 라이브러리가 필요 없음 -&gt; 메모리 많이 소모</p>
-<p>ex) A 프로그램 안에 cout 클래스 라이브러리가 정적링크 되있다면 60명이 A프로그램 동작 시 메모리에 cout 정보 코드만 60개 존재</p>
-</li>
+<li>소프트 웨어 시스템이 존재하는 이유</li>
+<li>핵심적인 기능</li>
+<li>수익을 내고 비용을 줄이는 코드를 수반</li>
+<li>집안의 가보</li>
+<li>사용자 인터페이스나 데이터베이스와 같은 저수준의 관심사로 인해 오염되서는 안된다.</li>
+<li>시스템의 심장부에 위치 </li>
+<li>시스템에서 가장 독립적이며 가장 많이 재사용할 수 있는 코드여야 한다.</li>
 </ul>
-<p><strong>동적 링크</strong></p>
-<p><img src="4.gif" alt="factory method pattern"></p>
-<ul>
-<li><p>컴파일 단계에서는 라이브러리 정보만 포함</p>
-</li>
-<li><p>실행될 때 그 정보를 바탕으로 외부에 존재하는 라이브러리(DLL) 함수를 사용</p>
-</li>
-<li><p>한번 메모리에 로딩된 dll을 사용</p>
-<p>ex) cout 이 존재하는 라이브러리를 하나만 메모리에 올린 후,  프로그램이 cout 를 호출할 때 라이브러리로 점프 한 후 실행, 다시 되돌아옴. cout 이 60개 존재하는것이 아닌 하나의 shared libraries로 존재.</p>
-</li>
-</ul>
-<h6 id="정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42"><a href="#정적-동적-링크-더-알아보기-https-jhnyang-tistory-com-42" class="headerlink" title="정적/ 동적 링크 더 알아보기 :  [https://jhnyang.tistory.com/42] "></a>정적/ 동적 링크 더 알아보기 :  [<a target="_blank" rel="noopener" href="https://jhnyang.tistory.com/42]">https://jhnyang.tistory.com/42]</a> <br/></h6><h3 id="스레드"><a href="#스레드" class="headerlink" title="스레드"></a>스레드</h3><p><img src="12.jpg" alt="factory method pattern"></p>
-<p>단일체와 배포형 컴포넌트는 모두 스레드를 활용할 수 있다. 스레드는 아키텍처 경계도 아니며 배포 단위도 아니다. 스레드는 실행 계획과 순서를 체계화하는 방법에 가깝다. 모든 스레드가 단 하나의 컴포넌트에 포함될 수도 있고, 많은 컴포넌트에 분산될 수 있다. </p>
-<h3 id="로컬-프로세스"><a href="#로컬-프로세스" class="headerlink" title="로컬 프로세스"></a>로컬 프로세스</h3><p><strong>강한 물리적 형태를 띠는 아키텍처 경계</strong>로는 로컬 프로세스가 있다. 로컬 프로세스는 주로 명령행이나 시스템 호출을 통해 생성된다. 각각의 독립된 주소 공간에서 실행되며 일반적으로는 메모리 보호를 통해 프로세스들이 메모리를 공유하지 못하게 한다.</p>
-<p>대개의 경우 로컬 프로세스는 소켓이나 메일박스, 메세지큐와 같이 운영체제에서 제공하는 통신기능을 이용해 통신한다.</p>
-<p>각 로컬 프로세스는 정적으로 링크된 단일체이거나 동적으로 링크된 여러개의 컴포넌트로 구성될 수 있다. </p>
-<p>로컬 프로세스를 일종의 최상위 컴포넌트라고 생각하자. 즉 로컬 프로세스는 컴포넌트 간 의존성을 동적 다형성을 통해 관리하는 저수준 컴포넌트로 구성된다.</p>
-<h4 id="분리-전략"><a href="#분리-전략" class="headerlink" title="분리 전략"></a>분리 전략</h4><p>단일체나 바이너리 컴포넌트의 경우와 분리전략은 동일하다. 소스 코드 의존성의 화살표는 항상 고수준 컴포넌트를 향한다. </p>
-<p>따라서 로컬 프로세스에서 고수준 프로세스의 소스 코드가 저수준 프로세스의 이름, 물리주소, 레즈스트리 조회 키를 절대로 포함해서는 안된다. 저수준 프로세스가 고수준 프로세스의 플러그인이 되도록 만드는 것이 아키텍처 관점의 목표이다. </p>
-<h4 id="통신"><a href="#통신" class="headerlink" title="통신"></a>통신</h4><ul>
-<li><p>운영체제 호출, 데이터 마샬링 및 언마샬링, 프로세스 간 문맥 교환 등이 있다. </p>
-</li>
-<li><p>비싼 작업</p>
-</li>
-<li><p>통신이 빈번히 이뤄지지 않도록 신중히 제한 </p>
-</li>
-</ul>
-<h3 id="서비스"><a href="#서비스" class="headerlink" title="서비스"></a>서비스</h3><p><strong>물리적인 형태를 띠는 가장 강력한 경계</strong>는 바로 서비스 이다.</p>
-<ul>
-<li><p>서비스는 프로세스 </p>
-</li>
-<li><p>명령행, 시스템 호출을 통해 구동</p>
-</li>
-<li><p>자신의 물리적 위치에 구애받지 않음</p>
-<p>: 서로 통신하는 두 서비스는 물리적으로 동일 프로세서나 멀티코어에서 동작할 수 있고 아닐수도 있다.</p>
-</li>
-<li><p>모든 통신은 네트워크를 통해 이뤄짐</p>
-</li>
-</ul>
-<h4 id="통신-1"><a href="#통신-1" class="headerlink" title="통신"></a>통신</h4><p>서비스 경계를 지나는 통신은 함수 호출에 비해 매우 느리다. 따라서 빈번히 통신하는 일을 피해야 한다.</p>
-<h4 id="분리-전략-1"><a href="#분리-전략-1" class="headerlink" title="분리 전략"></a>분리 전략</h4><ul>
-<li>로컬 프로세스에 적용한 규칙을 동일 적용</li>
-<li>저수준 서비스는 반드시 고수준 서비스에 플러그인 되어야 함</li>
-<li>고수준 서비스의 소스 코드에는 저수준 서비스를 특정 짓는 어떤 물리적인 정보도 절대 포함해서는 안됨</li>
-</ul>
-<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><blockquote>
-<p>대체로 한 시스템 안에서도 통신이 빈번한 로컬 경계와 지연을 중요하게 고려해야 하는 경계가 혼합되어 있음을 의미 한다.</p>
-</blockquote>
-<h6 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h6><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.ikpil.com/957">https://www.ikpil.com/957</a></p>
-</blockquote>
 
 
                 <hr>
@@ -319,12 +244,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/11/03/CleanArchitecture Item 19/" data-toggle="tooltip" data-placement="top" title="정책과 수준">&larr; Previous Post</a>
+                            <a href="/2019/11/03/CleanArchitecture Item 21/" data-toggle="tooltip" data-placement="top" title="소리치는 아키텍처">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2019/08/29/RabbitMQ(1)/" data-toggle="tooltip" data-placement="top" title="RabbitMQ (1)">Next Post &rarr;</a>
+                            <a href="/2019/11/03/CleanArchitecture Item 19/" data-toggle="tooltip" data-placement="top" title="정책과 수준">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -378,8 +303,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "jeans-blog";
-    var disqus_identifier = "https://songii00.github.io/2019/11/03/CleanArchitecture%20Item%2018/";
-    var disqus_url = "https://songii00.github.io/2019/11/03/CleanArchitecture%20Item%2018/";
+    var disqus_identifier = "https://songii00.github.io/2019/11/03/CleanArchitecture%20Item%2020/";
+    var disqus_url = "https://songii00.github.io/2019/11/03/CleanArchitecture%20Item%2020/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
