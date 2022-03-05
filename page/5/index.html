@@ -17,7 +17,7 @@
         
     </title>
 
-    <link rel="canonical" href="https://songii00.github.io/page/4/">
+    <link rel="canonical" href="https://songii00.github.io/page/5/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -184,298 +184,26 @@
 
 <div class="post-preview">
 
-    <a href="/2019/11/25/CleanArchitecture Item 30/">
+    <a href="/2019/11/03/CleanArchitecture Item 18/">
         <h2 class="post-title">
-            데이터베이스는 세부사항이다
+            경계 해부학
         </h2>
         <h3 class="post-subtitle">
-            Clean Architecture - Item 30
+            Clean Architecture - Item 18
         </h3>
         <div class="post-content-preview">
-            “CleanArchitecture 30장”
-데이터베이스는
-모델 아님
-소프트웨어
-데이터에 접근할 방법을 제공하는 유틸리티
-저수준 세부사항
-아키텍처와 관련 없음
+            시스템 아키텍처는 일련의 소프트웨어 컴포넌트와 그 컴포넌트들을 분리하는 경계에 의해 정의된다. 가장 흔한 경계의 예들을 살펴보자.
 
 
-뛰어난 아키텍처라면 저수준의 메커니즘이 시스템 아키텍처를 오염시키는 일을 용납하지 않는다.
+런타임에 경계 횡단하기: 경계 한쪽에 있는 기능에서 반대편 기능을 호출하여 데이터를 전달하는 일
+적절한 위치에서 경계를 횡단하게 하는 비결은 소스코드 의존성 관리에 있다.
 
-
-관계형 데이터베이스
-
-관계형 데이터베이스는 결국 기술일 뿐이다. 즉 세부사항임을 뜻함
-데이터를 테......
+소스코드 모듈 하나 변경 -&gt; 이를 의존......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-11-25
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/17/CleanArchitecture Item 32/">
-        <h2 class="post-title">
-            프레임워크는 세부사항이다
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 32
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 32장”
-아무리 해도 프레임워크는 아키텍처가 될 수 없다.
-
-프레임워크 제작자
-프레임워크 제작자는 당신을 알지 못하며 당신이 풀어야 할 문제도 알지 못한다. 
-모든 프레임워크 사용자의 문제를 해결하기 위해서 프레임워크를 만들지 않는다.
-
-혼인 관계의 비대칭성
-당신은 프레임워크를 위해 대단히 큰 헌신을 해야 하지만, 프......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-17
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/17/CleanArchitecture Item 31/">
-        <h2 class="post-title">
-            웹은 세부사항이다
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 31
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 31장”
-끝없이 반복하는 추
-
-천공카드 -&gt; 그린스크린 단말기가 연결되는 메인프레임 -&gt; 중앙집중식 미니컴퓨터 -&gt; 클라이언트-서버 아키텍처
-연산 능력을 중앙에 집중하는 방식과 분산하는 방식 사이에서 끊임없이 움직임
-웹은 수많은 진동 중 하나에 불과
-앞으로도 진동은 지속됨
-
-클라이언트-서버 아키텍처 더......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-17
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/17/CleanArchitecture Item 28/">
-        <h2 class="post-title">
-            테스트 경계
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 28
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 28장”
-시스템 컴포넌트인 테스트
-테스트는 아키텍처 적으로 모두 동등
-테스트는 세부적이며 구체적인 것으로, 의존성은 항상 테스트 대상이 되는 코드를 향함
-아키텍처에서 가장 바깥쪽 원
-시스템 내부의 어떤 것도 테스트를 의존하지 않음
-시스템의 컴포넌트를 향해 항상 원의 안쪽으로 의존 
-독립적으로 배포 가능 
-시스템 컴포넌......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-17
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/17/CleanArchitecture Item 26/">
-        <h2 class="post-title">
-            메인 컴포넌트
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 26
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 26장”
-메인 컴포넌트
-모든 시스템에서 최소한 하나의 컴포넌트가 존재하고, 이 컴포넌트가 나머지 컴포넌트를 생성하고, 조정하며, 관리한다
-
-
-
-궁극적인 세부사항메인
-시스템의 초기 진입점
-운영체제를 제외하면 어떤것도 메인에 의존하지 않음
-모든 팩토리와 전략, 시스템 전반을 담당하는 나머지 기반 설비를 생성
-궁극적인 세부......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-17
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/17/CleanArchitecture Item 27/">
-        <h2 class="post-title">
-            크고 작은 모든 서비스들
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 27
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 27장”
-서비스 지향 ‘아키텍처’ , 마이크로서비스 ‘아키텍처’
-
-SOA, MSA 더 알아보기 : https://dzone.com/articles/microservices-vs-soa-whats-the-difference SOA, MSA 더 알아보기 2 : http://blog.naver.com/PostView.nhn......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-17
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/10/CleanArchitecture Item 25/">
-        <h2 class="post-title">
-            계층과 경계
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 25
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 25장”
-옴퍼스 사냥 게임움퍼스 사냥 게임
-https://www.youtube.com/watch?reload=9&amp;v=xGVOw8gXl6Y
-
-
-
-UI 컴포넌트가 어떤 언어를 사용하더라도 게임 규칙을 재사용 할 수 있음
-게임 규칙이 데이터 저장소에 대해 알지 못함
-의존성이 적절할 방향을 가리키게 만들어야 함
-
-
-클......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-10
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/10/CleanArchitecture Item 24/">
-        <h2 class="post-title">
-            부분적 경계
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 24
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 24장”
-쌍방향 다형적 인터페이스
-
-InputBoundary와 OutputBoundary 같은 쌍방향 인터페이스가 필요
-Input , Output 을 위한 데이터 구조 
-독립적으로 컴파일 하고 배포 할 수 있는 컴포넌트를 위한 의존성 관리 
-
-YAGNI
-You Aren’t Going to Need it 
-필요한 작업만......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-10
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/09/CleanArchitecture Item 22/">
-        <h2 class="post-title">
-            클린 아키텍처
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 22
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 22장”
-시스템 아키텍처 아이디어
-
-
-육각형 아키텍처(Hexagonal Architecture) 
-– 포트와 어댑터
-– 앨리스터 코오번이 개발
-– 시스템을 응용 프로그램 코어, 데이터베이스, 사용자 인터페이스, 테스트 스크립트 및 다른 시스템과의 인터페이스와 같이 느슨하게 결합 된 여러 교환 가능한 구성 요소로 나눔
-......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-09
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/11/09/CleanArchitecture Item 23/">
-        <h2 class="post-title">
-            프레젠터와 험블 객체
-        </h2>
-        <h3 class="post-subtitle">
-            Clean Architecture - Item 23
-        </h3>
-        <div class="post-content-preview">
-            “CleanArchitecture 23장”
-험블 객체 패턴
-디자인 패턴
-( 테스트 하기 어려운 행위 \ 테스트 하기 쉬운 행위 ) 를 단위 테스트 작성자가 분리하기 쉽게 하는 방법
-행위를 두개의 모듈 또는 클래스로 나눔 -&gt; 그 중 하나가 험블
-테스트 하기 어려운 행위를 험블 객체로 옮기고, 나머지 모듈에는 테스트 하기 쉬운 행위를 옮김
-
-
-
-프......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Songi on
-        2019-11-09
+        2019-11-03
     </p>
 
 </div>
@@ -488,13 +216,9 @@ You Aren’t Going to Need it
 <ul class="pager">
     
         <li class="previous">
-            <a href="/page/3/">&larr; Newer Posts</a>
+            <a href="/page/4/">&larr; Newer Posts</a>
         </li>
     
-    
-        <li class="next">
-            <a href="/page/5/">Older Posts &rarr;</a>
-        </li>
     
 </ul>
 
