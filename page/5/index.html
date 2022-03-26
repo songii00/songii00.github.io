@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="Rw8iTPmlG2WXcRwX4Lonlx4h9PXpMWxYuRx1ktlvWTY" />
+    <meta name="google-site-verification" content="NaHJILkZmHj924jbnj-nwzMpRKus1Y-9nkjZ_eH3bhY" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="keyword"  content="">
@@ -286,22 +286,22 @@ ex) 대출에 N% 이자를 부과한다는 사......
 
 <div class="post-preview">
 
-    <a href="/2019/08/29/RabbitMQ(1)/">
+    <a href="/2019/10/29/CleanArchitecture Item 17/">
         <h2 class="post-title">
-            RabbitMQ (1)
+            경계 : 선긋기
         </h2>
         <h3 class="post-subtitle">
-            RabbitMQ 란
+            Clean Architecture - Item 17
         </h3>
         <div class="post-content-preview">
-            1. RabbitMQ 란
-MON(메시지 지향 미들웨어)메시지 지향 미들웨어(Meesage Oriented Middleware: MOM)은 비동기 메시지를 사용하는 다른 응용 프로그램 사이에서 데이터 송수신을 의미한다.
-MQMOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.프로그래밍에서 MQ는 프로세스 또는 프로그램 인스턴스가 데이......
+            소프트웨어 아키텍처는 선을 긋는 기술이다. 이러한 선을 “경계” 라고 부른다. 경계는 소프트웨어 요소를 서로 분리하고, 서로 알지 못하도록 막는다. 
+아키텍트의 목표는 필요한 시스템을 만들고 유지하는데 드는 인적 자원을 최소화하는 것이다.  이러한 인적 자원의 효율을 떨어뜨리는 요인이 “결합” 이다. 특히 너무 일찍 내려진 결정에 따른 결합이다. 
+이......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-08-29
+        2019-10-29
     </p>
 
 </div>
@@ -309,23 +309,29 @@ MQMOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.프로그�
 
 <div class="post-preview">
 
-    <a href="/2019/08/29/RabbitMQ(2)/">
+    <a href="/2019/10/28/CleanArchitecture Item 16/">
         <h2 class="post-title">
-            RabbitMQ (2)
+            독립성
         </h2>
         <h3 class="post-subtitle">
-            RabbitMQ, 이럴때 사용하자
+            Clean Architecture - Item 16
         </h3>
         <div class="post-content-preview">
-            RabbitMQ, 이럴때 사용하자래거시 배송지연 처리 기능배송지연 처리 기능을 하는 시스템이 있다고 가정해보자.
- 
-배송 처리 과정은 위의 플로우대로 진행된다. 
-판매자가 배송 지연 요청을 했을 경우 실시간이 아닌 배송 지연 안내 배치를 수행하여 배송지연 메시지가 발송되게 된다. 여기서 기존 시스템의 대표적인 문제는 배송 지연 처리에서 복잡한 비지니스......
+            좋은 아키텍처가 지원해야 하는 것들
+시스템의 유스케이스
+시스템의 운영
+시스템의 개발
+시스템의 배포 
+
+유스케이스
+유스케이스 다이어그램 시스템의 아키텍처는 시스템의 의도를 지원해야 한다. 시스템이 장바구니 애플리케이션이라면, 장바구니와 관련된 유스케이스를 지원해야 한다. 
+
+아키텍처에게 유스케이스가 최우선이다.좋은 아키텍처는 행위를 명확히 하고 외부로 ......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-08-29
+        2019-10-28
     </p>
 
 </div>
@@ -333,27 +339,30 @@ MQMOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.프로그�
 
 <div class="post-preview">
 
-    <a href="/2019/08/10/쿼리튜닝팁/">
+    <a href="/2019/10/28/CleanArchitecture Item 15/">
         <h2 class="post-title">
-            쿼리튜닝 팁
+            아키텍처란?
         </h2>
         <h3 class="post-subtitle">
-            자잘한 팁
+            Clean Architecture - Item 15
         </h3>
         <div class="post-content-preview">
-            1. 복합인덱스
-복합 인덱스 사용 시 equal 조건은 좌측으로 &lt;&gt;,between등 range 조건 혹은 order by, group by 조건은 우측으로 배치하자.
+            소프트웨어 아키텍트
+프로그래머 
+코드와 동떨어져서는 안된다. 
+최고의 프로그래머이며 나머지 팀원들의 생산성을 극대화 할 수 있는 설계를 하도록 방향을 이끌어준다
 
-2. ppredicate pushdown
-outer query의 where 조건을 inner query로 밀어넣어 처리량을 줄이자.
+소프트웨어 아키텍처
+시스템을 구축했던 사람들이 만들어낸 시스템의 형태 
 
-3. limit 절
-limit 절은 f......
+컴포넌트로 분할하는 방법, 분할된 컴포넌트를 배치하는 방법, 컴포넌트가 서로 의사소통하는 방식에 따라 정해진다. 
+
+......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-08-10
+        2019-10-28
     </p>
 
 </div>
@@ -361,25 +370,29 @@ limit 절은 f......
 
 <div class="post-preview">
 
-    <a href="/2019/08/10/세미조인/">
+    <a href="/2019/10/20/2019-10-20-CleanArchitecture Item 13/">
         <h2 class="post-title">
-            세미조인
+            컴포넌트 응집도
         </h2>
         <h3 class="post-subtitle">
-            세미 조인으로 쿼리 튜닝하기
+            Clean Architecture - Item 13
         </h3>
         <div class="post-content-preview">
-            세미조인이란세미조인은 서브 쿼리와 메인 쿼리와의 연결처리를 위한 유사 조인 방식이다. 여기서는 1:n 관계에서 1:1처럼 조회될 경우, 쿼리 튜닝을 위한 방법으로 소개하도록 하겠다.
-예제학생 테이블(student) 
-힉과 테이블(department) 
-다음의 두 테이블이 있다고 가정한다. 
-학생이 있는 학과의 리스트를 조회하는 예제를 살펴보자. 
-In......
+            컴포넌트 응집도어느 클래스를 어느 컴포넌트에 포함시켜야 할까? 다음은 컴포넌트 응집도에 관련된 세 가지 원칙이다.
+
+REP : 재사용/릴리스 등가 원칙CCP : 공통 폐쇄 원칙CRP : 공통 재사용 원칙
+
+REP : 재사용/릴리스 등가 원칙
+재사용 단위는 릴리스 단위와 같다.
+
+.png) 
+ semantic versioning 
+우리에게 REP 는 어......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-08-10
+        2019-10-20
     </p>
 
 </div>
@@ -387,21 +400,27 @@ In......
 
 <div class="post-preview">
 
-    <a href="/2019/06/10/spring batch - 버그해결기(chunk)/">
+    <a href="/2019/10/20/2019-10-20-CleanArchitecture Item 14/">
         <h2 class="post-title">
-            spring batch - 버그해결기(chunk)
+            컴포넌트 결합
         </h2>
         <h3 class="post-subtitle">
-            chunk 무한지옥 해결법
+            Clean Architecture - Item 14
         </h3>
         <div class="post-content-preview">
-            문제상황Spring Batch를 이용해 대량의 데이터 전송 로직을 구성중 대량의 데이터를 페이징 처리 후 chunk를 반복하며 전송해야 하는 상황이 생겼다.   
-이때 구성 흐름은 reader에서 데이터를 읽고 writer에서 FeignClient를 이용해 전송한후, StepExecutionListener를 통해 로깅 처리를 한다. 그 후 다시 rea......
+            컴포넌트 결합컴포넌트 결합은 컴포넌트 사이의 관계를 설명 한다.
+
+ADP : 의존성 비순환 원칙
+컴포넌트 의존성 그래프에 순환(cycle)이 있어서는 안된다.
+
+
+숙취 증후군(the morning after syndrome).png) 
+많은 개발자가 동일한 소스파일을 수정하는 환경에서 발생한다. 소스 코드가 의존하고 있던 무엇인가가 수정되는게 주된 이......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-06-10
+        2019-10-20
     </p>
 
 </div>
@@ -409,26 +428,22 @@ In......
 
 <div class="post-preview">
 
-    <a href="/2019/05/05/Rest Template/">
+    <a href="/2019/10/20/2019-10-20-CleanArchitecture Item 12/">
         <h2 class="post-title">
-            RestTemplate
+            컴포넌트
         </h2>
         <h3 class="post-subtitle">
-            RestTemplate 알아보기
+            Clean Architecture - Item 12
         </h3>
         <div class="post-content-preview">
-            RestTemplate이란
-spring 3.0 부터 지원한다. 
-Spring에서 제공하고 있는 JdbcTemplate이나, JmsTemplate과 같은 맥락의 Template
-http 통신에 유용하게 쓸 수 있는 템플릿
-RESTful Service 호출과 관련된 여러 메소드를 제공하여 REST 클라이언트를 쉽게 개발할 수 있도록 도와준다.
-
-동작 순서......
+            컴포넌트컴포넌트는 배포단위다. 즉, 시스템의 구성요소로 배포할 수 있는 가장 작은 단위다.
+ex) 자바의 jar, 루비의 gem, 닷넷의 DLL
+또한 여러 컴포넌트를 서로 묶어서 .war 파일과 같은 단일 아카이브로 만들 수도있다. 또한 컴포넌트를 각각 .jar나 .dll 과 같이 동적으로 로드할 수 있는 플러그인이나, exe 파일로 만들어서 독립적으......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-05-05
+        2019-10-20
     </p>
 
 </div>
@@ -473,7 +488,11 @@ RESTful Service 호출과 관련된 여러 메소드를 제공하여 REST 클라
                     <div class="tags">
                         
                             
-                            <a href="/tags/#CleanArchitecture" title="CleanArchitecture" rel="16">CleanArchitecture</a>
+                            <a href="/tags/#effective java" title="effective java" rel="4">effective java</a>
+                            
+                        
+                            
+                            <a href="/tags/#CleanArchitecture" title="CleanArchitecture" rel="28">CleanArchitecture</a>
                             
                         
                             
