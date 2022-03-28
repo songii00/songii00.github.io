@@ -370,29 +370,22 @@ ex) 대출에 N% 이자를 부과한다는 사......
 
 <div class="post-preview">
 
-    <a href="/2019/10/20/2019-10-20-CleanArchitecture Item 13/">
+    <a href="/2019/08/29/RabbitMQ(1)/">
         <h2 class="post-title">
-            컴포넌트 응집도
+            RabbitMQ (1)
         </h2>
         <h3 class="post-subtitle">
-            Clean Architecture - Item 13
+            RabbitMQ 란
         </h3>
         <div class="post-content-preview">
-            컴포넌트 응집도어느 클래스를 어느 컴포넌트에 포함시켜야 할까? 다음은 컴포넌트 응집도에 관련된 세 가지 원칙이다.
-
-REP : 재사용/릴리스 등가 원칙CCP : 공통 폐쇄 원칙CRP : 공통 재사용 원칙
-
-REP : 재사용/릴리스 등가 원칙
-재사용 단위는 릴리스 단위와 같다.
-
-.png) 
- semantic versioning 
-우리에게 REP 는 어......
+            1. RabbitMQ 란
+MON(메시지 지향 미들웨어)메시지 지향 미들웨어(Meesage Oriented Middleware: MOM)은 비동기 메시지를 사용하는 다른 응용 프로그램 사이에서 데이터 송수신을 의미한다.
+MQMOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.프로그래밍에서 MQ는 프로세스 또는 프로그램 인스턴스가 데이......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-10-20
+        2019-08-29
     </p>
 
 </div>
@@ -400,27 +393,23 @@ REP : 재사용/릴리스 등가 원칙
 
 <div class="post-preview">
 
-    <a href="/2019/10/20/2019-10-20-CleanArchitecture Item 14/">
+    <a href="/2019/08/29/RabbitMQ(2)/">
         <h2 class="post-title">
-            컴포넌트 결합
+            RabbitMQ (2)
         </h2>
         <h3 class="post-subtitle">
-            Clean Architecture - Item 14
+            RabbitMQ, 이럴때 사용하자
         </h3>
         <div class="post-content-preview">
-            컴포넌트 결합컴포넌트 결합은 컴포넌트 사이의 관계를 설명 한다.
-
-ADP : 의존성 비순환 원칙
-컴포넌트 의존성 그래프에 순환(cycle)이 있어서는 안된다.
-
-
-숙취 증후군(the morning after syndrome).png) 
-많은 개발자가 동일한 소스파일을 수정하는 환경에서 발생한다. 소스 코드가 의존하고 있던 무엇인가가 수정되는게 주된 이......
+            RabbitMQ, 이럴때 사용하자래거시 배송지연 처리 기능배송지연 처리 기능을 하는 시스템이 있다고 가정해보자.
+ 
+배송 처리 과정은 위의 플로우대로 진행된다. 
+판매자가 배송 지연 요청을 했을 경우 실시간이 아닌 배송 지연 안내 배치를 수행하여 배송지연 메시지가 발송되게 된다. 여기서 기존 시스템의 대표적인 문제는 배송 지연 처리에서 복잡한 비지니스......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-10-20
+        2019-08-29
     </p>
 
 </div>
@@ -428,22 +417,27 @@ ADP : 의존성 비순환 원칙
 
 <div class="post-preview">
 
-    <a href="/2019/10/20/2019-10-20-CleanArchitecture Item 12/">
+    <a href="/2019/08/10/쿼리튜닝팁/">
         <h2 class="post-title">
-            컴포넌트
+            쿼리튜닝 팁
         </h2>
         <h3 class="post-subtitle">
-            Clean Architecture - Item 12
+            자잘한 팁
         </h3>
         <div class="post-content-preview">
-            컴포넌트컴포넌트는 배포단위다. 즉, 시스템의 구성요소로 배포할 수 있는 가장 작은 단위다.
-ex) 자바의 jar, 루비의 gem, 닷넷의 DLL
-또한 여러 컴포넌트를 서로 묶어서 .war 파일과 같은 단일 아카이브로 만들 수도있다. 또한 컴포넌트를 각각 .jar나 .dll 과 같이 동적으로 로드할 수 있는 플러그인이나, exe 파일로 만들어서 독립적으......
+            1. 복합인덱스
+복합 인덱스 사용 시 equal 조건은 좌측으로 &lt;&gt;,between등 range 조건 혹은 order by, group by 조건은 우측으로 배치하자.
+
+2. ppredicate pushdown
+outer query의 where 조건을 inner query로 밀어넣어 처리량을 줄이자.
+
+3. limit 절
+limit 절은 f......
         </div>
     </a>
     <p class="post-meta">
         Posted by Songi on
-        2019-10-20
+        2019-08-10
     </p>
 
 </div>
@@ -488,11 +482,7 @@ ex) 자바의 jar, 루비의 gem, 닷넷의 DLL
                     <div class="tags">
                         
                             
-                            <a href="/tags/#effective java" title="effective java" rel="4">effective java</a>
-                            
-                        
-                            
-                            <a href="/tags/#CleanArchitecture" title="CleanArchitecture" rel="28">CleanArchitecture</a>
+                            <a href="/tags/#CleanArchitecture" title="CleanArchitecture" rel="19">CleanArchitecture</a>
                             
                         
                             
