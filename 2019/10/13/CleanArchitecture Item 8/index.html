@@ -13,11 +13,11 @@
 
     <title>
         
-          RabbitMQ (1) - Songi | Song&#39;s Tech Blog
+          OCP &amp; LSP &amp;  ISP - Songi | Song&#39;s Tech Blog
         
     </title>
 
-    <link rel="canonical" href="https://songii00.github.io/2019/08/29/RabbitMQ(1)/">
+    <link rel="canonical" href="https://songii00.github.io/2019/10/13/CleanArchitecture Item 8/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#MessageQueue" title="MessageQueue">MessageQueue</a>
+                          <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
-                    <h1>RabbitMQ (1)</h1>
-                    <h2 class="subheading">RabbitMQ 란</h2>
+                    <h1>OCP &amp; LSP &amp;  ISP</h1>
+                    <h2 class="subheading">Clean Architecture - Item 8, 9, 10</h2>
                     <span class="meta">
                         Posted by Songi on
-                        2019-08-29
+                        2019-10-13
                     </span>
                 </div>
             </div>
@@ -206,43 +206,50 @@
 </script>
                 <!-- ad end -->
 
-                <h3 id="1-RabbitMQ-란"><a href="#1-RabbitMQ-란" class="headerlink" title="1. RabbitMQ 란"></a>1. RabbitMQ 란</h3><p><img src="1.png" alt="factory method pattern"></p>
-<h4 id="MON-메시지-지향-미들웨어"><a href="#MON-메시지-지향-미들웨어" class="headerlink" title="MON(메시지 지향 미들웨어)"></a>MON(메시지 지향 미들웨어)</h4><p>메시지 지향 미들웨어(Meesage Oriented Middleware: MOM)은 비동기 메시지를 사용하는 다른 응용 프로그램 사이에서 데이터 송수신을 의미한다.</p>
-<h4 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h4><p>MOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.<br>프로그래밍에서 MQ는 프로세스 또는 프로그램 인스턴스가 데이터를 서로 교환할때 사용하는 방법을 말하는데,<br>이때 데이터를 교환할 때 시스템이 관리하는 메시지 큐를 이용한다.</p>
-<p>서로 다른 프로세스나 프로그램 사이에 메시지를 교환할 때 AMQP(Advanced Message Queuing Protocol)을 이용하게 된다.</p>
-<h4 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h4><p>AMQP(Advanced Message Queuing Protocol)란 MQ를 오픈 소스에 기반한 표준 프로토콜이다.<br>AMQP 자체가 프로토콜을 의미하기 때문에 이 프로토콜을 구현한 MQ 기술은 여러가지가 있으며 그 중 하나가 RabbitMQ 이다.<br>RabbitMQ 이외에도 ActiveMQ, ZeroMQ, Kafka 등이 있다.</p>
-<h4 id="RabbitMQ-란"><a href="#RabbitMQ-란" class="headerlink" title="RabbitMQ 란"></a>RabbitMQ 란</h4><p>한마디로 RabbitMQ란<br>Rabbit Message Queue 의 약자로 AMQP (Advanced Message Queueing Protocol)를 구현한 메세지 브로커 소프트웨어(message broker software) 오픈소스이다.<br>메시지를 전달 받아 Consumer에게 라우트하는 것이 주된 역할이다.</p>
-<h3 id="2-장점"><a href="#2-장점" class="headerlink" title="2. 장점"></a>2. 장점</h3><h4 id="메세지-큐의-장점"><a href="#메세지-큐의-장점" class="headerlink" title="메세지 큐의 장점"></a>메세지 큐의 장점</h4><p>Message Queueing은 대용량 데이터를 처리하기 위한 배치 작업이나, 채팅 서비스, 비동기 데이터를 처리할 때 사용한다.<br>프로세스 단위로 처리하는 웹 요청이나 일반적인 프로그램을 만들어서 사용하는데<br>사용자가 많아지거나 데이터가 많아지면 요청에 대한 응답을 기다리는 수가 증가하다가 나중에는 대기 시간이 지연되어서 병목현상이 생기거나,<br>서비스가 정상적으로 되지 못하는 상황이 발생한다.</p>
-<p>이때 기존에 분산되어 있던 데이터 처리를 한 곳에 집중하면서 하나의 미들웨어로써 메세지 브로커를 두어서 필요한 프로그램에 작업을 분산시키는 방법을 사용하게 된다.</p>
-<p><img src="2.png" alt="factory method pattern"> </p>
-<p>이해를 돕기 위해 잠시 RabbitMQ의 간단한 work flow를 살펴보자. </p>
-<p>간단하게 용어를 살펴보자면<br>Producer란 메시지를 보내는 주체, Broker는 메시지를 Consumer에게 전달하는 미들웨어, Consumer는 메시지를 받아 소비하는 주체이다.<br>Producer가 Message를 Queue에 넣어두면, Consumer가 Message를 가져와 처리하게 된다.</p>
-<p>이처럼 메세지 큐를 사용하게 되면 다음과 같은 장점이 있다.</p>
+                <h3 id="OCP-개방-폐쇄-원칙"><a href="#OCP-개방-폐쇄-원칙" class="headerlink" title="OCP : 개방 폐쇄 원칙"></a>OCP : 개방 폐쇄 원칙</h3><p><img src="13.jpg" alt="factory method pattern"> </p>
+<blockquote>
+<p>소프트웨어 개체는 확장에는 열려 있어야 하고, 변경에는 닫혀 있어야 한다.</p>
+</blockquote>
+<p>즉, 기존의 코드를 변경하지 않으면서 기능을 추가할 수 있도록 설계가 되어야 한다는 의미이다. OPC는 시스템의 아키텍처를 떠받치는 원동력 중 하나다.</p>
+<p>OCP 의 목표를 달성하기 위해서는 시스템을 컴포넌트 단위로 분리하고, 저수준 컴포넌트에서 발생한 변경으로부터 고수준 컴포넌트를 보호 할 수 있는 형태의 의존성 계층 구조가 만들어지도록 해야한다.</p>
+<h5 id="더-알아보기-https-lng1982-tistory-com-124"><a href="#더-알아보기-https-lng1982-tistory-com-124" class="headerlink" title="더 알아보기 : https://lng1982.tistory.com/124 "></a>더 알아보기 : <a target="_blank" rel="noopener" href="https://lng1982.tistory.com/124">https://lng1982.tistory.com/124</a> <br/></h5><h3 id="LSP-리스코프-치환-원칙"><a href="#LSP-리스코프-치환-원칙" class="headerlink" title="LSP : 리스코프 치환 원칙"></a>LSP : 리스코프 치환 원칙</h3><p><img src="14.jpg" alt="factory method pattern"> </p>
+<p>바바라 리스코프는 하위타입을 아래와 같이 정의했다. 이 개념은 리스코프 치환 원칙으로 잘 알려져 있다. </p>
+<blockquote>
+<p>여기서 필요한 것은 다음과 같은 치환 원칙이다. S타입의 객체 o1 각각에 대응하는 T타입 객체 o2가 있고, T타입을 이용해서 정의한 모든 프로그램 P 에서 o2의 자리에 o1을 치환하더라도 P의 행위가 변하지 않는다면, S는 T의 하위 타입이다.</p>
+</blockquote>
+<h4 id="상속을-사용하도록-가이드-하기"><a href="#상속을-사용하도록-가이드-하기" class="headerlink" title="상속을 사용하도록 가이드 하기"></a>상속을 사용하도록 가이드 하기</h4><p><img src="19.png" alt="factory method pattern"> </p>
+<p>LSP를 준수하려면 상속을 사용해보자. </p>
+<p>라이센스 비용을 계산하는 Billing 애플리케이션이 있다. Billing 애플리케이션의 행위가 License 하위의 타입 중 무엇을 사용하는지에 전혀 의존하지 않으며, 이들 하위 타입은 모두 License 타입을 치환할 수 있는 것을 볼 수 있다.</p>
+<h4 id="정사각형-직사각형-문제"><a href="#정사각형-직사각형-문제" class="headerlink" title="정사각형/직사각형 문제"></a>정사각형/직사각형 문제</h4><p>LSP 를 위반하는 전형적인 문제로 유명한 정사각형/직사각형 문제이다.</p>
+<p><img src="18.png" alt="factory method pattern"></p>
+<p>Square 은 Rectangle의 하위타입으로 적합하지 않음을 보여준다. Rectangle 의 높이와 너비는 서로 독립적으로 변경될 수 있는 반면, Square의 높이와 너비는 반드시 함께 변경되기 때문이다. </p>
+<h4 id="LSP-와-아키텍처"><a href="#LSP-와-아키텍처" class="headerlink" title="LSP 와 아키텍처"></a>LSP 와 아키텍처</h4><p>초창기 LSP 는 상속을 사용하도록 가이드 하는 방법으로 간주되었으나, 시간이 지나면서 인터페이스와 구현체에도 적용되는 더 광범위한 소프트웨어 설계원칙으로 변모해 왔다. </p>
+<blockquote>
+<p>LSP는 아키텍처 수준까지 확장 될 수 있고, 반드시 확장해야만 한다. </p>
+</blockquote>
+<h3 id="ISP-인터페이스-분리-원칙"><a href="#ISP-인터페이스-분리-원칙" class="headerlink" title="ISP : 인터페이스 분리 원칙"></a>ISP : 인터페이스 분리 원칙</h3><h4 id="예제로-살펴보기"><a href="#예제로-살펴보기" class="headerlink" title="예제로 살펴보기"></a>예제로 살펴보기</h4><p><img src="20.png" alt="factory method pattern"> </p>
+<p>다수의 사용자가 OPS 클래스의 오퍼레이션을 사용한다고 가정해보자. </p>
+<p>User1은 op1, User2는 op2, User3는 op3만을 사용한다. User1에서는 전혀 사용하지도 않는 op2와 op3 메서드에 의존하게 된다. </p>
+<p>이러한 의존성으로 op2의 소스코드가 변경되면 User1도 다시 컴파일 한 후 새로 배포해야 한다. </p>
+<p><img src="21.png" alt="factory method pattern"> </p>
+<p>이러한 문제는 오퍼레이션을 인터페이스 단위로 분리하면 해결할 수 있다. </p>
+<p>User1의 소스코드는 U1Ops와 op1에는 의존하지만 OPS에는 의존하지 않게 된다. 따라서 OPS에서 발생한 변경이 User1과는 전혀 관계 없는 변경이 된다.</p>
+<h4 id="ISP-란"><a href="#ISP-란" class="headerlink" title="ISP 란"></a>ISP 란</h4><p>어떤 클래스를 인터페이스를 사용하여 구현할 때 사용하지 않는 메소드를 가지고 있는 인터페이스에 의존하게 하지 말아야 한다.<br>따라서 클래스가 사용하는 기능만 제공하도록 인터페이스를 분리하는 것이 중요하다.</p>
+<blockquote>
+<p>‘하나의 일반적인 인터페이스보다는, 여러 개의 구체적인 인터페이스가 낫다.’</p>
+</blockquote>
 <ul>
-<li>비동기(Asynchronous) : Queue에 넣기 때문에 나중에 처리가능. 다른 API에게 위임함으로써 Request에 대해 빠르게 응답.</li>
-<li>비동조(Decoupling) : 애츨리케이션과 분리 가능. 결합도 낮춤.</li>
-<li>탄력성(Resilience) : 일부가 실패 시 전체에 영향을 받지 않음</li>
-<li>과잉(Redundancy) : 실패할 경우 재실행 가능</li>
-<li>보증(Guarantees) : 작업이 처리된걸 확인 가능</li>
-<li>확장성(Scalable) : 다수의 프로세스들이 큐에 메시지 전송 가능</li>
+<li><p>항상 최소한만 의존하도록 설계하자. </p>
+</li>
+<li><p>불필요한 짐을 실은 무언가에 의존하면 예상치도 못한 문제에 빠질 수 있다.</p>
+</li>
+<li><p>불필요한 기능을 포함한 것에 의존하면, 실제 상관 없는 부분이 변경되어도 재배포를 해야하는 상황이 된다.</p>
+</li>
+<li><p>하나의 거대한 인터페이스 보다는, 여러 개의 구체적인 인터페이스가 낫다.</p>
+</li>
 </ul>
-<h4 id="RabbitMQ-장점"><a href="#RabbitMQ-장점" class="headerlink" title="RabbitMQ 장점"></a>RabbitMQ 장점</h4><ul>
-<li>신뢰성, 안정성과 성능을 충족할 수 있도록 다양한 기능을 제공</li>
-<li>유연한 라우팅 : Message Queue가 도착하기 전에 라우팅 되며 플러그인을 통해 더 복잡한 라우팅도 가능</li>
-<li>클러스터링 : 로컬네트워크에 있는 여러 RabbitMQ 서버를 논리적으로 클러스터링할 수 있고 논리적인 브로커도 가능</li>
-<li>관리 UI가 있어 편하게 관리 가능</li>
-<li>거의 모든 언어와 운영체제를 지원 </li>
-<li>오픈소스로 상업적 지원이 가능</li>
-</ul>
-<h3 id="3-RabbitMQ-WorkFlow"><a href="#3-RabbitMQ-WorkFlow" class="headerlink" title="3. RabbitMQ WorkFlow"></a>3. RabbitMQ WorkFlow</h3><p><img src="3.png" alt="factory method pattern"> </p>
-<p>(1) 사용자가 PDF를 생성하기를 요청한다.<br>(2) Producer 에게 요청이 전송되고 Producer Exchange 에게 요청 보낸다.<br>(3) Producer 가 보낸 메세지는 Queue에 직접 전달되지 않고 Exchange 로 전달된다. </p>
-<p>Exchange는 Producer가 전달한 메시지를 Routing Key를 사용하여 적절한 Queue에 전달하는 역할(Routing)을 수행하며,<br>Routing은 Exchange Type에 따라 전략이 바뀌게 된다.</p>
-<p>Exchange type으로 어떻게 메세지를 전달할 것인지 동작방식을 선택할 수 있는데,<br>Exchange를 생성할때 Exchange의 Type을 정해야 한다.</p>
-<p>Message는 Consumer가 소비할때까지 Queue에 대기한다.</p>
-<p><img src="5.png" alt="factory method pattern"> </p>
-<p>(4) Consumer가 메세지를 소비한다.</p>
 <h6 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h6><blockquote>
-<p><a target="_blank" rel="noopener" href="https://12bme.tistory.com/176">https://12bme.tistory.com/176</a><br><a target="_blank" rel="noopener" href="https://ram2ram2.tistory.com/3">https://ram2ram2.tistory.com/3</a><br><a target="_blank" rel="noopener" href="https://m.blog.naver.com/tmondev/221051503100">https://m.blog.naver.com/tmondev/221051503100</a><br><a target="_blank" rel="noopener" href="https://skibis.tistory.com/310">https://skibis.tistory.com/310</a><br><a target="_blank" rel="noopener" href="https://nesoy.github.io/articles/2019-02/RabbitMQ">https://nesoy.github.io/articles/2019-02/RabbitMQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://gahee0416.tistory.com/8">https://gahee0416.tistory.com/8</a></p>
 </blockquote>
 
 
@@ -253,12 +260,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/08/29/CleanArchitecture Item 6/" data-toggle="tooltip" data-placement="top" title="함수형 프로그래밍">&larr; Previous Post</a>
+                            <a href="/2019/10/13/CleanArchitecture Item 11/" data-toggle="tooltip" data-placement="top" title="DIP 의존성 역전 원칙">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2019/08/29/RabbitMQ(2)/" data-toggle="tooltip" data-placement="top" title="RabbitMQ (2)">Next Post &rarr;</a>
+                            <a href="/2019/10/12/CleanArchitecture Item 7/" data-toggle="tooltip" data-placement="top" title="SRP 단일책임원칙">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -291,7 +298,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#MessageQueue" title="MessageQueue">MessageQueue</a>
+                          <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
                 </section>
@@ -325,8 +332,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "tech-ahkeggqlkc";
-    var disqus_identifier = "https://songii00.github.io/2019/08/29/RabbitMQ(1)/";
-    var disqus_url = "https://songii00.github.io/2019/08/29/RabbitMQ(1)/";
+    var disqus_identifier = "https://songii00.github.io/2019/10/13/CleanArchitecture%20Item%208/";
+    var disqus_url = "https://songii00.github.io/2019/10/13/CleanArchitecture%20Item%208/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

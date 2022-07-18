@@ -13,11 +13,11 @@
 
     <title>
         
-          RabbitMQ (1) - Songi | Song&#39;s Tech Blog
+          SRP 단일책임원칙 - Songi | Song&#39;s Tech Blog
         
     </title>
 
-    <link rel="canonical" href="https://songii00.github.io/2019/08/29/RabbitMQ(1)/">
+    <link rel="canonical" href="https://songii00.github.io/2019/10/12/CleanArchitecture Item 7/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#MessageQueue" title="MessageQueue">MessageQueue</a>
+                          <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
-                    <h1>RabbitMQ (1)</h1>
-                    <h2 class="subheading">RabbitMQ 란</h2>
+                    <h1>SRP 단일책임원칙</h1>
+                    <h2 class="subheading">Clean Architecture - Item 7</h2>
                     <span class="meta">
                         Posted by Songi on
-                        2019-08-29
+                        2019-10-12
                     </span>
                 </div>
             </div>
@@ -206,43 +206,57 @@
 </script>
                 <!-- ad end -->
 
-                <h3 id="1-RabbitMQ-란"><a href="#1-RabbitMQ-란" class="headerlink" title="1. RabbitMQ 란"></a>1. RabbitMQ 란</h3><p><img src="1.png" alt="factory method pattern"></p>
-<h4 id="MON-메시지-지향-미들웨어"><a href="#MON-메시지-지향-미들웨어" class="headerlink" title="MON(메시지 지향 미들웨어)"></a>MON(메시지 지향 미들웨어)</h4><p>메시지 지향 미들웨어(Meesage Oriented Middleware: MOM)은 비동기 메시지를 사용하는 다른 응용 프로그램 사이에서 데이터 송수신을 의미한다.</p>
-<h4 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h4><p>MOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.<br>프로그래밍에서 MQ는 프로세스 또는 프로그램 인스턴스가 데이터를 서로 교환할때 사용하는 방법을 말하는데,<br>이때 데이터를 교환할 때 시스템이 관리하는 메시지 큐를 이용한다.</p>
-<p>서로 다른 프로세스나 프로그램 사이에 메시지를 교환할 때 AMQP(Advanced Message Queuing Protocol)을 이용하게 된다.</p>
-<h4 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h4><p>AMQP(Advanced Message Queuing Protocol)란 MQ를 오픈 소스에 기반한 표준 프로토콜이다.<br>AMQP 자체가 프로토콜을 의미하기 때문에 이 프로토콜을 구현한 MQ 기술은 여러가지가 있으며 그 중 하나가 RabbitMQ 이다.<br>RabbitMQ 이외에도 ActiveMQ, ZeroMQ, Kafka 등이 있다.</p>
-<h4 id="RabbitMQ-란"><a href="#RabbitMQ-란" class="headerlink" title="RabbitMQ 란"></a>RabbitMQ 란</h4><p>한마디로 RabbitMQ란<br>Rabbit Message Queue 의 약자로 AMQP (Advanced Message Queueing Protocol)를 구현한 메세지 브로커 소프트웨어(message broker software) 오픈소스이다.<br>메시지를 전달 받아 Consumer에게 라우트하는 것이 주된 역할이다.</p>
-<h3 id="2-장점"><a href="#2-장점" class="headerlink" title="2. 장점"></a>2. 장점</h3><h4 id="메세지-큐의-장점"><a href="#메세지-큐의-장점" class="headerlink" title="메세지 큐의 장점"></a>메세지 큐의 장점</h4><p>Message Queueing은 대용량 데이터를 처리하기 위한 배치 작업이나, 채팅 서비스, 비동기 데이터를 처리할 때 사용한다.<br>프로세스 단위로 처리하는 웹 요청이나 일반적인 프로그램을 만들어서 사용하는데<br>사용자가 많아지거나 데이터가 많아지면 요청에 대한 응답을 기다리는 수가 증가하다가 나중에는 대기 시간이 지연되어서 병목현상이 생기거나,<br>서비스가 정상적으로 되지 못하는 상황이 발생한다.</p>
-<p>이때 기존에 분산되어 있던 데이터 처리를 한 곳에 집중하면서 하나의 미들웨어로써 메세지 브로커를 두어서 필요한 프로그램에 작업을 분산시키는 방법을 사용하게 된다.</p>
-<p><img src="2.png" alt="factory method pattern"> </p>
-<p>이해를 돕기 위해 잠시 RabbitMQ의 간단한 work flow를 살펴보자. </p>
-<p>간단하게 용어를 살펴보자면<br>Producer란 메시지를 보내는 주체, Broker는 메시지를 Consumer에게 전달하는 미들웨어, Consumer는 메시지를 받아 소비하는 주체이다.<br>Producer가 Message를 Queue에 넣어두면, Consumer가 Message를 가져와 처리하게 된다.</p>
-<p>이처럼 메세지 큐를 사용하게 되면 다음과 같은 장점이 있다.</p>
+                <h3 id="설계원칙"><a href="#설계원칙" class="headerlink" title="설계원칙"></a>설계원칙</h3><p><img src="11.png" alt="factory method pattern"><br>좋은 소프트웨어 시스템은 깔끔한 코드(clean code)로 부터 시작한다. 좋은 코드로 좋은 아키텍처를 정의하는 원칙이 바로 SOLID다.</p>
+<p>SOLID 원칙은 함수와 데이터 구조를 클래스로 배치하는방법, 그리고 이들 클래스를 서로 결합하는 방법을 설명해준다.</p>
+<span id="more"></span>
+<h4 id="SOLID-원칙의-목적"><a href="#SOLID-원칙의-목적" class="headerlink" title="SOLID 원칙의 목적"></a>SOLID 원칙의 목적</h4><ul>
+<li>변경에 유연하다.</li>
+<li>이해하기 쉽다.</li>
+<li>많은 소프트웨어 시스템에 사용될 수 있는 컴포넌트의 기반이 된다. </li>
+</ul>
+<h4 id="SOLID"><a href="#SOLID" class="headerlink" title="SOLID"></a>SOLID</h4><ul>
+<li><p>SRP (단일 책임 원칙) : 각 소프트웨어 모듈은 변경의 이유가 하나, 단 하나여야만 한다.</p>
+</li>
+<li><p>OCP (개방-폐쇄 원칙) : 소프트웨어 개체(클래스, 모듈, 함수 등등)는 확장에 대해 열려 있어야 하고, 수정에 대해서는 닫혀 있어야 한다. 즉 기존 코드를 수정하기 보다는 반드시 새로운 코드를 추가하는 방식으로 시스템의 행위를 변경할 수 있어야 한다. </p>
+</li>
+<li><p>LSP (리스코프 치환 원칙) : 상호 대체 가능한 구성요소를 이용해 소프트웨어 시스템을 만들 수 있으려면, 이들 구성요소는 반드시 서로 치환 가능해야 한다.</p>
+</li>
+<li><p>ISP (인터페이스 분리 원칙) : 사용하지 않은 것에 의존하지 않아야 한다. 즉, 자신이 사용한 것에만 의존해야 한다.</p>
+</li>
+<li><p>DIP (의존성 역전 원칙) : 고수준 정책을 구현하는 코드는 저수준 세부사항을 구현하는 코드에 절대로 의존해서는 안된다. 대신 세부사항이 정책에 의존해야 한다.</p>
+</li>
+</ul>
+<h3 id="SRP-단일-책임-원칙"><a href="#SRP-단일-책임-원칙" class="headerlink" title="SRP : 단일 책임 원칙"></a>SRP : 단일 책임 원칙</h3><p><img src="12.png" alt="factory method pattern"> </p>
+<p>SRP 는 모든 모듈이 단 하나의 일만 해야한다는 의미가 아니다. </p>
+<p>SRP 의 역사적 기술이다.</p>
+<blockquote>
+<p>단일 모듈은 변경의 이유가 하나, 오직 하나뿐이어야 한다. 즉, 하나의 모듈은 하나의, 오직 하나의 액터에 대해서만 책임져야 한다.</p>
+</blockquote>
+<h4 id="위험-징후-중복과-병합"><a href="#위험-징후-중복과-병합" class="headerlink" title="위험 징후 : 중복과 병합"></a>위험 징후 : 중복과 병합</h4><p>많은 사람들이 서로 다른 목적으로 동일한 소스파일을 변경해야 하는 경우 중복과 병합 등의 징후들이 발생한다. </p>
+<p><img src="22.png" alt="factory method pattern"> </p>
+<p>한 예로 직원들의 근무시간을 계산해주는 모듈이 있다고 가정했을때, 해당 모듈은 개발팀(액터1), 기획팀(액터2), 컨텐츠팀(액터3)  명의 액터를 위해 동작해서는 안된다. </p>
+<p>서로 다른 액터가 의존하는 코드는 의도하지않은 중복이 발생하고, 서로 다른 변경사항들에 의해 충돌하게 된다. 결국 리스크로 이어진다.</p>
+<p>결국 이 문제를 벗어나는 방법은 서로 다른 액터를 뒷받침하는 코드를 서로 분리하는 것이다.</p>
+<h4 id="해결책"><a href="#해결책" class="headerlink" title="해결책"></a>해결책</h4><p>가장 확실한 해결책은 여러가지가 있다. 메서드를 각기다른 클래스로 이동시키거나, 데이터와 메서드를 분리하는 방식이다. </p>
+<p><img src="23.png" alt="factory method pattern"> </p>
+<p>아무 메서드가 없는 간단한 데이터 구조인 EmployeeData클래스를 만들어 세 개의 클래스가 공유하도록 하고, 각클래스에는 자신의 메서드에 필요한 소스코드만을 포함한다. 단, 세 클래스는 서로의 존재를 몰라야 한다.</p>
+<p>정말 이렇게 된다면 해결된 것일까?</p>
+<p>이렇게 짜여진 코드 속에서 발생하는 단점은 개발자가 세 가지 클래스를 인스턴스화하고 추적해야 한다는 점이다.</p>
+<p>이를 해결하기 위해 사용되는 방법이 퍼사드 패턴이다.</p>
 <ul>
-<li>비동기(Asynchronous) : Queue에 넣기 때문에 나중에 처리가능. 다른 API에게 위임함으로써 Request에 대해 빠르게 응답.</li>
-<li>비동조(Decoupling) : 애츨리케이션과 분리 가능. 결합도 낮춤.</li>
-<li>탄력성(Resilience) : 일부가 실패 시 전체에 영향을 받지 않음</li>
-<li>과잉(Redundancy) : 실패할 경우 재실행 가능</li>
-<li>보증(Guarantees) : 작업이 처리된걸 확인 가능</li>
-<li>확장성(Scalable) : 다수의 프로세스들이 큐에 메시지 전송 가능</li>
+<li>퍼사드 패턴(Facade Pattern)</li>
 </ul>
-<h4 id="RabbitMQ-장점"><a href="#RabbitMQ-장점" class="headerlink" title="RabbitMQ 장점"></a>RabbitMQ 장점</h4><ul>
-<li>신뢰성, 안정성과 성능을 충족할 수 있도록 다양한 기능을 제공</li>
-<li>유연한 라우팅 : Message Queue가 도착하기 전에 라우팅 되며 플러그인을 통해 더 복잡한 라우팅도 가능</li>
-<li>클러스터링 : 로컬네트워크에 있는 여러 RabbitMQ 서버를 논리적으로 클러스터링할 수 있고 논리적인 브로커도 가능</li>
-<li>관리 UI가 있어 편하게 관리 가능</li>
-<li>거의 모든 언어와 운영체제를 지원 </li>
-<li>오픈소스로 상업적 지원이 가능</li>
-</ul>
-<h3 id="3-RabbitMQ-WorkFlow"><a href="#3-RabbitMQ-WorkFlow" class="headerlink" title="3. RabbitMQ WorkFlow"></a>3. RabbitMQ WorkFlow</h3><p><img src="3.png" alt="factory method pattern"> </p>
-<p>(1) 사용자가 PDF를 생성하기를 요청한다.<br>(2) Producer 에게 요청이 전송되고 Producer Exchange 에게 요청 보낸다.<br>(3) Producer 가 보낸 메세지는 Queue에 직접 전달되지 않고 Exchange 로 전달된다. </p>
-<p>Exchange는 Producer가 전달한 메시지를 Routing Key를 사용하여 적절한 Queue에 전달하는 역할(Routing)을 수행하며,<br>Routing은 Exchange Type에 따라 전략이 바뀌게 된다.</p>
-<p>Exchange type으로 어떻게 메세지를 전달할 것인지 동작방식을 선택할 수 있는데,<br>Exchange를 생성할때 Exchange의 Type을 정해야 한다.</p>
-<p>Message는 Consumer가 소비할때까지 Queue에 대기한다.</p>
-<p><img src="5.png" alt="factory method pattern"> </p>
-<p>(4) Consumer가 메세지를 소비한다.</p>
+<p>Facade는 “건물의 정면”을 의미하는 단어로 어떤 소프트웨어의 다른 커다란 코드 부분에 대하여 간략화된 인터페이스를 제공해주는 디자인 패턴을 의미한다.</p>
+<p> 퍼사드 객체는 복잡한 소프트웨어 바깥쪽의 코드가 라이브러리의 안쪽 코드에 의존하는 일을 감소시켜 주고, 복잡한 소프트웨어를 사용 할 수 있게 간단한 인터페이스를 제공한다.</p>
+<p><img src="10.png" alt="factory method pattern"> </p>
+<p>위의 예제에 적용시켜 보자.</p>
+<p><img src="24.png" alt="factory method pattern"> </p>
+<p>EmplyeeFacade 에 세 클래스의 객체를 생성하고, 요청된 메서드를 가지는 객체로 위임하는 일을 책임진다. 퍼사드 패턴의 적용 예이다.</p>
+<h5 id="퍼사드-패턴-더-알아보기-gt-https-lktprogrammer-tistory-com-42"><a href="#퍼사드-패턴-더-알아보기-gt-https-lktprogrammer-tistory-com-42" class="headerlink" title="퍼사드 패턴 더 알아보기 &gt; https://lktprogrammer.tistory.com/42 "></a>퍼사드 패턴 더 알아보기 &gt; <a target="_blank" rel="noopener" href="https://lktprogrammer.tistory.com/42">https://lktprogrammer.tistory.com/42</a> <br/></h5><h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><blockquote>
+<p>“단일 책임 원칙은 메서드와 클래스 수준의 원칙이다.<br>그러나 컴포넌트 수준에서는 공통 폐쇄 원칙(common closure principle)이 되고, 아키텍처 수준에서는 아키텍처 경계의 생성을 책임지는 변경의 축이 된다.”</p>
+</blockquote>
 <h6 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h6><blockquote>
-<p><a target="_blank" rel="noopener" href="https://12bme.tistory.com/176">https://12bme.tistory.com/176</a><br><a target="_blank" rel="noopener" href="https://ram2ram2.tistory.com/3">https://ram2ram2.tistory.com/3</a><br><a target="_blank" rel="noopener" href="https://m.blog.naver.com/tmondev/221051503100">https://m.blog.naver.com/tmondev/221051503100</a><br><a target="_blank" rel="noopener" href="https://skibis.tistory.com/310">https://skibis.tistory.com/310</a><br><a target="_blank" rel="noopener" href="https://nesoy.github.io/articles/2019-02/RabbitMQ">https://nesoy.github.io/articles/2019-02/RabbitMQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://lktprogrammer.tistory.com/42">https://lktprogrammer.tistory.com/42</a><br><a target="_blank" rel="noopener" href="https://team-coder.com/solid-principles/">https://team-coder.com/solid-principles/</a></p>
 </blockquote>
 
 
@@ -253,12 +267,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/08/29/CleanArchitecture Item 6/" data-toggle="tooltip" data-placement="top" title="함수형 프로그래밍">&larr; Previous Post</a>
+                            <a href="/2019/10/13/CleanArchitecture Item 8/" data-toggle="tooltip" data-placement="top" title="OCP & LSP &  ISP">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2019/08/29/RabbitMQ(2)/" data-toggle="tooltip" data-placement="top" title="RabbitMQ (2)">Next Post &rarr;</a>
+                            <a href="/2019/08/29/CleanArchitecture Item 4/" data-toggle="tooltip" data-placement="top" title="구조적 프로그래밍">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -291,7 +305,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#MessageQueue" title="MessageQueue">MessageQueue</a>
+                          <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
                 </section>
@@ -325,8 +339,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "tech-ahkeggqlkc";
-    var disqus_identifier = "https://songii00.github.io/2019/08/29/RabbitMQ(1)/";
-    var disqus_url = "https://songii00.github.io/2019/08/29/RabbitMQ(1)/";
+    var disqus_identifier = "https://songii00.github.io/2019/10/12/CleanArchitecture%20Item%207/";
+    var disqus_url = "https://songii00.github.io/2019/10/12/CleanArchitecture%20Item%207/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

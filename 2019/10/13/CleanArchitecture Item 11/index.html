@@ -13,11 +13,11 @@
 
     <title>
         
-          RabbitMQ (1) - Songi | Song&#39;s Tech Blog
+          DIP 의존성 역전 원칙 - Songi | Song&#39;s Tech Blog
         
     </title>
 
-    <link rel="canonical" href="https://songii00.github.io/2019/08/29/RabbitMQ(1)/">
+    <link rel="canonical" href="https://songii00.github.io/2019/10/13/CleanArchitecture Item 11/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#MessageQueue" title="MessageQueue">MessageQueue</a>
+                          <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
-                    <h1>RabbitMQ (1)</h1>
-                    <h2 class="subheading">RabbitMQ 란</h2>
+                    <h1>DIP 의존성 역전 원칙</h1>
+                    <h2 class="subheading">Clean Architecture - Item 11</h2>
                     <span class="meta">
                         Posted by Songi on
-                        2019-08-29
+                        2019-10-13
                     </span>
                 </div>
             </div>
@@ -206,43 +206,42 @@
 </script>
                 <!-- ad end -->
 
-                <h3 id="1-RabbitMQ-란"><a href="#1-RabbitMQ-란" class="headerlink" title="1. RabbitMQ 란"></a>1. RabbitMQ 란</h3><p><img src="1.png" alt="factory method pattern"></p>
-<h4 id="MON-메시지-지향-미들웨어"><a href="#MON-메시지-지향-미들웨어" class="headerlink" title="MON(메시지 지향 미들웨어)"></a>MON(메시지 지향 미들웨어)</h4><p>메시지 지향 미들웨어(Meesage Oriented Middleware: MOM)은 비동기 메시지를 사용하는 다른 응용 프로그램 사이에서 데이터 송수신을 의미한다.</p>
-<h4 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h4><p>MOM을 구현한 시스템이 메시지 큐(MessageQueue: MQ)이다.<br>프로그래밍에서 MQ는 프로세스 또는 프로그램 인스턴스가 데이터를 서로 교환할때 사용하는 방법을 말하는데,<br>이때 데이터를 교환할 때 시스템이 관리하는 메시지 큐를 이용한다.</p>
-<p>서로 다른 프로세스나 프로그램 사이에 메시지를 교환할 때 AMQP(Advanced Message Queuing Protocol)을 이용하게 된다.</p>
-<h4 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h4><p>AMQP(Advanced Message Queuing Protocol)란 MQ를 오픈 소스에 기반한 표준 프로토콜이다.<br>AMQP 자체가 프로토콜을 의미하기 때문에 이 프로토콜을 구현한 MQ 기술은 여러가지가 있으며 그 중 하나가 RabbitMQ 이다.<br>RabbitMQ 이외에도 ActiveMQ, ZeroMQ, Kafka 등이 있다.</p>
-<h4 id="RabbitMQ-란"><a href="#RabbitMQ-란" class="headerlink" title="RabbitMQ 란"></a>RabbitMQ 란</h4><p>한마디로 RabbitMQ란<br>Rabbit Message Queue 의 약자로 AMQP (Advanced Message Queueing Protocol)를 구현한 메세지 브로커 소프트웨어(message broker software) 오픈소스이다.<br>메시지를 전달 받아 Consumer에게 라우트하는 것이 주된 역할이다.</p>
-<h3 id="2-장점"><a href="#2-장점" class="headerlink" title="2. 장점"></a>2. 장점</h3><h4 id="메세지-큐의-장점"><a href="#메세지-큐의-장점" class="headerlink" title="메세지 큐의 장점"></a>메세지 큐의 장점</h4><p>Message Queueing은 대용량 데이터를 처리하기 위한 배치 작업이나, 채팅 서비스, 비동기 데이터를 처리할 때 사용한다.<br>프로세스 단위로 처리하는 웹 요청이나 일반적인 프로그램을 만들어서 사용하는데<br>사용자가 많아지거나 데이터가 많아지면 요청에 대한 응답을 기다리는 수가 증가하다가 나중에는 대기 시간이 지연되어서 병목현상이 생기거나,<br>서비스가 정상적으로 되지 못하는 상황이 발생한다.</p>
-<p>이때 기존에 분산되어 있던 데이터 처리를 한 곳에 집중하면서 하나의 미들웨어로써 메세지 브로커를 두어서 필요한 프로그램에 작업을 분산시키는 방법을 사용하게 된다.</p>
-<p><img src="2.png" alt="factory method pattern"> </p>
-<p>이해를 돕기 위해 잠시 RabbitMQ의 간단한 work flow를 살펴보자. </p>
-<p>간단하게 용어를 살펴보자면<br>Producer란 메시지를 보내는 주체, Broker는 메시지를 Consumer에게 전달하는 미들웨어, Consumer는 메시지를 받아 소비하는 주체이다.<br>Producer가 Message를 Queue에 넣어두면, Consumer가 Message를 가져와 처리하게 된다.</p>
-<p>이처럼 메세지 큐를 사용하게 되면 다음과 같은 장점이 있다.</p>
-<ul>
-<li>비동기(Asynchronous) : Queue에 넣기 때문에 나중에 처리가능. 다른 API에게 위임함으로써 Request에 대해 빠르게 응답.</li>
-<li>비동조(Decoupling) : 애츨리케이션과 분리 가능. 결합도 낮춤.</li>
-<li>탄력성(Resilience) : 일부가 실패 시 전체에 영향을 받지 않음</li>
-<li>과잉(Redundancy) : 실패할 경우 재실행 가능</li>
-<li>보증(Guarantees) : 작업이 처리된걸 확인 가능</li>
-<li>확장성(Scalable) : 다수의 프로세스들이 큐에 메시지 전송 가능</li>
+                <h3 id="DIP-의존성-역전-원칙"><a href="#DIP-의존성-역전-원칙" class="headerlink" title="DIP 의존성 역전 원칙"></a>DIP 의존성 역전 원칙</h3><p>객체 사이에 서로 도움을 받으면 의존 관계가 발생한다. 의존성 역전 원칙은 이러한 관계를 맺을 때 가이드 라인에 해당한다.</p>
+<p>DIP 는 한마디로 의존 관계를 맺을 때 변화하기 쉬운것, 또는 자주 변화하는 것 보다는 변화하기 어려운것, 거의 변화가 없는 것에 의존하라는 원칙이다.</p>
+<p>DIP가 말하는 유연성이 극대화된 시스템이란 소스 코드 의존성이 추상에 의존하며, 구체에는 의존하지 않는 시스템이다.</p>
+<p><img src="17.jpg" alt="factory method pattern"> </p>
+<p>위 사진은 의존성 역전 원칙의 근본적인 물음을 나타내주는 사진이다. </p>
+<blockquote>
+<p>“벽속의 전기 배선에 직접 램프를 납땜하시겠습니까?” </p>
+</blockquote>
+<p>과연 어떻게 해야할까?</p>
+<span id="more"></span>
+<h3 id="안정된-추상화"><a href="#안정된-추상화" class="headerlink" title="안정된 추상화"></a>안정된 추상화</h3><ul>
+<li><p>DIP를 논할때 운영체제나 플랫폼 같이 안정성이 보장된 환경에 대해서는 무시한다. 변경되지 않으면 의존할 수 있다.</p>
+</li>
+<li><p>의존하지 않도록 피해야 할 대상은 변동성이 큰 구체적인 요소다. 대표적인 것으로 개발중인 모듈 이다.</p>
+</li>
+<li><p>인터페이스는 구현체보다 변동성이 낮다. </p>
+</li>
+<li><p>실제로 뛰어난 아키텍트라면 인터페이스의 변동성을 낮추기 위해 애쓴다. 즉 변동성이 큰 구현체에 의존하는 일은 지양하고, 안정된 추상 인터페이스를 선호해야 한다. </p>
+</li>
 </ul>
-<h4 id="RabbitMQ-장점"><a href="#RabbitMQ-장점" class="headerlink" title="RabbitMQ 장점"></a>RabbitMQ 장점</h4><ul>
-<li>신뢰성, 안정성과 성능을 충족할 수 있도록 다양한 기능을 제공</li>
-<li>유연한 라우팅 : Message Queue가 도착하기 전에 라우팅 되며 플러그인을 통해 더 복잡한 라우팅도 가능</li>
-<li>클러스터링 : 로컬네트워크에 있는 여러 RabbitMQ 서버를 논리적으로 클러스터링할 수 있고 논리적인 브로커도 가능</li>
-<li>관리 UI가 있어 편하게 관리 가능</li>
-<li>거의 모든 언어와 운영체제를 지원 </li>
-<li>오픈소스로 상업적 지원이 가능</li>
-</ul>
-<h3 id="3-RabbitMQ-WorkFlow"><a href="#3-RabbitMQ-WorkFlow" class="headerlink" title="3. RabbitMQ WorkFlow"></a>3. RabbitMQ WorkFlow</h3><p><img src="3.png" alt="factory method pattern"> </p>
-<p>(1) 사용자가 PDF를 생성하기를 요청한다.<br>(2) Producer 에게 요청이 전송되고 Producer Exchange 에게 요청 보낸다.<br>(3) Producer 가 보낸 메세지는 Queue에 직접 전달되지 않고 Exchange 로 전달된다. </p>
-<p>Exchange는 Producer가 전달한 메시지를 Routing Key를 사용하여 적절한 Queue에 전달하는 역할(Routing)을 수행하며,<br>Routing은 Exchange Type에 따라 전략이 바뀌게 된다.</p>
-<p>Exchange type으로 어떻게 메세지를 전달할 것인지 동작방식을 선택할 수 있는데,<br>Exchange를 생성할때 Exchange의 Type을 정해야 한다.</p>
-<p>Message는 Consumer가 소비할때까지 Queue에 대기한다.</p>
-<p><img src="5.png" alt="factory method pattern"> </p>
-<p>(4) Consumer가 메세지를 소비한다.</p>
+<h4 id="구체적인-코딩-실천법"><a href="#구체적인-코딩-실천법" class="headerlink" title="구체적인 코딩 실천법"></a>구체적인 코딩 실천법</h4><p>변동성이 큰 구체 클래스를 참조하지 말라.<br>: 대신 추상 인터페이스를 참조하라. 일반적으로 추상 팩토리를 사용하도록 강제한다.</p>
+<p>변동성이 큰 구체 클래스로부터 파생하지 말라.<br>: 상속은 정적타입 언어에서 소스코드에 존재하는 모든 관계중 가장 강력한 동시에 뻣뻣해서 변경하기 어렵다. 따라서 아주 신중히 사용해야 한다. 동적 타입 언어라 해도 의존성을 가진다는 사실은 틀림없다.</p>
+<p>구체 함수를 오버라이드 하지 말라.<br>: 구체 함수는 소스 코드의존성을 필요로 한다. 따라서 구체 함수를 오버라이드 하면 이러한 의존성을 제거할 수 없고, 실제로 그 의존성을 상속하게 된다. </p>
+<p>차라리 추상 함수로 선언하고 구현체들에서 각자의 용도에 맞게 구현해야 한다.</p>
+<p>구체적이며 변동성이 크다면 절대로 그 이름을 언급하지 말라.<br>: DIP 원칙 그 자체이다.</p>
+<h3 id="팩토리"><a href="#팩토리" class="headerlink" title="팩토리"></a>팩토리</h3><p>변동성이 큰 구체적인 객체는 주의해서 생성해야 한다. 자바 등의 대다수 객체지향 언어에서 의존성을 처리할 때 추상 팩토리를 사용하곤 한다.</p>
+<p>팩토리 메서드 패턴<br>: - 조건에 따른 객체 생성을 팩토리 클래스로 위임하여, 팩토리 클래스에서 객체를 생성하는 패턴<br>: - 즉, new 키워드를 호출하는 부분을 서브 클래스에 위임<br>: - 결국 팩토리 메소드 패턴은 객체를 만들어내는 공장(Factory 객체)을 만드는 패턴</p>
+<h5 id="더-알아보기-https-jdm-kr-blog-180"><a href="#더-알아보기-https-jdm-kr-blog-180" class="headerlink" title="더 알아보기 : https://jdm.kr/blog/180 "></a>더 알아보기 : <a target="_blank" rel="noopener" href="https://jdm.kr/blog/180">https://jdm.kr/blog/180</a> <br/></h5><p>추상 팩토리 패턴<br>: 서로 관련이 있는 객체들을 통째로 묶어서 팩토리 클래스로 만들고, 이들 팩토리를 조건에 따라 생성하도록 다시 팩토리를 만들어서 객체를 생성하는 패턴</p>
+<h5 id="더-알아보기-https-jdm-kr-blog-192"><a href="#더-알아보기-https-jdm-kr-blog-192" class="headerlink" title="더 알아보기 : https://jdm.kr/blog/192 "></a>더 알아보기 : <a target="_blank" rel="noopener" href="https://jdm.kr/blog/192">https://jdm.kr/blog/192</a> <br/></h5><p><img src="16.png" alt="factory method pattern"> </p>
+<h6 id="추상팩토리패턴-추상-팩토리-팩턴"><a href="#추상팩토리패턴-추상-팩토리-팩턴" class="headerlink" title=" [추상팩토리패턴] 추상 팩토리 팩턴 "></a><center> [추상팩토리패턴] 추상 팩토리 팩턴 </center></h6><p>Application은 ServiceFactory 인터페이스의 makeSvc 메서드를 호출한다. 이 메서드는 ServiceFactoryImpl에서 구현된다. 그리고 ServiceFactoryImpl 구현체가 ConcreteImpl의 인스턴스를 생성한 후, Service 타입으로 반환한다.</p>
+<p>결국은 Application이 어떻게 ConcreteImpl를 생성해야 하는지를 보여준다.</p>
+<p>또한, 곡선은 아키텍처 경계를 뜻한다. 구체적인 것들로 부터 추상적인걸 분리한다.</p>
+<p>제어 흐름은 소스 코드 의존성과는 정반대 방향으로 곡선을 가로지른다. 소스 코드 의존성은 제어 흐름과는 반대 방향으로 역전되며 이 원칙을 의존성 역전(Dependency Inversion) 이라고 부른다.</p>
+<p>또한 의존성은 이 곡선을 경계로, 더 추상적인 엔티티가 있는 쪽으로만 향하며 이 규칙을 의존성 규칙이라 한다.</p>
 <h6 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h6><blockquote>
-<p><a target="_blank" rel="noopener" href="https://12bme.tistory.com/176">https://12bme.tistory.com/176</a><br><a target="_blank" rel="noopener" href="https://ram2ram2.tistory.com/3">https://ram2ram2.tistory.com/3</a><br><a target="_blank" rel="noopener" href="https://m.blog.naver.com/tmondev/221051503100">https://m.blog.naver.com/tmondev/221051503100</a><br><a target="_blank" rel="noopener" href="https://skibis.tistory.com/310">https://skibis.tistory.com/310</a><br><a target="_blank" rel="noopener" href="https://nesoy.github.io/articles/2019-02/RabbitMQ">https://nesoy.github.io/articles/2019-02/RabbitMQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://victorydntmd.tistory.com/300">https://victorydntmd.tistory.com/300</a><br><a target="_blank" rel="noopener" href="https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/">https://exceptionnotfound.net/simply-solid-the-dependency-inversion-principle/</a></p>
 </blockquote>
 
 
@@ -253,12 +252,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/08/29/CleanArchitecture Item 6/" data-toggle="tooltip" data-placement="top" title="함수형 프로그래밍">&larr; Previous Post</a>
+                            <a href="/2019/10/20/CleanArchitecture Item 12/" data-toggle="tooltip" data-placement="top" title="컴포넌트">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2019/08/29/RabbitMQ(2)/" data-toggle="tooltip" data-placement="top" title="RabbitMQ (2)">Next Post &rarr;</a>
+                            <a href="/2019/10/13/CleanArchitecture Item 8/" data-toggle="tooltip" data-placement="top" title="OCP & LSP &  ISP">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -291,7 +290,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#MessageQueue" title="MessageQueue">MessageQueue</a>
+                          <a class="tag" href="/tags/#CleanArchitecture" title="CleanArchitecture">CleanArchitecture</a>
                         
                     </div>
                 </section>
@@ -325,8 +324,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "tech-ahkeggqlkc";
-    var disqus_identifier = "https://songii00.github.io/2019/08/29/RabbitMQ(1)/";
-    var disqus_url = "https://songii00.github.io/2019/08/29/RabbitMQ(1)/";
+    var disqus_identifier = "https://songii00.github.io/2019/10/13/CleanArchitecture%20Item%2011/";
+    var disqus_url = "https://songii00.github.io/2019/10/13/CleanArchitecture%20Item%2011/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
